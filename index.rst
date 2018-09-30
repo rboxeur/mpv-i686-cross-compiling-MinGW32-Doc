@@ -3717,7 +3717,7 @@ Create a 7z file
 .. |info| image:: info.png
 	:width:		64px
 	:height:	64px
-	:scale:		50
+	:scale:		10%
 
 .. |red| image:: red.png
         :width:         32px
