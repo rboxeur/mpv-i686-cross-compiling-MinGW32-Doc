@@ -17,6 +17,13 @@ Cross-compiling is done a pure native Linux 32 Bits machine
 -   GPU: AMD/ATI Hawaii XT [Radeon R9 290X]
 -   RAM: 1087MB / 8024MB
 
+Release
+=======
+You can download some builds for MPV (see releases section).
+They were tested on
+- Linux 32-Bits: using Wine-Staging-PBA >= 3.16
+- Windows 64-Bits
+
 Content
 =======
 
