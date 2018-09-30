@@ -3568,7 +3568,7 @@ Download and build
 	#* INFO* : it is still doable to add '--enable-libmpv-shared' to the build
 
 	# We wait that seconds are marked as '00'. We should have a nice build date for mpv
-	is_flag=true;while ${is_flag};do sleep 1s; [ $(date '+%S') == "00" ] && { is_flag=false; };done && ./waf build
+	is_flag=true;while ${is_flag};do sleep 1s; [ $(date '+%S') == "59" ] && { is_flag=false; };done && ./waf build
 	./waf install
 
 Add extra libraries and Strip everything
