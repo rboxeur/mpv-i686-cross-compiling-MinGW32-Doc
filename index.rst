@@ -14,7 +14,7 @@
 
 .. note::
 
-	|info| **This toolchain is dedicated to cross-compil MPV for Windows 32 Bits (at least Windows 7) on a native Linux-32Bits workstation/PC**
+	INFO **This toolchain is dedicated to cross-compil MPV for Windows 32 Bits (at least Windows 7) on a native Linux-32Bits workstation/PC**
 
 		* **More than 90% of built packages are built/linked staticaly** (``--enable-static=yes --enable-shared=no``)
 		* Both flags ``--enable-shared`` and ``--enable-static`` are used for GCC but we will try to build only static packages. 
@@ -125,14 +125,14 @@ Toolchain: Build
 
 .. note::
 
-	|info| Content of this section is based on 
+	INFO Content of this section is based on 
 		* 70% https://developer.mozilla.org/en-US/docs/Mozilla/Developer_guide/Build_Instructions/Cross_Compile_Mozilla_for_Mingw32
 		* 20% for GCC options and strip commands to free up disk space https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=mingw-w64-gcc
 		* 10% for binutils options https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=mingw-w64-binutils
 
 .. note::
 
-	|info| **All commands provided in this section are done being ``root`` user**
+	INFO **All commands provided in this section are done being ``root`` user**
 
 Mingw-w64-binutils: Binutils 2.29.1
 ------------------------------------
@@ -268,7 +268,7 @@ Mingw-w64-cmake, mingw-w64-makeself, mingw-w64-meson, mingw-w64-makeself-MinGW32
 
 .. note::
 
-	|info| ``WINEPATH`` is filled in ``/opt/MinGW32/bin/i686-w64-mingw32-wine``. Don't forget to modify its value to point to your local wine location.
+	INFO ``WINEPATH`` is filled in ``/opt/MinGW32/bin/i686-w64-mingw32-wine``. Don't forget to modify its value to point to your local wine location.
 
 :: 
 
@@ -405,7 +405,7 @@ Cmake 3.10.2 or greater (optional)
 
 .. note::
 
-        |info| If your cmake version -- provided by your package (apt, yum etc) -- is too old then you can build a recent cmake version using commands below
+        INFO If your cmake version -- provided by your package (apt, yum etc) -- is too old then you can build a recent cmake version using commands below
 
 ::
 
@@ -506,7 +506,7 @@ Core Packages
 
 .. note::
 
-	|info| All packages will be built inside ``SRCDIR=/TMP_MinGW32/sources`` folder and temporary installed in ``DESTDIR=/TMP_MinGW32/build``. A couple of packages are built using instruction from ``Arch``.
+	INFO All packages will be built inside ``SRCDIR=/TMP_MinGW32/sources`` folder and temporary installed in ``DESTDIR=/TMP_MinGW32/build``. A couple of packages are built using instruction from ``Arch``.
 	
 	* These packages are self-extractable archives, generated using makeself
 
@@ -1098,7 +1098,7 @@ Uchardet-git  0.0.6.r57.gf136d43
 
 .. note::
 
-	|info| We generated a tarball here ``MinGW32-Distro-Linux-20180925_120340_MinGW-w64-5.0.4_Gcc_7.2.0.xz.run``
+	INFO We generated a tarball here ``MinGW32-Distro-Linux-20180925_120340_MinGW-w64-5.0.4_Gcc_7.2.0.xz.run``
 
 
 Lua-git 5.2.4.r0.g9864851
@@ -1447,7 +1447,7 @@ Xvidcore-svn r2163
 	
 .. note::
 
-	|info| From here we generate a tarball ``MinGW32-Distro-Linux-20180917_002356_MinGW-w64-5.0.4_Gcc_7.2.0.xz.run``
+	INFO From here we generate a tarball ``MinGW32-Distro-Linux-20180917_002356_MinGW-w64-5.0.4_Gcc_7.2.0.xz.run``
 
 X264-Snapshot 20180924
 -------------------------
@@ -2366,7 +2366,7 @@ Zimg-git 2.7.5.r52.g3eeb140
 
 .. note::
 
-	|info| Here we generate a tarball as backup ``MinGW32-Distro-Linux-20180917_202503_MinGW-w64-5.0.4_Gcc_7.2.0.xz.run``
+	INFO Here we generate a tarball as backup ``MinGW32-Distro-Linux-20180917_202503_MinGW-w64-5.0.4_Gcc_7.2.0.xz.run``
 
 Lz4 1.8.2
 --------------
@@ -2895,7 +2895,7 @@ Fftw 3.3.8
 
 .. note::
 
-        |info| Options were used following recommendations from http://www.fftw.org/install/windows.html
+        INFO Options were used following recommendations from http://www.fftw.org/install/windows.html
 
 ::
 
@@ -3185,7 +3185,7 @@ Angleproject-git 2.1.r8420
 
 .. note::
 
-        |info| The author of this package already provide a pkg file with all binaries (\*.dll, \*.h) but I wanted to rebuild them on my own :)
+        INFO The author of this package already provide a pkg file with all binaries (\*.dll, \*.h) but I wanted to rebuild them on my own :)
 
 
 * URL https://github.com/gk7huki/mingw-w64-angleproject
@@ -3614,7 +3614,7 @@ Use UPX to reduce size (optional)
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 .. note::
 
-	|info| I will let/show command as-it-is but I will not use it. This way that shoudl avoid any false-positive on Winows with any Antivirus.
+	INFO I will let/show command as-it-is but I will not use it. This way that shoudl avoid any false-positive on Winows with any Antivirus.
 
 ::
 
@@ -3714,7 +3714,7 @@ Create a 7z file
 
 .. |MinGW32_Linux_Distro_Logo| image:: MinGW32_Linux_Distro_Logo.png
 
-.. |info| image:: info.png
+.. INFO image:: info.png
 
 .. |red| image:: red.png
         :width:         32px
