@@ -8,6 +8,8 @@ This repository contains my own documentation to cross-compil MPV Player
 -   MinGW-w64 5.0.4
 -   Bin-utils 2.29.1
 
+I tried to follow steps from https://github.com/qyot27/mpv/blob/extra-new/DOCS/crosscompile-mingw-tedious.txt by adding additional packages (crossc, shaderc, angleproject, vulkan-sdk ...)
+
 Cross-compiling is done a pure native Linux 32 Bits machine
 
 -   Kernel: 4.8.17
