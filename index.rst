@@ -3412,7 +3412,7 @@ Libmysofa-git 0.6.r56.g5e1fc5b
 FFmpeg and MPV
 ====================
 
-FFmpeg-git 4.1.dev.r1347.ga74d379
+FFmpeg-git 4.1.dev.r1363.g9cb84a3
 -----------------------------------
 * URL https://github.com/qyot27/mpv/blob/extra-new/DOCS/crosscompile-mingw-tedious.txt
 
@@ -3469,8 +3469,8 @@ Download sources
 	# Press Ctrl+X to commit using nano
 
 	_pkgver
-	# version = n4.1.dev.r1347.ga74d379
-	# commit = a74d3799c2550ef7e19f57baab63909b70e165ac
+	# version = n4.1.dev.r1363.g9cb84a3
+	# commit = 9cb84a3a52927b88b986a394e3b7bcbaeb441ff1
 
 Fix issue for libavdevice.a
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3509,7 +3509,7 @@ Build
 		--enable-ffnvcodec --enable-fontconfig --enable-gmp --enable-gpl --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca \
 		--enable-libcdio --enable-libfdk-aac --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libilbc \
 		--enable-libmfx --enable-libmodplug --enable-libmp3lame --enable-libmysofa --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus \
-		--enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtesseract --enable-libtheora --enable-libtls --enable-libtwolame \
+		--enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtheora --enable-libtls --enable-libtwolame \
 		--enable-libvidstab --enable-libvo-amrwbenc --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx264 --enable-libx265 \
 		--enable-libxavs --enable-libxml2 --enable-libxvid --enable-libzimg --enable-lzma --enable-nonfree --enable-nvdec --enable-nvenc --enable-openal \
 		--enable-opengl --enable-pixelutils --enable-postproc --enable-runtime-cpudetect --enable-sdl2 --enable-swresample --enable-swscale --enable-vapoursynth --enable-version3 --enable-zlib \
@@ -3527,7 +3527,7 @@ Build
         find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself ffmpeg 4.1.dev.r1347.ga74d379 $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself ffmpeg 4.1.dev.r1363.g9cb84a3 $DESTDIR/$PREFIX/$target delete	
 
 
 Mpv-git 0.29.0.r35.g9c18407
