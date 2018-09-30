@@ -3527,7 +3527,7 @@ Build
         mingw-w64-makeself ffmpeg 4.1.dev.r1363.g9cb84a3 $DESTDIR/$PREFIX/$target delete	
 
 
-Mpv-git 0.29.0.r35.g9c18407
+Mpv-git 0.29.0.r49.g8d2d0f0
 -------------------------------
 * URL https://raw.githubusercontent.com/qyot27/mpv/extra-new/DOCS/crosscompile-mingw-tedious.txt
 
@@ -3542,8 +3542,8 @@ Download and build
 	cd mpv-git_${current_time}
 
 	_pkgver
-	# version = 0.29.0.r35.g9c18407
-	# commit = 9c184078a66a7de0e94d72a4bb038dde6a4ab455
+	# version = 0.29.0.r49.g8d2d0f0
+	# commit = 8d2d0f06403b6777e4b591fa84df57b55e9b7809
 
 	./bootstrap
 
@@ -3567,7 +3567,8 @@ Download and build
 
 	#* INFO* : it is still doable to add '--enable-libmpv-shared' to the build
 
-	./waf build
+	# We wait that seconds are marked as '00'. We should have a nice build date for mpv
+	is_flag=true;while ${is_flag};do sleep 1s; [ $(date '+%S') == "00" ] && { is_flag=false; };done && ./waf build
 	./waf install
 
 Add extra libraries and Strip everything
