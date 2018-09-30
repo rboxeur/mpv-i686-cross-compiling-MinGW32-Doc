@@ -3715,9 +3715,6 @@ Create a 7z file
 .. |MinGW32_Linux_Distro_Logo| image:: MinGW32_Linux_Distro_Logo.png
 
 .. |info| image:: info.png
-	:width:		64px
-	:height:	64px
-	:scale:		10%
 
 .. |red| image:: red.png
         :width:         32px
