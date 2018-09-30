@@ -3498,9 +3498,6 @@ Build
         export cross_prefix="${target}-"
         export prefix="${PREFIX}/${target}/"
 	
-	#export CC="$CC -static-libgcc"
-	#export CXX="$CXX -static-libgcc -static-libstdc++"
-
 	# Options are sorted here in alphabetical order
 
 	./configure --disable-debug --disable-decoder='aac,aac_fixed' --disable-doc --disable-encoder=aac --disable-w32threads --enable-amf --enable-avcodec \
