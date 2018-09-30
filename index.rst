@@ -3508,7 +3508,7 @@ Build
 		--enable-avresample --enable-bzlib --enable-concise-version --enable-cross-compile --enable-cuda --enable-cuvid --enable-d3d11va --enable-dxva2 \
 		--enable-ffnvcodec --enable-fontconfig --enable-gmp --enable-gpl --enable-libaom --enable-libass --enable-libbluray --enable-libbs2b --enable-libcaca \
 		--enable-libcdio --enable-libfdk-aac --enable-libfontconfig --enable-libfreetype --enable-libfribidi --enable-libgme --enable-libgsm --enable-libilbc \
-		--enable-libmfx --enable-libmodplug --enable-libmp3lame --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus \
+		--enable-libmfx --enable-libmodplug --enable-libmp3lame --enable-libmysofa --enable-libopencore-amrnb --enable-libopencore-amrwb --enable-libopenjpeg --enable-libopus \
 		--enable-librubberband --enable-libshine --enable-libsnappy --enable-libsoxr --enable-libspeex --enable-libtesseract --enable-libtheora --enable-libtls --enable-libtwolame \
 		--enable-libvidstab --enable-libvo-amrwbenc --enable-libvorbis --enable-libvpx --enable-libwavpack --enable-libwebp --enable-libx264 --enable-libx265 \
 		--enable-libxavs --enable-libxml2 --enable-libxvid --enable-libzimg --enable-lzma --enable-nonfree --enable-nvdec --enable-nvenc --enable-openal \
