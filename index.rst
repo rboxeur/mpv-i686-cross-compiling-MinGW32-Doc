@@ -23,7 +23,7 @@
 		* **I try to follow this guide**  https://github.com/qyot27/mpv/blob/extra-new/DOCS/crosscompile-mingw-tedious.txt **I tried to enhance it by adding more packages (shaderc, crossc, harfbuzz, vulkan, libarchive, rubberband and so on...)**
 		* Compared to all toolchains, I could see in the Web (MXE, other dedicated toolchains for MPV), I think it is a good recommendation to build a complete toolchain (GCC +  all its stuffs).
 		* This toolchain is built on a real Linux 32-Bits machine (no virtual machine).
-		* Toolchain is located at ``/opt/MinGW32`` -- this way it will not interfere with your own system --
+		* Toolchain is located -- hardcoded -- at ``/opt/MinGW32`` -- this way it will not interfere with your own system --
 		* Its packages are located at ``/opt/MinGW32/packages``
 
 
@@ -47,14 +47,8 @@ Notes regarding this toolchain, its packages and Wine
 
 * To avoid any issue while building package, it is strongly recommended not to upgrade wine version while building all packages.
 * Wine-Staging 3.15 was used and this version was kept as-it-is while building all packages.
-* There is a myth about letting wine being added to  ``/proc/sys/fs/binfmt_misc/register``. It is supposed to break ``configure`` when it tries to run some ``conftest.exe``. I met this issue only once but configure was able to end up properly. So we can say that it is pretty rare now!
 * On my rig:
 	
-	- At boot I added this command 
-		::
-
-		 echo ':DOSWin:M::MZ::/opt/wine/apps/MinGW32_Environment/bin//wine:' > /proc/sys/fs/binfmt_misc/register
-
 	- ``wine`` is indeed installed at ``/opt/wine/apps/MinGW32_Environment/``
 	- My ``WINEPREFIX`` is set to ``/opt/Builds/wine/data/MinGW32_Environment``
 	- Since the toolchain is located at ``/opt/MinGW32`` then it means that any exe file should be installed at ``/opt/MinGW32̀/i686-w64-mingw/bin``
