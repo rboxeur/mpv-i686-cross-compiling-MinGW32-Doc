@@ -2979,8 +2979,8 @@ Shaderc-git ndk.r12.beta2.r256.g38fbaed (With SPIRV-Tools, SPIRV-Headers, Glslan
 
 	cd ${SRCDIR}/shaderc-git
 	_pkgver
-	# version = ndk.r12.beta2.r256.g38fbaed
-	# commit = 38fbaeda7b34543042367547bc3cb025c9b84a9f
+	# version = ndk.r12.beta2.r259.ga84571c
+	# commit = a84571caead1f963701fd6ff859a32c4b2d5a702
 
 	cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/google/googletest.git && cd googletest
 	_pkgver
@@ -2994,8 +2994,8 @@ Shaderc-git ndk.r12.beta2.r256.g38fbaed (With SPIRV-Tools, SPIRV-Headers, Glslan
 
 	cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/KhronosGroup/SPIRV-Tools.git spirv-tools && cd spirv-tools
 	_pkgver
-	# version = 2018.5.r31.g80564a5
-	# commit = 80564a56ec85b0aa083111a3e153d84a680bec02
+	# version = 2018.5.r39.gddc7059
+	# commit = ddc705933d3f32024ea0e320a2c9d91925b78d9c
 	
 	cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/KhronosGroup/SPIRV-Headers.git spirv-headers && cd spirv-headers
 	_pkgver
