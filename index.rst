@@ -3320,7 +3320,7 @@ Libass-git 0.14.0.r4.g98727c3
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libass-git 0.14.0.r4.g98727c3  $DESTDIR/$PREFIX/$target delete
 
-Libfdk-aac-git 0.1.6.r202.g651ff34
+Libfdk-aac-git 0.1.6.r203.ge6bb256
 ---------------------------------------------
 ::
 
@@ -3329,8 +3329,8 @@ Libfdk-aac-git 0.1.6.r202.g651ff34
 	git clone https://github.com/mstorsjo/fdk-aac.git && cd fdk-aac
 
 	_pkgver
-	# version = 0.1.6.r202.g651ff34
-	# commit = 651ff34d8d35fb6a3b75471d54b271852f5924cc
+	# version = 0.1.6.r203.ge6bb256
+	# commit = e6bb25613016ecd64ccbcb354768b4794ffd6351
 
 	./autogen.sh && ./configure --host=$target --prefix=$PREFIX/$target --enable-shared=no --enable-static=yes --enable-silent-rules
 	make -j$(nproc)
@@ -3342,7 +3342,7 @@ Libfdk-aac-git 0.1.6.r202.g651ff34
         find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libfdk-aac-git 0.1.6.r202.g651ff34  $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself libfdk-aac-git 0.1.6.r203.ge6bb256 $DESTDIR/$PREFIX/$target delete
 
 AMF-Headers 1.4.9 (Advanced Media Framework)
 ----------------------------------------------------
