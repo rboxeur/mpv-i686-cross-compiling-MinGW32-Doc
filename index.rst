@@ -1697,7 +1697,7 @@ Opus-git 1.3.rc2.r0.g4a643d9
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself opus-git 1.3.rc2.r0.g4a643d9  $DESTDIR/$PREFIX/$target delete
 
-Libvpx-git 1.7.0.r1074.g4858c52
+Libvpx-git 1.7.0.r1115.g2beb5c9
 -------------------------------------
 ::
 
@@ -1706,8 +1706,8 @@ Libvpx-git 1.7.0.r1074.g4858c52
 	git clone git://github.com/webmproject/libvpx.git && cd libvpx
 
 	_pkgver
-	# version = 1.7.0.r1074.g4858c52
-	# commit = 4858c5243772a047c1d643647b6a59acb0022c7f
+	# version = 1.7.0.r1115.g2beb5c9
+	# commit = 2beb5c9f91e7166c2c9d01c94bf84767815121e4
 
 	mkdir build-$target && cd build-$target
 	export _arch=$target
@@ -1726,7 +1726,7 @@ Libvpx-git 1.7.0.r1074.g4858c52
         find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libvpx-git 1.7.0.r1074.g4858c52  $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself libvpx-git 1.7.0.r1115.g2beb5c9  $DESTDIR/$PREFIX/$target delete
 
 AOM-git 1.0.0.r654.gd0076f5  (aka AOMedia AV1) 
 -----------------------------------------------------
