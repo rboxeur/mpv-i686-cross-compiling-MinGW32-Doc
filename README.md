@@ -1,8 +1,8 @@
-About
-=====
+Documentation
+=============
 
 This repository contains my own documentation to cross-compil MPV Player
-(<https://mpv.io/>) on Linux 32Bits using
+(<https://mpv.io/>) on Linux 32Bits (`i686-w64-mingw32-gcc/g++`) using
 
 -   GCC 7.2.0
 -   MinGW-w64 5.0.4 (with patches for MPV and some packages)
@@ -10,7 +10,7 @@ This repository contains my own documentation to cross-compil MPV Player
 
 I tried to follow steps from https://github.com/qyot27/mpv/blob/extra-new/DOCS/crosscompile-mingw-tedious.txt by adding additional packages (crossc, shaderc, angleproject, vulkan-sdk ...)
 
-Toolchain is built on  a pure native Linux 32 Bits machine
+MinGW-w64 Toolchain is built on  a pure native Linux 32 Bits machine
 
 -   OS: Ubuntu 14.10 (32 Bits)
 -   Kernel: 4.8.17
