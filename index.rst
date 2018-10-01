@@ -500,7 +500,7 @@ Core Packages
 
 	INFO All packages will be built inside ``SRCDIR=/TMP_MinGW32/sources`` folder and temporary installed in ``DESTDIR=/TMP_MinGW32/build``. A couple of packages are built using instruction from ``Arch``.
 	
-	* These packages are self-extractable archives, generated using makeself
+	* These packages are self-extractable archives, generated using makeself (https://github.com/megastep/makeself). ``makeself`` aims at generating self-extractable package.
 
 Dlfcn (Win32) 1.1.2
 ----------------------
