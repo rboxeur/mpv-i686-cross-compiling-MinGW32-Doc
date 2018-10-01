@@ -10,8 +10,6 @@
 :Date:		|R_Date|
 :Revision: 	|R_Revision|
 
-**Download latest MPV build:** `mpv-0.29.0.r35.g9c18407_win32_20180927-225000.7z`_ (Compressed: 25MB, Uncompressed: 26MB)
-
 .. note::
 
 	INFO **This toolchain is dedicated to cross-compil MPV for Windows 32 Bits (at least Windows 7) on a native Linux-32Bits workstation/PC**
@@ -3674,39 +3672,11 @@ Create a 7z file
 
 --------------- 
 
-.. _mpv-0.29.0.r35.g9c18407_win32_20180927-225000.7z: https://www.mediafire.com/file/n10468yo17ehfij/mpv-0.29.0.r35.g9c18407_win32_20180927-225000.7z
-.. _mpv-0.29.0.r30.g6eb59fe_win32_20180926-041137.7z: http://www.mediafire.com/file/vradr72z29589va/mpv-0.29.0.r30.g6eb59fe_win32_20180926-041137.7z
-.. _mpv-0.29.0.r30.g6eb59fe_win32_20180923-201236.7z: http://www.mediafire.com/file/dmj9ntcn1v7lhgd/mpv-0.29.0.r30.g6eb59fe_win32_20180923-201236.7z
-.. _mpv-0.29.0.r30.g6eb59fe_win32_20180923-093639.7z: http://www.mediafire.com/file/3aa18gotzwnwztj/mpv-0.29.0.r30.g6eb59fe_win32_20180923-093639.7z
-.. _mpv-0.29.0-30-g6eb59fe_win32_20180921112449.7z: http://www.mediafire.com/file/4s39qklndd6szs6/mpv-0.29.0-30-g6eb59fe_win32_20180921112449.7z
-.. _mpv-20180920_0.29.0.r30.g6eb59fe_win32.7z: http://www.mediafire.com/file/0k62u6y8my0acfr/mpv-20180920_0.29.0.r30.g6eb59fe_win32.7z
-.. _mpv-i686-20180910_0.29.0-r29.g48c38f7_win32.7z: http://www.mediafire.com/file/p3v77zr3x9jl438/mpv-i686-20180910_0.29.0-r29.g48c38f7_win32.7z/file
-.. _mpv-0.29.0.r28.ga5b0d59_win32.7z : http://www.mediafire.com/file/9iw5i2h820nh6tw/mpv-0.29.0.r28.ga5b0d59_win32.7z
-.. _mpv-0.29.0-r26.g91786fa_win32.zip: http://www.mediafire.com/file/19bfasal0g1n954/mpv-0.29.0-r26.g91786fa_win32.zip
-
-.. _apng-3.1.16-bin-win32.exe: http://www.mediafire.com/file/wu5rf28xbcwq983/apng-3.1.16-bin-win32.exe
-
-.. _Upx-3.94_ReactOS.exe: http://download1488.mediafire.com/ox5wm663vhig/vx94z4xc0043p1c/Upx-3.94_ReactOS.exe
-
-.. _mpv-0.29.0_windows7-32_build-shared.exe: http://www.mediafire.com/file/7a3tuz7y5u11he8/mpv-0.29.0_windows7-32_build-shared.exe/file
-
-.. _i686-w64-mingw32-gcc-7.2.0-posix_Linux-32Bit_binaries_20180227_v001.tar.xz: https://drive.google.com/file/d/1s3T0fYqHHEEpn6blNDxhRpJzmllQh_Qn/view?usp=sharing
-
-.. _SDS00003.CSV: http://www.davidgis.fr/documentation/Divers/Montages-Electroniques/Oscillateur_A_Dephasage_Transistor_BC547/SDS00003.CSV
-
 .. |mpv| image:: mpv.png
-
-.. |BC547B_Regime_Statique| image:: BC547B_Regime_Statique.png
-	:scale: 100%
-	:align: middle
-
-.. |Multimeter_DT-9927T| image:: Multimeter_DT-9927T.jpg
-        :scale: 100%
-        :align: middle
 
 .. |MinGW32_Linux_Distro_Logo| image:: MinGW32_Linux_Distro_Logo.png
 
-.. INFO image:: info.png
+.. |info| image:: info.png
 
 .. |red| image:: red.png
         :width:         32px
