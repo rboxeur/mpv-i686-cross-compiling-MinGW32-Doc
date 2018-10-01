@@ -3359,7 +3359,7 @@ AMF-Headers 1.4.9 (Advanced Media Framework)
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself amf-headers 1.4.9 $DESTDIR/$PREFIX/$target delete
 
-Ruberband 1.8.2
+Rubberband 1.8.2
 ------------------
 ::
 
