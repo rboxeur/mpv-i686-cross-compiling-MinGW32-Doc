@@ -3410,7 +3410,7 @@ Libmysofa-git 0.6.r56.g5e1fc5b
 FFmpeg and MPV
 ====================
 
-FFmpeg-git 4.1.dev.r1363.g9cb84a3
+FFmpeg-git 4.1.dev.r1373.gd36bd41
 -----------------------------------
 * URL https://github.com/qyot27/mpv/blob/extra-new/DOCS/crosscompile-mingw-tedious.txt
 
@@ -3467,8 +3467,8 @@ Download sources
 	# Press Ctrl+X to commit using nano
 
 	_pkgver
-	# version = n4.1.dev.r1363.g9cb84a3
-	# commit = 9cb84a3a52927b88b986a394e3b7bcbaeb441ff1
+	# version = n4.1.dev.r1373.gd36bd41
+	# commit = d36bd417be55bff0a38a638d44cf03aa26746aca
 
 Fix issue for libavdevice.a
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -3522,10 +3522,10 @@ Build
         find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself ffmpeg 4.1.dev.r1363.g9cb84a3 $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself ffmpeg 4.1.dev.r1373.gd36bd41 $DESTDIR/$PREFIX/$target delete	
 
 
-Mpv-git 0.29.0.r49.g8d2d0f0
+Mpv-git 0.29.0.r57.g6d61c5f
 -------------------------------
 * URL https://raw.githubusercontent.com/qyot27/mpv/extra-new/DOCS/crosscompile-mingw-tedious.txt
 
@@ -3540,8 +3540,8 @@ Download and build
 	cd mpv-git_${current_time}
 
 	_pkgver
-	# version = 0.29.0.r49.g8d2d0f0
-	# commit = 8d2d0f06403b6777e4b591fa84df57b55e9b7809
+	# version = 0.29.0.r57.g6d61c5f
+	# commit = 6d61c5f68a5b1faaaf5a38080c690e35bd31858c
 
 	./bootstrap
 
