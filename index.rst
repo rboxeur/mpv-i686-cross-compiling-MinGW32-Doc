@@ -2967,7 +2967,7 @@ Boost 1.68.0
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself boost 1.68.0 $DESTDIR/$PREFIX/$target delete
 
-Shaderc-git ndk.r12.beta2.r256.g38fbaed (With SPIRV-Tools, SPIRV-Headers, Glslang)
+Shaderc-git ndk.r12.beta2.r259.ga84571c (With SPIRV-Tools, SPIRV-Headers, Glslang)
 ------------------------------------------------------------------------------------
 * URL https://github.com/google/shaderc
 
@@ -3013,7 +3013,7 @@ Shaderc-git ndk.r12.beta2.r256.g38fbaed (With SPIRV-Tools, SPIRV-Headers, Glslan
 	find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;	
 
 	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself shaderc-git ndk.r12.beta2.r256.g38fbaed $DESTDIR/$PREFIX/$target delete
+	mingw-w64-makeself shaderc-git ndk.r12.beta2.r259.ga84571c $DESTDIR/$PREFIX/$target delete
 
 Crossc-git  1.5.0.r0.g3b24d5f
 ---------------------------------
