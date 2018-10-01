@@ -3654,7 +3654,7 @@ Create a 7z file
  - portable_config/script-opts/osc.conf: To get the old OSC menu 
 
  Cross-compiled on Linux 32 Bits using MinGW-w64 5.0.4, GCC 7.2.0
- Toolchain http://www.davidgis.fr/documentation/Cross-Compil_MPV_Static_on_Linux-32Bits_For_Windows-32Bits_Using_MinGW-w64_5.0.4_GCC-7.2.0/index.html
+ Toolchain https://github.com/rboxeur/mpv-i686-cross-compiling-MinGW32-Doc
 
  Have fun!
  _EOF_
