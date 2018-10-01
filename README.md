@@ -24,6 +24,7 @@ You can download some builds for win32 for MPV (see releases section).
 They were tested on
 - Linux 32-Bits: using Wine-Staging-PBA >= 3.16
 - Windows 7 32-Bits: HP 350 G2 - CPU = 3805U (https://www.fnac.com/mp24376719/HP-350-G2-15-6-Pentium-3805U-4-Go-RAM-500-Go-HDD/w-4)
+- Windows XP is not supported.
 
 Content
 =======
