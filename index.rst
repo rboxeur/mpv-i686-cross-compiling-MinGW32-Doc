@@ -72,7 +72,7 @@ I strongly recommend to have a look at https://aur.archlinux.org/packages/?SeB=n
 Toolchain: Download sources
 =============================
 
-.. code-block:: console
+::
 
 	export MINGW_PREFIX=/opt/MinGW32
 	export PATH=${MINGW_PREFIX}/bin:$PATH
