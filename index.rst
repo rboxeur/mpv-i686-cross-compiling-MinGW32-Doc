@@ -1070,9 +1070,8 @@ Uchardet-git  0.0.6.r57.gf136d43
 	git clone git://anongit.freedesktop.org/uchardet/uchardet.git && cd uchardet
 
 	_pkgver
-	# version = 0.0.6.r57.gf136d43
-	# commit = f136d434f0809e064ac195b5bc4e0b50484a474c
-	
+	# version = 0.0.6.r58.gbdfd611
+	# commit = bdfd6116a965fd210ef563613763e724424728b7
 
 	sed -i '74s/^/#/' CMakeLists.txt
 	mkdir build-$target && cd build-$target
