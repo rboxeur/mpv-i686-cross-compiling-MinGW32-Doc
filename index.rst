@@ -3032,8 +3032,8 @@ Crossc-git  1.5.0.r0.g3b24d5f
         git clone https://github.com/KhronosGroup/SPIRV-Cross.git
 
 	_pkgver
-	# version = 2018.08.07.r122.g69b034f
-	# commit = 69b034f26e28a76a6f4e5d9521123072b24d7ea2
+	# version = 2018.08.07.r131.g7938451
+	# commit = 793845139edde7f7224be9d9a18015c7c160a928
 
 	cd $SRCDIR/crossc
         make -j$(nproc)
