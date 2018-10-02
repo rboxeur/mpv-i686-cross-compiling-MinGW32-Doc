@@ -2967,7 +2967,7 @@ Boost 1.68.0
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself boost 1.68.0 $DESTDIR/$PREFIX/$target delete
 
-Shaderc-git ndk.r12.beta2.r259.ga84571c (With SPIRV-Tools, SPIRV-Headers, Glslang)
+Shaderc-git 2018.0.r2.gc9da865 (With SPIRV-Tools, SPIRV-Headers, Glslang)
 ------------------------------------------------------------------------------------
 * URL https://github.com/google/shaderc
 
@@ -2979,23 +2979,23 @@ Shaderc-git ndk.r12.beta2.r259.ga84571c (With SPIRV-Tools, SPIRV-Headers, Glslan
 
 	cd ${SRCDIR}/shaderc-git
 	_pkgver
-	# version = ndk.r12.beta2.r259.ga84571c
-	# commit = a84571caead1f963701fd6ff859a32c4b2d5a702
+	# version = 2018.0.r2.gc9da865
+	# commit = c9da865cde7674eda5b0c74fce04c82b2eb7c3b9
 
 	cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/google/googletest.git && cd googletest
 	_pkgver
-	# version = release.1.8.1.r113.g440527a
-	# commit = 440527a61e1c91188195f7de212c63c77e8f0a45
+	# version = release.1.8.1.r122.ge93da23
+	# commit = e93da23920e5b6887d6a6a291c3a59f83f5b579e
 
 	cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/google/glslang.git && cd glslang
 	_pkgver
-	# version = GoogleGlslang20160218.r1968.g91ac429
-	# commit = 91ac4290bcf2cb930b4fb0981f09c00c0b6797e1
+	# version = GoogleGlslang20160218.r1973.g4508a81
+	# commit = 4508a8170a8f62ede770fb1da34c1cc600e0c596
 
 	cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/KhronosGroup/SPIRV-Tools.git spirv-tools && cd spirv-tools
 	_pkgver
-	# version = 2018.5.r39.gddc7059
-	# commit = ddc705933d3f32024ea0e320a2c9d91925b78d9c
+	# version = 2018.5.r45.gd73b9d8
+	# commit = d73b9d8dfbf7761e3fde323af00ec18ebfc0020c
 	
 	cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/KhronosGroup/SPIRV-Headers.git spirv-headers && cd spirv-headers
 	_pkgver
@@ -3013,7 +3013,7 @@ Shaderc-git ndk.r12.beta2.r259.ga84571c (With SPIRV-Tools, SPIRV-Headers, Glslan
 	find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;	
 
 	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself shaderc-git ndk.r12.beta2.r259.ga84571c $DESTDIR/$PREFIX/$target delete
+	mingw-w64-makeself shaderc-git 2018.0.r2.gc9da865 $DESTDIR/$PREFIX/$target delete
 
 Crossc-git  1.5.0.r0.g3b24d5f
 ---------------------------------
