@@ -3558,8 +3558,8 @@ Download and build
 	PKG_CONFIG_LIBDIR="$PREFIX/$target/lib/pkgconfig" \
 	PKG_CONFIG_PATH="$PREFIX/$target/lib/pkgconfig/" \
 	./waf configure --prefix=$PREFIX/$target --disable-debug-build --enable-openal --enable-sdl2 --enable-dvdread --enable-dvdnav --enable-cdda --disable-manpage-build \
-		--enable-pdf-build --enable-html-build --enable-static-build --enable-d3d9-hwaccel --enable-d3d-hwaccel --enable-vulkan --enable-gl-dxinterop-d3d9  \
-		--enable-wasapi --enable-cuda-hwaccel --enable-libbluray \
+		--enable-pdf-build --enable-html-build --enable-static-build --enable-d3d9-hwaccel --enable-d3d11 --enable-d3d-hwaccel --enable-vulkan --enable-gl-dxinterop-d3d9  \
+		--enable-wasapi --enable-cuda-hwaccel --enable-libbluray --enable-vapoursynth --enable-vapoursynth-lazy --enable-lua --enable-javascript  \
 		--docdir=$PREFIX/$target/portable_config --htmldir=$PREFIX/$target/doc \
 		--confdir=$PREFIX/$target/portable_config --bindir=$PREFIX/$target
 
@@ -3580,6 +3580,22 @@ Add extra libraries and Strip everything
 
  # Prepare configuration files
  mkdir -p $DESTDIR/$PREFIX/$target/portable_config/script-opts/
+
+ # Add 'screenshots' and 'logs' subfolders and update mpv.conf file
+ mkdir -pv $DESTDIR/$PREFIX/$target/portable_config/{screenshots,logs}
+ cat << _EOF_ >> $DESTDIR/$PREFIX/$target/portable_config/mpv.conf
+ ###############
+ # Screenshots #
+ ###############
+ screenshot-format=png
+ screenshot-png-compression=9
+ screenshot-template='~~/screenshots/%F (%P) %n'
+ 
+ #######
+ # Logs#
+ ######
+ log-file='~~/logs/mpv-messages.log'
+ _EOF_
 
  cat << _EOF_ > $DESTDIR/$PREFIX/$target/portable_config/script-opts/osc.conf
  # Old OSC layout 
