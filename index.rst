@@ -1061,7 +1061,7 @@ Fontconfig-git 2.12.6.r5.g665584a
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself fontconfig-git 2.12.6.r5.g665584a $DESTDIR/$PREFIX/$target delete	
 
-Uchardet-git  0.0.6.r57.gf136d43
+Uchardet-git  0.0.6.r58.gbdfd611
 ------------------------------------
 ::
 
@@ -1085,7 +1085,7 @@ Uchardet-git  0.0.6.r57.gf136d43
         find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself uchardet-git 0.0.6.r57.gf136d43 $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself uchardet-git 0.0.6.r58.gbdfd611 $DESTDIR/$PREFIX/$target delete	
 
 .. note::
 
@@ -1727,7 +1727,7 @@ Libvpx-git 1.7.0.r1115.g2beb5c9
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libvpx-git 1.7.0.r1115.g2beb5c9  $DESTDIR/$PREFIX/$target delete
 
-AOM-git 1.0.0.r654.gd0076f5  (aka AOMedia AV1) 
+AOM-git 1.0.0.r706.gffffc56  (aka AOMedia AV1) 
 -----------------------------------------------------
 ::
 
@@ -1736,8 +1736,8 @@ AOM-git 1.0.0.r654.gd0076f5  (aka AOMedia AV1)
 	git clone https://aomedia.googlesource.com/aom && cd aom
 	
 	_pkgver
-	# version = 1.0.0.r654.gd0076f5
-	# commit = d0076f507a6027455540e2e4f25f84ca38803e07
+	# version = 1.0.0.r706.gffffc56
+	# commit = ffffc5655474a797c348ed8f66d0fab013d5df8e
 
 	mkdir build-$target && cd build-$target
 	mingw-w64-cmake .. -DBUILD_SHARED_LIBS=OFF -DCMAKE_SYSTEM_PROCESSOR="x86" -DENABLE_DOCS:bool=off -DENABLE_NASM:bool=on -DENABLE_TESTS:bool=off -DCONFIG_UNIT_TESTS=0
@@ -1750,7 +1750,7 @@ AOM-git 1.0.0.r654.gd0076f5  (aka AOMedia AV1)
         find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself aom-git 1.0.0.r654.gd0076f5 $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself aom-git 1.0.0.r706.gffffc56 $DESTDIR/$PREFIX/$target delete	
 
 Libiblc-git 2.0.2.r10.g4d0c2ed
 ---------------------------------------------------
