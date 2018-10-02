@@ -3525,7 +3525,7 @@ Build
         mingw-w64-makeself ffmpeg 4.1.dev.r1373.gd36bd41 $DESTDIR/$PREFIX/$target delete	
 
 
-Mpv-git 0.29.0.r57.g6d61c5f
+Mpv-git 0.29.1.r0.g723fd02
 -------------------------------
 * URL https://raw.githubusercontent.com/qyot27/mpv/extra-new/DOCS/crosscompile-mingw-tedious.txt
 
@@ -3539,9 +3539,12 @@ Download and build
 	git clone https://github.com/mpv-player/mpv.git mpv-git_${current_time}	
 	cd mpv-git_${current_time}
 
+	# Get the branch 0.29
+	git checkout release/0.29
+
 	_pkgver
-	# version = 0.29.0.r57.g6d61c5f
-	# commit = 6d61c5f68a5b1faaaf5a38080c690e35bd31858c
+	# version = 0.29.1.r0.g723fd02
+	# commit = 723fd02919bb3a1249d0566a70cc4d448a1e8ae6
 
 	./bootstrap
 
