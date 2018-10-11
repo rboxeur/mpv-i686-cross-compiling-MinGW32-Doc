@@ -135,7 +135,7 @@ Mingw-w64-binutils: Binutils 2.29.1
 	/build/binutils-2.29.1/configure --prefix=${MINGW_PREFIX} --build=${_build} --target=${_target} --enable-lto --disable-nls  \
 	        --infodir=${MINGW_PREFIX}/share/info/${_target} --enable-plugins --libdir=${MINGW_PREFIX}/lib \
 	        --enable-static --disable-shared --disable-multilib --disable-nls --disable-werror --with-system-zlib --enable-libssp --with-sysroot=${MINGW_PREFIX}
-	make -j$(nproc) && make install && make install-strip
+	make -j$(nproc) && make install-strip
 	ln -s $MINGW_PREFIX/${_target} $MINGW_PREFIX/mingw
 
 
@@ -148,7 +148,7 @@ MinGW-w64-Headers (ALL + somes patches to build MPV)
 	cd /build/mingw-w64/mingw-w64-headers/direct-x/
 	wget "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/mingw-w64-headers-d3d11_1.h.patch" -O - | patch -p0
 	wget "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/mingw-w64-headers-dxgi1_2.h.patch" -O - |patch -p0
-	wget "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/mingw-w64-headers-processor_format.patch" -O - |patch -p0
+	wget "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/mingw-w64-headers-processor_format.patch" -O - |patch -p3
 	cd /build/mingw-w64/mingw-w64-headers
 	wget "http://techer.pascal.free.fr/mingw-w64-headers-D3D11_UAV_FLAG.patch" -O - | patch -p0
 	cd /build/mingw-w64/mingw-w64-headers/crt
@@ -158,7 +158,7 @@ MinGW-w64-Headers (ALL + somes patches to build MPV)
 	cd /build/mingw-w64/mingw-w64-headers
 	/build/mingw-w64/mingw-w64-headers/configure --host=${_host} --build=${_build}  --prefix=$MINGW_PREFIX/$_target/ --includedir=$MINGW_PREFIX/$_target/include \
 		--enable-sdk=all --enable-secure-api --enable-idl
-	make -j$(nproc)  && make install && make install-strip
+	make -j$(nproc)  && make install-strip
 
 
 Mingw-w64-gcc: GCC 7.2.0 - Pass #01
@@ -171,7 +171,7 @@ Mingw-w64-gcc: GCC 7.2.0 - Pass #01
 		--enable-fully-dynamic-string --enable-libstdcxx-time=yes --enable-lto --enable-languages=c,c++,objc,obj-c++,fortran,lto --with-system-zlib \
 		--disable-libstdcxx-verbose --enable-cloog-backend=isl --disable-dw2-exceptions --disable-nls --enable-libgomp --enable-checking=release  \
 		--with-sysroot=${MINGW_PREFIX}  --with-as=$MINGW_PREFIX/bin/${_target}-as --with-ld=$MINGW_PREFIX/bin/${_target}-ld 
-	make -j4 all-gcc && make install-gcc
+	make -j4 all-gcc && make install-strip-gcc
 
 MinGW-w64-runtime (Runtime: ALL)
 ---------------------------------
@@ -180,7 +180,7 @@ MinGW-w64-runtime (Runtime: ALL)
 
 	mkdir mingw-w64-crt32 && cd mingw-w64-crt32
 	 /build/mingw-w64/mingw-w64-crt/configure --host=${_target} --prefix=${MINGW_PREFIX}/${_target}/ --with-sysroot=${MINGW_PREFIX} --enable-wildcard --enable-experimental=registeredprintf
-	make -j$(nproc)  && make install && make install-strip
+	make -j$(nproc)  && make install-strip
 
 
 MinGW-w64-Libraries: winpthreads
@@ -216,7 +216,7 @@ MinGW-w64-Libraries: pseh, winstorecompat
 	do
 	        mkdir -pv /build/mingw-w64-$library && cd /build/mingw-w64-$library
 	        /build/mingw-w64/mingw-w64-libraries/$library/configure --host=${_target} --prefix=${MINGW_PREFIX}/${_target}/  > build.log 2>&1
-	        make -j$(nproc)  >> build.log 2>&1 && make install && make install-strip >> build.log 2>&1
+	        make -j$(nproc)  >> build.log 2>&1 &&  make install-strip >> build.log 2>&1
 	done
 
 
@@ -230,7 +230,7 @@ MinGW-w64-Tools: gendef, genidl, genlib, genpeimg, i686-w64-mingw32-widl
 	        mkdir -pv /build/mingw-w64-tools32/build-$tools
 	        cd /build/mingw-w64-tools32/build-$tools
 	        /build/mingw-w64/mingw-w64-tools/$tools/configure --prefix=${MINGW_PREFIX}
-	        make -j$(nproc) && make install && make install-strip
+	        make -j$(nproc) && make install-strip
 	done
 
 	cd /build
