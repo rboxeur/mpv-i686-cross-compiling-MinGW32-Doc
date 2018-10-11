@@ -768,8 +768,7 @@ Openjpeg 2.3.0
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself openjpeg 2.3.0 $DESTDIR/$PREFIX/$target delete
 
-
-Libtiff-git 4.0.9.r102.g31374a7
+Libtiff-git 4.0.9.r106.gd438fab
 -----------------------------------------
 ::
 
@@ -778,114 +777,89 @@ Libtiff-git 4.0.9.r102.g31374a7
         git clone https://gitlab.com/libtiff/libtiff.git && cd libtiff
 
         _pkgver
-	# version = Release.v4.0.9.r102.g31374a7
-	# commit = 31374a7bf15a860f679a4b7dcac885e9905076ce
+        # version = Release.v4.0.9.r106.gd438fab
+        # commit = d438fab328c0e6180f27610df532340a73694023
 
         autoreconf -fvi
         #mkdir build-$target && cd build-$target
-	#mingw-w64-cmake .. -DBUILD_SHARED_LIBS:bool=off
-	./configure  --host=$target  --prefix=$PREFIX/$target/ --enable-cxx --enable-static --disable-shared
-	make -j$(nproc)
+        #mingw-w64-cmake .. -DBUILD_SHARED_LIBS:bool=off
+        ./configure  --host=$target  --prefix=$PREFIX/$target/ --enable-cxx --enable-static --disable-shared
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libtiff-git 4.0.9.r102.g31374a7 $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself libtiff-git 4.0.9.r106.gd438fab $DESTDIR/$PREFIX/$target delete
 
-Libwebp-git 1.0.0.r58.g50d8345
+Libwebp-git 1.0.0.r71.g5c395f1
 ---------------------------------
 
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://chromium.googlesource.com/webm/libwebp && cd libwebp
+        git clone https://chromium.googlesource.com/webm/libwebp && cd libwebp
 
-	_pkgver
-	# version = 1.0.0.r58.g50d8345
-	# commit = 50d8345ae6d8e507a6ded2211d5e68cfce2d5332
+        _pkgver
+        # version = 1.0.0.r71.g5c395f1
+        # commit = 5c395f1d71f8e753a23f1e256544bf96cb349e3e
 
-	autoreconf -fiv
-	ac_cv_path_LIBPNG_CONFIG="${PREFIX}/bin/libpng16-config --static" LIBS="-llzma -ljbig -ljpeg" ./configure --host=$target  --prefix=$PREFIX/$target/  \
-	--disable-shared --enable-static --with-sysroot=$PREFIX --enable-silent-rules --enable-swap-16bit-csp --enable-tiff --enable-libwebpmux --enable-libwebpdemux --enable-libwebpdecoder
-	make -j$(nproc)
+        autoreconf -fiv
+        ac_cv_path_LIBPNG_CONFIG="${PREFIX}/bin/libpng16-config --static" LIBS="-llzma -ljbig -ljpeg" ./configure --host=$target  --prefix=$PREFIX/$target/  \
+        --disable-shared --enable-static --with-sysroot=$PREFIX --enable-silent-rules --enable-swap-16bit-csp --enable-tiff --enable-libwebpmux --enable-libwebpdemux --enable-libwebpdecoder
+        make -j$(nproc)
 
-	 make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libwebp-git 1.0.0.r58.g50d8345 $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself libwebp-git 1.0.0.r71.g5c395f1 $DESTDIR/$PREFIX/$target delete
 
 Lcms2-full-git 2.9.r24.g32f0c45
 ------------------------------------
 
 ::
 
-	_initdir
+        _initdir
 
-	cd Little-CMS # Make sure to use the same version while building the minimalist package
-	git clean -xdf
-	mkdir build-$target && cd build-$target
-	LIBS="-llzma -ljbig -ljpeg" ../configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --enable-silent-rules --with-sysroot=$PREFIX
-	make -j$(nproc)	
+        cd Little-CMS # Make sure to use the same version while building the minimalist package
+        git clean -xdf
+        mkdir build-$target && cd build-$target
+        LIBS="-llzma -ljbig -ljpeg" ../configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --enable-silent-rules --with-sysroot=$PREFIX
+        make -j$(nproc) 
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself lcms2-full-git 2.9.r24.g32f0c45 $DESTDIR/$PREFIX/$target delete
-	
+
 Libiconv 1.15
 ------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz -O - | tar -xzvf - && cd libiconv-1.15
-	./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --enable-silent-rules --with-sysroot=$PREFIX
-	make -j$n(proc)
+        wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz -O - | tar -xzvf - && cd libiconv-1.15
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --enable-silent-rules --with-sysroot=$PREFIX
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libiconv 1.15 $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself libiconv 1.15 $DESTDIR/$PREFIX/$target delete        
 
 Enca-git 1.19.r10.gebcbd60
 ---------------------------
 ::
 
-	_initdir
-	
-	git clone git://github.com/nijel/enca.git && cd enca
+        _initdir
+        
+        git clone git://github.com/nijel/enca.git && cd enca
 
-	_pkgver
-	# version = 1.19.r10.gebcbd60
-	# commit = ebcbd6001a332f7294346de99afe69529839dc6e
+        _pkgver
+        # version = 1.19.r10.gebcbd60
+        # commit = ebcbd6001a332f7294346de99afe69529839dc6e
 
-	sed -i -e 's/encodings.dat make_hash/encodings.dat make_hash$(EXEEXT)/' -e 's/\.\/make_hash/\.\/make_hash$(EXEEXT)/' tools/Makefile.in
-	./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --enable-silent-rules --with-sysroot=$PREFIX
-        make -j$(nproc) && rrm -vf enca.spec
+        sed -i -e 's/encodings.dat make_hash/encodings.dat make_hash$(EXEEXT)/' -e 's/\.\/make_hash/\.\/make_hash$(EXEEXT)/' tools/Makefile.in
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --enable-silent-rules --with-sysroot=$PREFIX
+        make -j$(nproc) && rm -vf enca.spec
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself enca-git 1.19.r10.gebcbd60  $DESTDIR/$PREFIX/$target delete
 
@@ -893,18 +867,18 @@ Freetype 2.9.1
 ----------------
 ::
 
-	_initdir
+        _initdir
 
-	wget http://download.savannah.gnu.org/releases/freetype/freetype-2.9.1.tar.gz -O - | tar -xzvf - && cd freetype-2.9.1
-	./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --with-sysroot=$PREFIX
-	make -j$(nproc)
+        git clone https://aur.archlinux.org/mingw-w64-freetype2-bootstrap.git
+        wget http://download.savannah.gnu.org/releases/freetype/freetype-2.9.1.tar.gz -O - | tar -xzvf - && cd freetype-2.9.1
+        patch -p1 -i $SRCDIR/mingw-w64-freetype2-bootstrap/0001-Enable-table-validation-modules.patch
+        patch -p1 -i $SRCDIR/mingw-w64-freetype2-bootstrap/0002-Enable-infinality-subpixel-hinting.patch
+        patch -p1 -i $SRCDIR/mingw-w64-freetype2-bootstrap/0003-Enable-long-PCF-family-names.patch
+        
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --with-sysroot=$PREFIX
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself freetype 2.9.1 $DESTDIR/$PREFIX/$target delete
 
@@ -920,23 +894,17 @@ C2man-git (native Linux package)
 	make -j$(nproc)
 	sudo make install
 	
-
 Fribidi 1.0.5
 ------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	wget https://github.com/fribidi/fribidi/releases/download/v1.0.5/fribidi-1.0.5.tar.bz2 -O - | tar xvjf - && cd fribidi-1.0.5
-	./autogen.sh --prefix=$PREFIX/$target --host=$target --enable-shared=no --enable-static=yes --with-sysroot=$PREFIX --disable-deprecated --disable-debug	
-	make -j$(nproc)
+        wget https://github.com/fribidi/fribidi/releases/download/v1.0.5/fribidi-1.0.5.tar.bz2 -O - | tar xvjf - && cd fribidi-1.0.5
+        ./autogen.sh --prefix=$PREFIX/$target --host=$target --enable-shared=no --enable-static=yes --with-sysroot=$PREFIX --disable-deprecated --disable-debug 
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself fribidi 1.0.5 $DESTDIR/$PREFIX/$target delete
 
@@ -944,18 +912,13 @@ Expat 2.2.6
 --------------------------
 ::
 
-	_initdir
+        _initdir
 
-	wget https://github.com/libexpat/libexpat/releases/download/R_2_2_6/expat-2.2.6.tar.bz2 -O - |tar xvjf - && cd expat-2.2.6/
-	mingw-w64-cmake . -DBUILD_tests:bool=off -DBUILD_examples:bool=off -DBUILD_tools:bool=off -DBUILD_shared:bool=off
-	make -j$(nproc)	
+        wget https://github.com/libexpat/libexpat/releases/download/R_2_2_6/expat-2.2.6.tar.bz2 -O - |tar xvjf - && cd expat-2.2.6/
+        mingw-w64-cmake . -DBUILD_tests:bool=off -DBUILD_examples:bool=off -DBUILD_tools:bool=off -DBUILD_shared:bool=off
+        make -j$(nproc) 
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself expat 2.2.6 $DESTDIR/$PREFIX/$target delete
 
@@ -963,25 +926,21 @@ Jsonc-c-git r747.994e6c1
 --------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/json-c/json-c.git && cd json-c	
-	
-	_pkgver
-	# version = r747.994e6c1
-	# commit = 994e6c1f6030a052429c50a917a3991c5e2e7646
+        git clone git://github.com/json-c/json-c.git && cd json-c       
+        
+        _pkgver
+        # version = r747.994e6c1
+        # commit = 994e6c1f6030a052429c50a917a3991c5e2e7646
 
-	./autogen.sh --prefix=$PREFIX/$target --host=$target --enable-shared=no --enable-static=yes --with-sysroot=$PREFIX 
-	make -j$(nproc)
-	
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        ./autogen.sh --prefix=$PREFIX/$target --host=$target --enable-shared=no --enable-static=yes --with-sysroot=$PREFIX 
+        make -j$(nproc)
+        
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself json-c-git r747.994e6c1 $DESTDIR/$PREFIX/$target delete
+
 
 Fontconfig-git 2.12.6.r5.g665584a
 ------------------------------------
