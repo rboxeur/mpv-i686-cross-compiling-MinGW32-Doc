@@ -515,6 +515,9 @@ Source your MinGW32 environment
  }
  
  # Add MinGW to to beginning of the PATH
+ export PREFIX="/opt/MinGW32"
+ export target="i686-w64-mingw32"
+
  export PATH=${PREFIX}/bin:${PATH}
 
 After that 
