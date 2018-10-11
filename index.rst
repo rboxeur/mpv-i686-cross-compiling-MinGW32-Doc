@@ -705,84 +705,69 @@ Libjpeg-turbo-git 2.0.0.r10.gd00d7d8
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libjpeg-turbo-git 2.0.0.r10.gd00d7d8 $DESTDIR/$PREFIX/$target delete
 
-
 Libpng-git 1.6.29-r5.g7292c86
 -------------------------------------------------------
 
 ::
 
-	_initdir
-	
-	git clone git://git.code.sf.net/p/libpng/code libpng && cd libpng
-	
-	_pkgver
-	# version = libpng.1.6.29.master.signed.r5.g7292c86
-	# commit = 7292c861b165ae4279267083e273aa31b7e42004
+        _initdir
+        
+        git clone git://git.code.sf.net/p/libpng/code libpng && cd libpng
+        
+        _pkgver
+        # version = libpng.1.6.29.master.signed.r5.g7292c86
+        # commit = 7292c861b165ae4279267083e273aa31b7e42004
 
-	sed -i 's/ASM C/C ASM/' CMakeLists.txt 
-	mkdir build-$target && cd build-$target
-	mingw-w64-cmake .. -DPNG_SHARED:bool=off -DPNG_TESTS:bool=off
-	make -j$(nproc)
+        sed -i 's/ASM C/C ASM/' CMakeLists.txt 
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake .. -DPNG_SHARED:bool=off -DPNG_TESTS:bool=off
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	ln -s $PREFIX/$target/bin/libpng-config $PREFIX/bin/ # Adding a symbolic link to the main MinGW prefix
-	ln -s $PREFIX/$target/bin/libpng16-config $PREFIX/bin/ # Adding a symbolic link to the main MinGW prefi
+        ln -s $PREFIX/$target/bin/libpng-config $PREFIX/bin/ # Adding a symbolic link to the main MinGW prefix
+        ln -s $PREFIX/$target/bin/libpng16-config $PREFIX/bin/ # Adding a symbolic link to the main MinGW prefi
         mingw-w64-makeself libpng-git 1.6.29-r5.g7292c86 $DESTDIR/$PREFIX/$target delete
 
-Jbigkit-git 2.1.r12.gdce1013
+Jbigkit-git 2.1.r16.g2281149
 -------------------------------------------------
 
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/qyot27/jbigkit.git && cd jbigkit
+        git clone git://github.com/qyot27/jbigkit.git && cd jbigkit
 
-	_pkgver
-	# version = 2.1.r12.gdce1013
-	# commit = dce101373d87445ed55a385fddad02d8a8751de4
+        _pkgver
+        # version = 2.1.r16.g2281149
+        # commit = 2281149c0b8f156c5dcdfa76d9077d4362ccb9a8
 
-	git checkout mingw-w64
-	autoreconf -fiv
+        git checkout mingw-w64
+        autoreconf -fiv
 
-	./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --with-sysroot=$PREFIX --enable-silent-rules
-	make -j$(nproc)
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --with-sysroot=$PREFIX --enable-silent-rules
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself jbigkit-git 2.1.r12.gdce1013 $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself jbigkit-git 2.1.r16.g2281149 $DESTDIR/$PREFIX/$target delete
 
 Openjpeg 2.3.0
 -------------------------------------
 
 ::
 
-	_initdir
+        _initdir
 
-	wget https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz -O - | tar -xzvf - && cd openjpeg-2.3.0/
-	mkdir build-$target && cd build-$target
-	mingw-w64-cmake .. -DBUILD_SHARED_LIBS:bool=off -DBUILD_MJ2:bool=on -DBUILD_JPWL:bool=on  -DBUILD_THIRDPARTY:bool=on -DBUILD_PKGCONFIG_FILES:bool=on
-	make -j$(nproc)
+        wget https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz -O - | tar -xzvf - && cd openjpeg-2.3.0/
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake .. -DBUILD_SHARED_LIBS:bool=off -DBUILD_MJ2:bool=on -DBUILD_JPWL:bool=on  -DBUILD_THIRDPARTY:bool=on -DBUILD_PKGCONFIG_FILES:bool=on
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself openjpeg 2.3.0 $DESTDIR/$PREFIX/$target delete
+
 
 Libtiff-git 4.0.9.r102.g31374a7
 -----------------------------------------
