@@ -237,8 +237,8 @@ MinGW-w64-Tools: gendef, genidl, genlib, genpeimg, i686-w64-mingw32-widl
 	/build/mingw-w64/mingw-w64-tools/widl/configure --prefix=${MINGW_PREFIX} --target=${_target} --includedir=$PREFIX/${_target}/include
 	make -j$(nproc) && make install-strip
 
-i686-w64-mingw32-pkg-config (based on pkgconf)
-------------------------------------------------
+MinGW-w64-ExtraTools: i686-w64-mingw32-pkg-config (based on pkgconf)
+----------------------------------------------------------------------------
 I took decision to give a try to ``pkgconf`` instead of using the well-known ``pkg-config``.
 
 ::
@@ -254,7 +254,7 @@ I took decision to give a try to ``pkgconf`` instead of using the well-known ``p
         make -j$(nproc) && make install-strip
         ln -s $MINGW_PREFIX/$_target/bin/pkgconf $MINGW_PREFIX/bin/${_target}-pkg-config
 
-Mingw-w64-cmake, mingw-w64-makeself, mingw-w64-meson, mingw-w64-makeself-MinGW32-Distro
+MinGW-w64-ExtraTools: Mingw-w64-cmake, mingw-w64-makeself, mingw-w64-meson, mingw-w64-makeself-MinGW32-Distro
 -----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 .. note::
@@ -281,56 +281,8 @@ Mingw-w64-cmake, mingw-w64-makeself, mingw-w64-meson, mingw-w64-makeself-MinGW32
  #		Languages c,lto,c++,objc,obj-c++,fortran
  # - MinGW-w64 5.0.4 (Headers, CRT,  Tools and Libraries)
  #
- # MinGW - Environment variables
- #______________________________
- export PREFIX="/opt/MinGW32"
- export target="i686-w64-mingw32"
- export CPPFLAGS="-I\${PREFIX}/\${target}/include"
- export LDFLAGS="-L\${PREFIX}/\${target}/lib"
- export mingw_c_flags="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions --param=ssp-buffer-size=4"
- export CFLAGS="\$mingw_c_flags \$CFLAGS"
- export CXXFLAGS="\$mingw_c_flags \$CXXFLAGS"
- export PKG_CONFIG_LIBDIR="\${PREFIX}/\${target}/lib/pkgconfig"
- export PKG_CONFIG="\${PREFIX}/bin/\${target}-pkg-config"
- export PKG_CONFIG_PATH="\${PREFIX}/\${target}/lib/pkgconfig/"
- export PATH=\${PREFIX}/bin:\${PATH}
- export SRCDIR="/TMP_MinGW32/sources"
- export DESTDIR="/TMP_MinGW32/build"
- export EXEEXT=".exe"
- export CC=\${PREFIX}/bin/\${target}-gcc
- export CXX=\${PREFIX}/bin/\${target}-g++
- export STRIP=\${PREFIX}/bin/\${target}-strip
- export AR=\${PREFIX}/bin/\${target}-ar
- export RANLIB=\${PREFIX}/bin/\${target}-ranlib
- export AS=\${PREFIX}/bin/\${target}-as
- export DLLTOOL=\${PREFIX}/bin/dlltool
- export DLLWRAP=\${PREFIX}/bin/\${target}-dllwrap
- export WINDRES=\${PREFIX}/bin/\${target}-windres
-
- _initdir(){
-         [ ! -d "\${SRCDIR}" ] && { mkdir -p "\${SRCDIR}"; } || { cd "\${SRCDIR}"; } && { cd "\${SRCDIR}"; }
- }
- 
- _pkgver() {
- 	( git describe --long --tags > /dev/null 2>&1 ) && \
-        { _version=\$( git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g;s/^v//' );  } || \
-        { _version=\$(printf "r%s.%s" "\$(git rev-list --count HEAD)" "\$(git rev-parse --short HEAD)"); }
-        _gitcommit=\$(git log | head -n1 | awk '{print \$2}' )
-        echo "# version = \$_version";
-        echo "# commit = \$_gitcommit";
- }
-
- _get_missing_dll_at_runtime()
- {
-        my_file="\${1}"
-        local my_path="/opt/MinGW32/i686-w64-mingw32/bin"
-        [ ! -f "\${my_file}" ] && { echo "not a regular file!"; exit 1; }
-        for file in \$(objdump -p \${my_file} |grep "DLL Name"|awk '{print \$NF}'|sort);
-        do  
-                [ -f "\${my_path}/\${file}" ] && echo "\${my_path}/\${file}" || echo "# not found: \${file}"
-        done
- }
-	
+ # For more information, please refer to https://github.com/rboxeur/mpv-i686-cross-compiling-MinGW32-Doc
+ # 
  _EOF_
 	
 
