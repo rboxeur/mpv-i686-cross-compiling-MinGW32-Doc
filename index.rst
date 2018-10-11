@@ -2995,13 +2995,8 @@ Build
 		--pkg-config-flags=--static
 
 	make -j$(nproc)
-	
-	make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec ${target}-strip {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+		
+	_prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself ffmpeg 4.1.dev.r1439.ga382c2c $DESTDIR/$PREFIX/$target delete	
 
