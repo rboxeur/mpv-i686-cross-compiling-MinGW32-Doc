@@ -426,24 +426,26 @@ Source your MinGW32 environment
          export PREFIX="/opt/MinGW32"
          export target="i686-w64-mingw32"
 
+	 # flags for compilers and linkers
          export CPPFLAGS="-I${PREFIX}/${target}/include"
          export LDFLAGS="-L${PREFIX}/${target}/lib"
          export mingw_c_flags="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions --param=ssp-buffer-size=4" 
          export CFLAGS="$mingw_c_flags $CFLAGS"
          export CXXFLAGS="$mingw_c_flags $CXXFLAGS"
 	 
-	# Pkg-config and co
-         export PKG_CONFIG_LIBDIR="${PREFIX}/${target}/lib/pkgconfig"
+	 # Pkg-config and co
          export PKG_CONFIG="${PREFIX}/bin/${target}-pkg-config"
+         export PKG_CONFIG_LIBDIR="${PREFIX}/${target}/lib/pkgconfig"
          export PKG_CONFIG_PATH="${PREFIX}/${target}/lib/pkgconfig/"
- 
+	 
+	 # Working folders 
          export SRCDIR="/TMP_MinGW32/sources" # where to download the sources and to build them
          export DESTDIR="/TMP_MinGW32/build"  # where to temporary copy files before building packages
-         export EXEEXT=".exe" # Required for some packages like MuJS
 	 
          export CC=${PREFIX}/bin/${target}-gcc
          export CXX=${PREFIX}/bin/${target}-g++
          export CPP=${PREFIX}/bin/${target}-cpp
+
          export LD=${PREFIX}/bin/${target}-ld
          export NM=${PREFIX}/bin/${target}-nm
          export STRIP=${PREFIX}/bin/${target}-strip
@@ -452,10 +454,14 @@ Source your MinGW32 environment
          export AS=${PREFIX}/bin/${target}-as
          export DLLTOOL=${PREFIX}/bin/dlltool
          export OBJDUMP=${PREFIX}/bin/${target}-objdump
-         export RESCOMP=${PREFIX}/bin/${target}-windres
          export DLLWRAP=${PREFIX}/bin/${target}-dllwrap
+
+	 export RESCOMP=${PREFIX}/bin/${target}-windres
          export WINDRES=${PREFIX}/bin/${target}-windres
          export RC=${PREFIX}/bin/${target}-windres
+
+	# Extra
+         export EXEEXT=".exe" # Required for some packages like MuJS	
  
          [ ! -d "${SRCDIR}" ] && { mkdir -p "${SRCDIR}"; } || { cd "${SRCDIR}"; } && { cd "${SRCDIR}"; }
  }
