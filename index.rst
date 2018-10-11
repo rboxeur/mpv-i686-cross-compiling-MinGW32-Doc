@@ -489,23 +489,27 @@ Source your MinGW32 environment
          done
  }
 
- _prepare_package()
+ _prepare_package() #  We just want a package with libraries, headers files, and pkgconfig folders
  {
-	 # Re-added some environment variables so they stay as-they-are
+	 # Re-added some environment variables so they stay as-they-are.
 	 export PREFIX="/opt/MinGW32"
 	 export target="i686-w64-mingw32"
 	 export SRCDIR="/TMP_MinGW32/sources"
 	 export DESTDIR="/TMP_MinGW32/build"
 
+	 # Try 'install-strip' first else try usual 'install' option
          make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
  
+	 # Remove unneeded folders.	
          for dir in man doc info gtk-doc;do [ -d "$DESTDIR/$PREFIX/$target/share/${dir}" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/${dir}"; };done
  
+	 # Removed unneeded files and binaries	
          find $DESTDIR/$PREFIX/$target/ -name '*.png'  -exec rm -vf  {} \;
          find $DESTDIR/$PREFIX/$target/ -name '*.gif'  -exec rm -vf  {} \;
          find $DESTDIR/$PREFIX/$target/ -name '*.html' -exec rm -vf  {} \;
          find $DESTDIR/$PREFIX/$target/ -name '*.exe'  -exec rm -vf  {} \;
- 
+
+	 # Strip both dynamic libraries and static libraries 
          find $DESTDIR/$PREFIX/$target/ -name '*.dll'  -exec ${PREFIX}/bin/${target}-strip --strip-unneeded {} \;
          find $DESTDIR/$PREFIX/$target/ -name '*.a'    -exec ${PREFIX}/bin/${target}-strip -g {} \;
  }
