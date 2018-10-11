@@ -941,64 +941,48 @@ Jsonc-c-git r747.994e6c1
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself json-c-git r747.994e6c1 $DESTDIR/$PREFIX/$target delete
 
-
 Fontconfig-git 2.12.6.r5.g665584a
 ------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://anongit.freedesktop.org/fontconfig && cd fontconfig
-	git checkout fc-2-12 
+        git clone git://anongit.freedesktop.org/fontconfig && cd fontconfig
+        git checkout fc-2-12 
 
-	_pkgver
-	# version = 2.12.6.r5.g665584a
-	# commit = 665584a19b0ec227c93643ffb0540d11ac8ecf7f
-	
-	autoreconf -fiv
-	sed -i 's/cross_compiling=no/cross_compiling=yes/g' configure
-	PKG_CONFIG="${PREFIX}/bin/${target}-pkg-config --static"   ./configure --prefix=$PREFIX/$target --host=$target --enable-shared=no --enable-static=yes 
-	make -j$(nproc)
+        _pkgver
+        # version = 2.12.6.r5.g665584a
+        # commit = 665584a19b0ec227c93643ffb0540d11ac8ecf7f
+        
+        autoreconf -fiv
+        sed -i 's/cross_compiling=no/cross_compiling=yes/g' configure
+        PKG_CONFIG="${PREFIX}/bin/${target}-pkg-config --static"   ./configure --prefix=$PREFIX/$target --host=$target --enable-shared=no --enable-static=yes 
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself fontconfig-git 2.12.6.r5.g665584a $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself fontconfig-git 2.12.6.r5.g665584a $DESTDIR/$PREFIX/$target delete    
 
 Uchardet-git  0.0.6.r58.gbdfd611
 ------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://anongit.freedesktop.org/uchardet/uchardet.git && cd uchardet
+        git clone git://anongit.freedesktop.org/uchardet/uchardet.git && cd uchardet
 
-	_pkgver
-	# version = 0.0.6.r58.gbdfd611
-	# commit = bdfd6116a965fd210ef563613763e724424728b7
+        _pkgver
+        # version = 0.0.6.r58.gbdfd611
+        # commit = bdfd6116a965fd210ef563613763e724424728b7
 
-	sed -i '74s/^/#/' CMakeLists.txt
-	mkdir build-$target && cd build-$target
-	mingw-w64-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR="i686" -DBUILD_SHARED_LIBS=OFF
-	make -j$(nproc)
+        sed -i '74s/^/#/' CMakeLists.txt
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR="i686" -DBUILD_SHARED_LIBS=OFF
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself uchardet-git 0.0.6.r58.gbdfd611 $DESTDIR/$PREFIX/$target delete	
-
-.. note::
-
-	INFO We generated a tarball here ``MinGW32-Distro-Linux-20180925_120340_MinGW-w64-5.0.4_Gcc_7.2.0.xz.run``
-
+        mingw-w64-makeself uchardet-git 0.0.6.r58.gbdfd611 $DESTDIR/$PREFIX/$target delete 
 
 Lua-git 5.2.4.r0.g9864851
 -------------------------------
@@ -1007,7 +991,7 @@ Lua-git 5.2.4.r0.g9864851
  _initdir
 
  git clone git://github.com/LuaDist/lua.git && cd lua && git checkout lua-5.2
-	
+        
  _pkgver
  # version = 5.2.4.r0.g9864851
  # commit = 98648514bf7c15d12ccb56222a85e06bfcf9317f
@@ -1015,13 +999,10 @@ Lua-git 5.2.4.r0.g9864851
  LUAPACKVER=$(grep version dist.info | cut -f2 -d "\"")
  mkdir build-$target && cd build-$target
  mingw-w64-cmake .. -DCMAKE_RC_FLAGS="-F pe-i386" -DBUILD_SHARED_LIBS:bool=off
-	
- make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
+ make -j$(nproc)
 
- [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
- find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
- find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
- find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
+ _prepare_package
+        
  mkdir $DESTDIR/$PREFIX/$target/lib/pkgconfig/
 
  cat << _EOF_ > $DESTDIR/$PREFIX/$target/lib/pkgconfig/lua.pc
@@ -1038,55 +1019,45 @@ Lua-git 5.2.4.r0.g9864851
  _EOF_
 
  cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
- mingw-w64-makeself lua-git 5.2.4.r0.g9864851 $DESTDIR/$PREFIX/$target delete	
+ mingw-w64-makeself lua-git 5.2.4.r0.g9864851 $DESTDIR/$PREFIX/$target delete 
 
 Libdvdcss-git 1.4.2.r0.g7b7c185
 ----------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://code.videolan.org/videolan/libdvdcss.git  && cd libdvdcss
+        git clone https://code.videolan.org/videolan/libdvdcss.git  && cd libdvdcss
 
-	_pkgver
-	# version = 1.4.2.r0.g7b7c185
-	# commit = 7b7c185704567398627ad0f9a0d948a63514394b
+        _pkgver
+        # version = 1.4.2.r0.g7b7c185
+        # commit = 7b7c185704567398627ad0f9a0d948a63514394b
 
-	autoreconf -fiv	
-	./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --disable-doc
-	make -j$(nproc)
+        autoreconf -fiv 
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --disable-doc
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-	[ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-	find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-	
-	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself libdvdcss-git 1.4.2.r0.g7b7c185 $DESTDIR/$PREFIX/$target delete
+        _prepare_package        
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libdvdcss-git 1.4.2.r0.g7b7c185 $DESTDIR/$PREFIX/$target delete
 
 Libdvdread-git 6.0.0.r0.g95fdbe8
 -----------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://code.videolan.org/videolan/libdvdread.git && cd libdvdread
-	
-	_pkgver
-	# version = 6.0.0.r0.g95fdbe8
-	# commit = 95fdbe8337d2ff31dcfb68f35f3e4441dc27d92f
-
-	autoreconf -fiv
-	 ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --disable-apidoc --with-libdvdcss	
-	make -j$(nproc)
-
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
+        git clone https://code.videolan.org/videolan/libdvdread.git && cd libdvdread
         
+        _pkgver
+        # version = 6.0.0.r0.g95fdbe8
+        # commit = 95fdbe8337d2ff31dcfb68f35f3e4441dc27d92f
+
+        autoreconf -fiv
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --disable-apidoc --with-libdvdcss --enable-dlfcn
+        make -j$(nproc)
+
+        _prepare_package 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libdvdread-git 6.0.0.r0.g95fdbe8 $DESTDIR/$PREFIX/$target delete
 
@@ -1094,24 +1065,19 @@ Libdvdnav-git 6.0.0.r0.gdcb9109
 ---------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://code.videolan.org/videolan/libdvdnav.git && cd libdvdnav 
-	
-	_pkgver
-	# version = 6.0.0.r0.gdcb9109
-	# commit = dcb9109e45ccd304ec82a7c7bf46cca63620adf9
-
-	autoreconf -fiv
-	./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --with-sysroot=$PREFIX	
-	make -j$(nproc)
-
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
+        git clone https://code.videolan.org/videolan/libdvdnav.git && cd libdvdnav 
         
+        _pkgver
+        # version = 6.0.0.r0.gdcb9109
+        # commit = dcb9109e45ccd304ec82a7c7bf46cca63620adf9
+
+        autoreconf -fiv
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --with-sysroot=$PREFIX    
+        make -j$(nproc)
+
+        _prepare_package 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libdvdnav-git 6.0.0.r0.gdcb9109 $DESTDIR/$PREFIX/$target delete
 
@@ -1119,79 +1085,66 @@ Libgpg-error-1.31
 -----------------------
 ::
 
-	_initdir
+        _initdir
 
-	wget "ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.31.tar.bz2" -O - | tar -xjvf - && cd libgpg-error-1.31
-	./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --with-sysroot=$PREFIX \
-		--program-prefix=${target}- --disable-nls --disable-rpath \
-		--enable-silent-rules --disable-doc --disable-tests #--build=x86_64-pc-linux-gnu	
-	make -j$(nproc)
+        # I had to add '--build=i686-pc-linux-gnu' else we met an issue while building
+        wget "ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.31.tar.bz2" -O - | tar -xjvf - && cd libgpg-error-1.31
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --with-sysroot=$PREFIX \
+                --program-prefix=${target}- --disable-nls --disable-rpath \
+                --enable-silent-rules --disable-doc --disable-tests --build=i686-pc-linux-gnu   
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-        
+        _prepare_package 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	ln -s $PREFIX/$target/bin/${target}-gpg-error-config $PREFIX/bin/gpg-error-config # Added symbolic link to MinGW main prefix
-	ln -s $PREFIX/$target/bin/${target}-gpgrt-config $PREFIX/bin/gpgrt-config # Added symbolic link to MinGW main prefix
+        ln -s $PREFIX/$target/bin/${target}-gpg-error-config $PREFIX/bin/gpg-error-config # Added symbolic link to MinGW main prefix
+        ln -s $PREFIX/$target/bin/${target}-gpgrt-config $PREFIX/bin/gpgrt-config # Added symbolic link to MinGW main prefix
         mingw-w64-makeself libgpg-error 1.31 $DESTDIR/$PREFIX/$target delete
 
 Libgcrypt-git 1.8.3.r2.g20c0348
 ----------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone -b LIBGCRYPT-1.8-BRANCH git://git.gnupg.org/libgcrypt.git && cd libgcrypt
+        git clone -b LIBGCRYPT-1.8-BRANCH git://git.gnupg.org/libgcrypt.git && cd libgcrypt
 
-	_pkgver
-	# version = libgcrypt.1.8.3.r2.g20c0348
-	# commit = 20c034865f2dd15ce2871385b6e29c15d1570539
+        _pkgver
+        # version = libgcrypt.1.8.3.r2.g20c0348
+        # commit = 20c034865f2dd15ce2871385b6e29c15d1570539
 
-	wget https://git.yoctoproject.org/cgit.cgi/poky/plain/meta/recipes-support/libgcrypt/files/0001-Add-and-use-pkg-config-for-libgcrypt-instead-of-conf.patch -O - | patch -p1
-	autoreconf -fiv
-	./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --with-sysroot=$PREFIX --disable-doc \
-		--datarootdir=$PREFIX/$target/share/libgcrypt --with-gpg-error-prefix=$PREFIX/ --enable-asm #--build=x86_64-pc-linux-gnu
-	make -j$(nproc)
+        wget https://git.yoctoproject.org/cgit.cgi/poky/plain/meta/recipes-support/libgcrypt/files/0001-Add-and-use-pkg-config-for-libgcrypt-instead-of-conf.patch -O - | patch -p1
+        autoreconf -fiv
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --with-sysroot=$PREFIX --disable-doc \
+                --datarootdir=$PREFIX/$target/share/libgcrypt --with-gpg-error-prefix=$PREFIX/ --enable-asm --build=i686-pc-linux-gnu 
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-	mkdir -pv $DESTDIR/$PREFIX/$target/lib/pkgconfig
-	cp -vf src/libgcrypt.pc $DESTDIR/$PREFIX/$target/lib/pkgconfig
-        
+        _prepare_package
+        mkdir -pv $DESTDIR/$PREFIX/$target/lib/pkgconfig
+        cp -vf src/libgcrypt.pc $DESTDIR/$PREFIX/$target/lib/pkgconfig
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	ln -s $PREFIX/$target/bin/libgcrypt-config $PREFIX/bin/libgcrypt-config
+        ln -s $PREFIX/$target/bin/libgcrypt-config $PREFIX/bin/libgcrypt-config
         mingw-w64-makeself libgcrypt-git 1.8.3.r2.g20c0348 $DESTDIR/$PREFIX/$target delete
 
 Libaacs-git 0.9.0.r19.gf263376
 -----------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://git.videolan.org/libaacs.git && cd libaacs
+        git clone git://git.videolan.org/libaacs.git && cd libaacs
 
-	_pkgver
-	# version = 0.9.0.r19.gf263376
-	# commit = f263376b1e6570556031f420b9df08373e346d76
+        _pkgver
+        # version = 0.9.0.r19.gf263376
+        # commit = f263376b1e6570556031f420b9df08373e346d76
 
-	autoreconf -fiv
-	./configure  --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static
-	make -j$(nproc)
+        autoreconf -fiv
+        ./configure  --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;	
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libaacs-git 0.9.0.r19.gf263376 $DESTDIR/$PREFIX/$target delete
 
-	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself libaacs-git 0.9.0.r19.gf263376 $DESTDIR/$PREFIX/$target delete
 
 Libbdplus-git 0.1.2.r31.gc7f1e8b
 --------------------------------------
