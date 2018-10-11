@@ -56,7 +56,8 @@ Usefull links to build packages
 
 I strongly recommend to have a look at https://aur.archlinux.org/packages/?SeB=n&K=mingw-w64&SB=c&PP=250 to see if there is any existing package from AUR. Even if there is a PKGBUILD then don't use it :). But it could be useful 
 
-* https://github.com/shinchiro/mpv-winbuild-cmake
+* One of the Official repositories for MPV Windows binaries  https://github.com/shinchiro/mpv-winbuild-cmake
+* Outdated repository but pretty interesting to cross-compil MPV https://github.com/soarqin/ffmpeg-mpv-msys2-build
 * Official repo for MinGW-w64 https://github.com/Alexpux/MINGW-packages
 * AUR (Arch Users Repo) https://aur.archlinux.org
 * https://github.com/Warblefly/MultimediaTools-mingw-w64/blob/master/cross_compile_ffmpeg_shared.sh
