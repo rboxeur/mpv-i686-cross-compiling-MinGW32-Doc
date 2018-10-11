@@ -2445,9 +2445,9 @@ Libass-git 0.14.0.r4.g98727c3
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libass-git 0.14.0.r4.g98727c3  $DESTDIR/$PREFIX/$target delete
 	
-	
 VapourSynth R44.
 -------------------
+* Optional dependancies: Tesseract, Libass
 * URL https://github.com/qyot27/mpv/blob/extra-new/DOCS/crosscompile-mingw-tedious.txt
 
 ::
@@ -2462,14 +2462,15 @@ VapourSynth R44.
         CPPFLAGS="-m32" LDFLAGS="-m32 -L${PREFIX}/${target}"     PYTHON3_CFLAGS="-I${PREFIX}/${target}/include/python3.7m"     \
                 PYTHON3_LIBS="-L${PREFIX}/${target}/lib -lpython3.7m"     PKG_CONFIG_PATH=${PREFIX}/${target}/lib/pkgconfig     \
                 ASFLAGS="-DARCH_X86_64=0 -f win32"  \
-                ../configure --prefix=${PREFIX}/${target} --enable-static  --disable-shared --disable-vspipe --disable-python-module     --disable-plugins --host=${target}
+                ../configure --host=${target} --prefix=${PREFIX}/${target} --enable-static  --disable-shared --enable-x86-asm --enable-vspipe --enable-core --enable-vsscript --disable-python-module 
+
+        # Removed below options from the guide I am trying to follow
+        #--disable-vspipe --disable-python-module     --disable-plugins --host=${target}
 
         sed -i 's/-DARCH_X86_64=1 -DPIC -f win64/-DARCH_X86_64=0 -f win32/' Makefile
         make -j$(nproc)
 
-        make DESTDIR=$DESTDIR install
-        # Here I don't try to strip anything. Keep it as it is
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself vapoursynth R44 $DESTDIR/$PREFIX/$target delete
 
@@ -2487,16 +2488,12 @@ Vamp-sdk 2.7.1
         wget "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/vamp-configure.patch" -O - |patch -p0
         export SNDFILE_LIBS="-lsndfile -lspeex -logg -lspeexdsp -lFLAC -lvorbisenc -lvorbis -logg -lvorbisfile -logg -lFLAC++ -lsndfile"
         ./configure --host=$target --prefix=$PREFIX/$target 
-        make AR=$AR RANLIB=$RANLIB
+        make -j$(nproc) AR=$AR RANLIB=$RANLIB
 
-        make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself vamp-sdk 2.7.1 $DESTDIR/$PREFIX/$target delete
+	
 
 Fftw 3.3.8
 ------------
@@ -2585,53 +2582,48 @@ Boost 1.68.0
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself boost 1.68.0 $DESTDIR/$PREFIX/$target delete
 
-Shaderc-git 2018.0.r2.gc9da865 (With SPIRV-Tools, SPIRV-Headers, Glslang)
+Shaderc-git 2018.0.r3.g196d38f (with SPIRV-Tools, SPIRV-Headers, Glslang)
 ------------------------------------------------------------------------------------
 * URL https://github.com/google/shaderc
 
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://github.com/google/shaderc.git shaderc-git
+        git clone https://github.com/google/shaderc.git shaderc-git
 
-	cd ${SRCDIR}/shaderc-git
-	_pkgver
-	# version = 2018.0.r2.gc9da865
-	# commit = c9da865cde7674eda5b0c74fce04c82b2eb7c3b9
+        cd ${SRCDIR}/shaderc-git
+        _pkgver
+        # version = 2018.0.r3.g196d38f
+        # commit = 196d38f64e4d919ddb26557f176ca134e2d88ddc
 
-	cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/google/googletest.git && cd googletest
-	_pkgver
-	# version = release.1.8.1.r122.ge93da23
-	# commit = e93da23920e5b6887d6a6a291c3a59f83f5b579e
+        cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/google/googletest.git && cd googletest
+        _pkgver
+        # version = release.1.8.1.r130.g40f82ce
+        # commit = 40f82ce56a4b416aa4631e48d1d07377793b18ee
 
-	cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/google/glslang.git && cd glslang
-	_pkgver
-	# version = GoogleGlslang20160218.r1973.g4508a81
-	# commit = 4508a8170a8f62ede770fb1da34c1cc600e0c596
+        cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/google/glslang.git && cd glslang
+        _pkgver
+        # version = GoogleGlslang20160218.r1973.g4508a81
+        # commit = 4508a8170a8f62ede770fb1da34c1cc600e0c596
 
-	cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/KhronosGroup/SPIRV-Tools.git spirv-tools && cd spirv-tools
-	_pkgver
-	# version = 2018.5.r45.gd73b9d8
-	# commit = d73b9d8dfbf7761e3fde323af00ec18ebfc0020c
-	
-	cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/KhronosGroup/SPIRV-Headers.git spirv-headers && cd spirv-headers
-	_pkgver
-	# version = r113.d5b2e12
-	# commit = d5b2e1255f706ce1f88812217e9a554f299848af
+        cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/KhronosGroup/SPIRV-Tools.git spirv-tools && cd spirv-tools
+        _pkgver
+        # version = 2018.5.r52.g03cbf33
+        # commit = 03cbf33a695ec84d41a68333920864876fca18d9
+        
+        cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/KhronosGroup/SPIRV-Headers.git spirv-headers && cd spirv-headers
+        _pkgver
+        # version = r113.d5b2e12
+        # commit = d5b2e1255f706ce1f88812217e9a554f299848af
 
-	mkdir ${SRCDIR}/shaderc-git-build && cd ${SRCDIR}/shaderc-git-build
-	mingw-w64-cmake -DCMAKE_BUILD_TYPE=Release -DSHADERC_SKIP_TESTS=ON  -DBUILD_SHARED_LIBS=OFF -DSHADERC_ENABLE_SHARED_CRT=ON ${SRCDIR}/shaderc-git -Dgtest_disable_pthreads=ON 
-	make -j$(nproc)
+        mkdir ${SRCDIR}/shaderc-git-build && cd ${SRCDIR}/shaderc-git-build
+        mingw-w64-cmake -DCMAKE_BUILD_TYPE=Release -DSHADERC_SKIP_TESTS=ON  -DBUILD_SHARED_LIBS=OFF -DSHADERC_ENABLE_SHARED_CRT=ON ${SRCDIR}/shaderc-git -Dgtest_disable_pthreads=ON 
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install
-	[ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-	find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;	
-
-	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself shaderc-git 2018.0.r2.gc9da865 $DESTDIR/$PREFIX/$target delete
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself shaderc-git 2018.0.r3.g196d38f $DESTDIR/$PREFIX/$target delete
 
 Crossc-git  1.5.0.r0.g3b24d5f
 ---------------------------------
@@ -2643,20 +2635,20 @@ Crossc-git  1.5.0.r0.g3b24d5f
         git clone https://github.com/rossy/crossc/
         cd crossc/
 
-	_pkgver
-	# version = 1.5.0.r0.g3b24d5f
-	# commit = 3b24d5f76ec8d204ebf3588747b8024ce351a860
+        _pkgver
+        # version = 1.5.0.r0.g3b24d5f
+        # commit = 3b24d5f76ec8d204ebf3588747b8024ce351a860
 
         git clone https://github.com/KhronosGroup/SPIRV-Cross.git
 
-	_pkgver
-	# version = 2018.08.07.r131.g7938451
-	# commit = 793845139edde7f7224be9d9a18015c7c160a928
+        _pkgver
+        # version = 2018.08.07.r139.gd2928bd
+        # commit = d2928bda707e5000147403c4cb5441b02d8638a8
 
-	cd $SRCDIR/crossc
+        cd $SRCDIR/crossc
         make -j$(nproc)
 
-	make prefix=$PREFIX/$target install-static
+        make prefix=$PREFIX/$target install-static
         [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
         find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf {} \;
         find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
@@ -2781,14 +2773,9 @@ Libmfx-git 1.23.r8.gb93a3ac
         ../configure --host=${target} --prefix=${PREFIX}/${target} --enable-static=yes --enable-shared=no
         make -j$(nproc)
 
-        make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec ${target}-strip {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libmfx-git 1.23.r8.gb93a3ac $DESTDIR/$PREFIX/$target delete      
+        mingw-w64-makeself libmfx-git 1.23.r8.gb93a3ac $DESTDIR/$PREFIX/$target delete
 
 Angleproject-git 2.1.r8420
 ------------------------------
@@ -2857,86 +2844,55 @@ Angleproject-git 2.1.r8420
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself angle-project-git 2.1.r8420 $DESTDIR/$PREFIX/$target delete
 
-Vulkan-SDK-git 1.0.30.0.r810.g445a458  (Headers + Loaders )
+Vulkan-SDK-git 1.0.30.0.r811.g1056a1a  (Headers + Loaders )
 -----------------------------------------------------------
 * URL https://github.com/shinchiro/mpv-winbuild-cmake/blob/master/packages/vulkan.cmake
 
 ::
 
-	##################
-	# Vulkan-Headers #
-	##################
+        ##################
+        # Vulkan-Headers #
+        ##################
         _initdir
 
-	git clone https://github.com/KhronosGroup/Vulkan-Headers.git && cd Vulkan-Headers
-	_pkgver	
-	# version = sdk.1.1.82.0.r7.g79ea168
-	# commit = 79ea168fa9e412de9dccb6ca201a3a863e5c850e
+        git clone https://github.com/KhronosGroup/Vulkan-Headers.git && cd Vulkan-Headers
+        _pkgver 
+        # version = sdk.1.1.82.0.r8.gf98909b
+        # commit = f98909b8bc87b5029b7cd99e9634f38be6473e37
 
-	mingw-w64-cmake .
-
-	make DESTDIR=$DESTDIR install
-	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-
-	##################
-	# Vulkan-Loaders #
-	##################	
-	_initdir
-
-	git clone https://github.com/KhronosGroup/Vulkan-Loader.git && cd Vulkan-Loader
-	_pkgver
-	# version = sdk.1.0.30.0.r810.g445a458
-	# commit = 445a45831911fe2639554244fc6bcae6aa5620a4
-	
-	wget https://raw.githubusercontent.com/shinchiro/mpv-winbuild-cmake/master/packages/vulkan-0001-cross-compile-static-linking-hacks.patch
-	git am vulkan-0001-cross-compile-static-linking-hacks.patch
-
-	mkdir build-$target && cd build-$target
-
-	 mingw-w64-cmake .. \
-		-DVULKAN_HEADERS_INSTALL_DIR=${PREFIX}/${target} \
-		-DCMAKE_RANLIB_COMPILER=${target}-ranlib \
-		-DCMAKE_ASM-ATT_COMPILER=${target}-as \
-		-DCMAKE_C_FLAGS=' -D_WIN32_WINNT=0x0600 -D__STDC_FORMAT_MACROS' \
-		-DCMAKE_CXX_FLAGS=' -D__USE_MINGW_ANSI_STDIO -D__STDC_FORMAT_MACROS -fpermissive -D_WIN32_WINNT=0x0600' \
-		-DENABLE_STATIC_LOADER=ON	
-		
-        make -j$(nproc)
+        mingw-w64-cmake .
 
         make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec ${target}-strip {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself vulkan-sdk-git 1.0.30.0.r811.g37d3304 $DESTDIR/$PREFIX/$target delete
 
-Libass-git 0.14.0.r4.g98727c3
--------------------------------
-::
-
+        ##################
+        # Vulkan-Loaders #
+        ##################      
         _initdir
 
-        git clone https://github.com/libass/libass.git &&  cd libass
+        git clone https://github.com/KhronosGroup/Vulkan-Loader.git && cd Vulkan-Loader
         _pkgver
-        # version = 0.14.0.r4.g98727c3
-        # commit = 98727c3b78f44cb3bbc955fcf5d977ebd911d5ca
+        # version = sdk.1.0.30.0.r811.g1056a1a
+        # commit = 1056a1a3533a419136b7ab55102a5f3fdd5ca09e
+        
+        wget https://raw.githubusercontent.com/shinchiro/mpv-winbuild-cmake/master/packages/vulkan-0001-cross-compile-static-linking-hacks.patch
+        git am vulkan-0001-cross-compile-static-linking-hacks.patch
 
-        ./autogen.sh 
-        ./configure --host=${target} --prefix=${PREFIX}/${target} --enable-shared=no --enable-static=yes --enable-directwrite --enable-harfbuzz --enable-fontconfig --enable-require-system-font-provider --enable-asm --enable-large-tiles
-        # --disable-directwrite : not sure if I should disable this option? for win32
-        # After doing some test than it removed the main menu  from mpv. So I will not use it
+        mkdir build-$target && cd build-$target
+
+         mingw-w64-cmake .. \
+                -DVULKAN_HEADERS_INSTALL_DIR=${PREFIX}/${target} \
+                -DCMAKE_RANLIB_COMPILER=${target}-ranlib \
+                -DCMAKE_ASM-ATT_COMPILER=${target}-as \
+                -DCMAKE_C_FLAGS=' -D_WIN32_WINNT=0x0600 -D__STDC_FORMAT_MACROS' \
+                -DCMAKE_CXX_FLAGS=' -D__USE_MINGW_ANSI_STDIO -D__STDC_FORMAT_MACROS -fpermissive -D_WIN32_WINNT=0x0600' \
+                -DENABLE_STATIC_LOADER=ON       
+                
         make -j$(nproc)
 
-        make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-	find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libass-git 0.14.0.r4.g98727c3  $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself vulkan-sdk-git 1.0.30.0.r811.g1056a1a $DESTDIR/$PREFIX/$target delete
 
 Libfdk-aac-git 0.1.6.r203.ge6bb256
 ---------------------------------------------
