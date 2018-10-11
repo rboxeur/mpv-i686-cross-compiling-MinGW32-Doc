@@ -392,7 +392,7 @@ Mingw-w64-cmake, mingw-w64-makeself, mingw-w64-meson, mingw-w64-makeself-MinGW32
 Additional steps
 ================
 
-Cmake 3.10.2 or greater (optional)
+Cmake 3.12.3 or greater (optional)
 ----------------------------------
 
 .. note::
@@ -401,20 +401,19 @@ Cmake 3.10.2 or greater (optional)
 
 ::
 
-        cd /build
-        wget https://cmake.org/files/v3.10/cmake-3.10.2.tar.gz
-        tar xvzf cmake-3.10.2.tar.gz 
-        cd cmake-3.10.2
-        ./configure --prefix=/opt/cmake/3.10.2 --parallel=$(nproc) --no-system-libs --no-system-curl --no-system-expat --no-system-jsoncpp \
-                --no-system-zlib --no-system-bzip2 --no-system-liblzma --no-system-libarchive --no-system-librhash --no-qt-gui
-        make -j$(nproc) && make install 
-        strip /opt/cmake/3.10.2/bin/cmake 
-        strip /opt/cmake/3.10.2/bin/cmake
-        strip /opt/cmake/3.10.2/bin/ccmake
-        strip /opt/cmake/3.10.2/bin/cpack
-        strip /opt/cmake/3.10.2/bin/ctest
+	cd /build
+	export PREFIX="/opt/MinGW32"
+	wget https://cmake.org/files/v3.12/cmake-3.12.3.tar.gz -O - | tar xvzf - && cd cmake-3.12.3
+	./configure --prefix=$PREFIX --parallel=$(nproc) --no-system-libs --no-system-curl --no-system-expat \
+	        --no-system-jsoncpp --no-system-zlib --no-system-bzip2 --no-system-liblzma --no-system-libarchive \
+	        --no-system-librhash --no-system-libuv --no-qt-gui
+	make -j$(nproc) && make install
+	strip $PREFIX/bin/cmake
+	strip $PREFIX/bin/cmake
+	strip $PREFIX/bin/ccmake
+	strip $PREFIX/bin/cpack
+	strip $PREFIX/bin/ctest
 
-Then don't forget to add ``/opt/cmake/3.10.2/bin`` to your ``PATH`` environment.
 
 Source your MinGW32 environment
 ---------------------------------
