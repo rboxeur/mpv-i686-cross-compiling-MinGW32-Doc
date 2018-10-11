@@ -1970,24 +1970,19 @@ Vid.stab-git 1.1.0.r16.g38ecbaf
 ------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/georgmartius/vid.stab.git && cd vid.stab
+        git clone git://github.com/georgmartius/vid.stab.git && cd vid.stab
 
-	_pkgver
-	# version = 1.1.0.r16.g38ecbaf
-	# commit = 38ecbaf8ece45edd907994660ecd50f0db817b98
+        _pkgver
+        # version = 1.1.0.r16.g38ecbaf
+        # commit = 38ecbaf8ece45edd907994660ecd50f0db817b98
 
-	mkdir build-$target && cd build-$target
-	mingw-w64-cmake .. -DBUILD_SHARED_LIBS:bool=off
-	make -j$(nproc)
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake .. -DBUILD_SHARED_LIBS:bool=off -DSSE4_1_FOUND:BOOL=true -DSSSE3_FOUND:BOOL=true -DSSE3_FOUND:BOOL=true
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package        
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself "vid.stab-git" 1.1.0.r16.g38ecbaf $DESTDIR/$PREFIX/$target delete
 
@@ -1995,181 +1990,144 @@ Libsoxr-git 0.1.3.r0.g945b592
 ---------------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://git.code.sf.net/p/soxr/code libsoxr && cd libsoxr
+        git clone git://git.code.sf.net/p/soxr/code libsoxr && cd libsoxr
 
-	_pkgver
-	# version = 0.1.3.r0.g945b592
-	# commit = 945b592b70470e29f917f4de89b4281fbbd540c0
+        _pkgver
+        # version = 0.1.3.r0.g945b592
+        # commit = 945b592b70470e29f917f4de89b4281fbbd540c0
 
-	mkdir build-$target && cd build-$target
-	mingw-w64-cmake .. -DBUILD_SHARED_LIBS:bool=off -DWITH_OPENMP:bool=off -DWITH_CR32S:bool=on -DWITH_CR64S:bool=off -DBUILD_EXAMPLES:bool=off -DBUILD_TESTS:bool=off -DBUILD_LSR_TESTS:bool=off
-	make -j$(nproc)
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake .. -DBUILD_SHARED_LIBS:bool=off -DWITH_OPENMP:bool=off -DWITH_CR32S:bool=on -DWITH_CR64S:bool=off -DBUILD_EXAMPLES:bool=off -DBUILD_TESTS:bool=off -DBUILD_LSR_TESTS:bool=off
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libsoxr-git 0.1.3.r0.g945b592 $DESTDIR/$PREFIX/$target delete
 
-Zimg-git 2.7.5.r52.g3eeb140
+Zimg-git 2.7.5.r53.gd0f9cde
 -----------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/sekrit-twc/zimg.git && cd zimg
+        git clone git://github.com/sekrit-twc/zimg.git && cd zimg
 
-	_pkgver
-	# version = release.2.7.5.r52.g3eeb140
-	# commit = 3eeb14080178833a6ad6cd09f65e22a4a4cae7c7
+        _pkgver
+        # version = release.2.7.5.r53.gd0f9cde
+        # commit = d0f9cdebd34b0cb032f79357660bd0f6f23069ee
 
-	autoreconf -fiv && ./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes 
-	make -j$(nproc)
+        autoreconf -fiv && ./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes 
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself zimg-git 2.7.5.r52.g3eeb140 $DESTDIR/$PREFIX/$target delete
-
-
-.. note::
-
-	INFO Here we generate a tarball as backup ``MinGW32-Distro-Linux-20180917_202503_MinGW-w64-5.0.4_Gcc_7.2.0.xz.run``
+        mingw-w64-makeself zimg-git 2.7.5.r53.gd0f9cde $DESTDIR/$PREFIX/$target delete
 
 Lz4 1.8.2
 --------------
 ::
 
-	_initdir
+        _initdir
 
-	wget https://github.com/lz4/lz4/archive/v1.8.2.zip
-	unzip v1.8.2.zip
-	cd lz4-1.8.2/
-	cd contrib/cmake_unofficial/
-	mingw-w64-cmake . -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF
-	make -j$(nproc)
+        wget https://github.com/lz4/lz4/archive/v1.8.2.zip
+        unzip v1.8.2.zip && cd lz4-1.8.2/contrib/cmake_unofficial/
+        mingw-w64-cmake . -DBUILD_STATIC_LIBS=ON -DBUILD_SHARED_LIBS=OFF
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself lz4 1.8.2 $DESTDIR/$PREFIX/$target delete
 
-LibreSSL 2.8.0
+LibreSSL 2.8.1
 --------------------
 ::
 
-	_initdir
+        _initdir
 
-	wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.8.0.tar.gz -O - | tar xvzf - && cd libressl-2.8.0
-	CC=$target-gcc ./configure --host=$target --target=$target --build=i686-pc-linux-gnu --prefix=$PREFIX/$target/  \
-		CPPFLAGS="-I/$PREFIX/$target/include -D__MINGW_USE_VC2005_COMPAT" --enable-shared=no --enable-static=yes --enable-windows-ssp
-	make -j$(nproc)
+        wget https://ftp.openbsd.org/pub/OpenBSD/LibreSSL/libressl-2.8.1.tar.gz -O - | tar xvzf - && cd libressl-2.8.1
+        CC=$target-gcc ./configure --host=$target --target=$target --build=i686-pc-linux-gnu --prefix=$PREFIX/$target/  \
+                CPPFLAGS="-I/$PREFIX/$target/include -D__MINGW_USE_VC2005_COMPAT" --enable-shared=no --enable-static=yes --enable-windows-ssp
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libressl 2.8.0 $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself libressl 2.8.1 $DESTDIR/$PREFIX/$target delete
 
 Nettle 3.4
 ---------------
 ::
 
-	_initdir
+        _initdir
 
-	wget https://ftp.gnu.org/gnu/nettle/nettle-3.4.tar.gz -O - | tar xvzf - && cd nettle-3.4
-	./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes
-	make -j$(nproc)
+        wget https://ftp.gnu.org/gnu/nettle/nettle-3.4.tar.gz -O - | tar xvzf - && cd nettle-3.4
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself nettle 3.4 $DESTDIR/$PREFIX/$target delete
-	
-	
-Libarchive-git 3.3.3.r21.gc16ce12
+
+Libarchive-git 3.3.3.r60.gd5f35a9
 -------------------------------------
 * Dependancies: LibreSSL, Nettle, LibXML2, Lz4, zlib, bzip, lzma 
 * ``--without-cng`` is required to avoid any issue when linking mpv
 
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://github.com/libarchive/libarchive.git && cd libarchive
+        git clone https://github.com/libarchive/libarchive.git && cd libarchive
 
-	_pkgver
-	# version = 3.3.3.r21.gc16ce12
-	# commit = c16ce12acb997e6ebd81eeb37bf5f9a20e95ea19
+        _pkgver
+        # version = 3.3.3.r60.gd5f35a9
+        # commit = d5f35a90a4cb1eeb918213bff9d78e8b0471dc0a
 
-	/bin/sh build/autogen.sh
-	#** INFO **: I had to add LIBS="-lws2_32 -lwsock32 -liconv" to fix issues for libxml2
-	LIBS="-lws2_32 -lwsock32 -liconv" ./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes --disable-bsdtar --disable-bsdcpio  --disable-bsdcat --without-cng
-	make -j$(nproc)
+        /bin/sh build/autogen.sh
+        #** INFO **: I had to add LIBS="-lws2_32 -lwsock32 -liconv" to fix issues for libxml2
+        LIBS="-lws2_32 -lwsock32 -liconv" ./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes --disable-bsdtar --disable-bsdcpio  --disable-bsdcat --without-cng
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libarchive-git 3.3.3.r21.gc16ce12 $DESTDIR/$PREFIX/$target delete		
-	
+        mingw-w64-makeself libarchive-git 3.3.3.r60.gd5f35a9 $DESTDIR/$PREFIX/$target delete            
+        
 
 Python 3.7m
 --------------
 ::
 
-	_initdir
+        _initdir
 
-	
-	( wget -q https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tar.xz -O - | tar -xJf - ) && cd Python-3.7.0
-	sed -i "s:#include <crypt.h>::g" Include/Python.h
-	sed -i "s:#include <sys/select.h>::g" Include/pyport.h	
-	./configure --host=$target --build=$target --prefix=$PREFIX/$target --enable-optimizations
-	make inclinstall
-	#make distclean
-	mkdir -p $DESTDIR/$PREFIX/$target/lib/pkgconfig	
-	cp Misc/python.pc  $DESTDIR/$PREFIX/$target/lib/pkgconfig
-	for((iter=4;iter<=7;iter++));
-	do
-	        cp -vf Misc/python.pc $DESTDIR/$PREFIX/$target/lib/pkgconfig/python-3.${iter}.pc;
-	done
+        
+        ( wget -q https://www.python.org/ftp/python/3.7.0/Python-3.7.0.tar.xz -O - | tar -xJf - ) && cd Python-3.7.0
+        sed -i "s:#include <crypt.h>::g" Include/Python.h
+        sed -i "s:#include <sys/select.h>::g" Include/pyport.h  
+        # Wine will fail for a test here but configure can go ahead and ends properly. Just click on the button 'Close'
+        ./configure --host=$target --build=$target --prefix=$PREFIX/$target --enable-optimizations
+        make inclinstall
+        #make distclean
+        mkdir -p $DESTDIR/$PREFIX/$target/lib/pkgconfig 
+        cp Misc/python.pc  $DESTDIR/$PREFIX/$target/lib/pkgconfig
+        for((iter=4;iter<=7;iter++));
+        do
+                cp -vf Misc/python.pc $DESTDIR/$PREFIX/$target/lib/pkgconfig/python-3.${iter}.pc;
+        done
 
-	_initdir
-	wget https://www.python.org/ftp/python/3.7.0/python-3.7.0-embed-win32.zip
-	7za x -opython37_i686 python-3.7.0-embed-win32.zip
-	cd python37_i686/
-	gendef python37.dll
-	${target}-dlltool  -m i386 --as-flags="--32" --output-delaylib  $DESTDIR/$PREFIX/$target/lib/libpython3.7m.a --input-def python37.def
+        _initdir
+        wget https://www.python.org/ftp/python/3.7.0/python-3.7.0-embed-win32.zip
+        7za x -opython37_i686 python-3.7.0-embed-win32.zip
+        cd python37_i686/
+        gendef python37.dll
+        ${target}-dlltool  -m i386 --as-flags="--32" --output-delaylib  $DESTDIR/$PREFIX/$target/lib/libpython3.7m.a --input-def python37.def
 
-	# I don't really know if what I am doing below is required. Well whatever let's go :)
-	mkdir -p $DESTDIR/$PREFIX/$target/bin
-	cp python37.dll $DESTDIR/$PREFIX/$target/bin
+        # I don't really know if what I am doing below is required. Well whatever let's go :)
+        mkdir -p $DESTDIR/$PREFIX/$target/bin
+        cp python37.dll $DESTDIR/$PREFIX/$target/bin
 
-	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself python 3.7m $DESTDIR/$PREFIX/$target delete
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself python 3.7m $DESTDIR/$PREFIX/$target delete
 
 Leptonica 1.76.0
 ------------------------
@@ -2177,42 +2135,32 @@ Building this package statically is a real pain. I will let my own commands as-t
 
 ::
 
-	_initdir
+        _initdir
 
-	wget https://github.com/DanBloomberg/leptonica/releases/download/1.76.0/leptonica-1.76.0.tar.gz -O - | tar xvzf - && cd leptonica-1.76.0/
-	./autobuild
-	sed -i "s:#include \"allheaders.h\":#include <openjpeg-2.3/openjpeg.h>\n#include \"allheaders.h\":g" prog/convertformat.c prog/converttopdf.c prog/convertsegfilestopdf.c prog/convertfilestopdf.c prog/convertsegfilestops.c
-	CFLAGS="$CFLAGS -DOPJ_STATIC" CXXFLAGS="$CXXFLAGS -DOPJ_STATIC"  ./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static 
-	#./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static
-	make -j$(nproc) LIBS="-llzma -lm -lz -ljpeg -lopenjp2 -lpng -ljbig"
+        wget https://github.com/DanBloomberg/leptonica/releases/download/1.76.0/leptonica-1.76.0.tar.gz -O - | tar xvzf - && cd leptonica-1.76.0/
+        ./autobuild
+        sed -i "s:#include \"allheaders.h\":#include <openjpeg-2.3/openjpeg.h>\n#include \"allheaders.h\":g" prog/convertformat.c prog/converttopdf.c prog/convertsegfilestopdf.c prog/convertfilestopdf.c prog/convertsegfilestops.c
+        CFLAGS="$CFLAGS -DOPJ_STATIC" CXXFLAGS="$CXXFLAGS -DOPJ_STATIC"  ./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static 
+        #./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static
+        make -j$(nproc) LIBS+="-llzma -lm -lz -ljpeg -lopenjp2 -lpng -ljbig"
 
-	make DESTDIR=$DESTDIR install
-	[ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-	find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
-	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself leptonica 1.76.0 $DESTDIR/$PREFIX/$target delete
+        _prepare_package        
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself leptonica 1.76.0 $DESTDIR/$PREFIX/$target delete
 
 PCRE 8.42
 ---------------------------
 ::
 
-	_initdir
+        _initdir
 
-	wget "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.42.tar.bz2" -O - | tar xvjf - && cd pcre-8.42
-	./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes --enable-unicode-properties --enable-jit --enable-pcre16 --enable-pcre32 --enable-pcregrep-libz --enable-pcregrep-libbz2	
-	make -j$(nproc)
+        wget "ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.42.tar.bz2" -O - | tar xvjf - && cd pcre-8.42
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes --enable-unicode-properties --enable-jit --enable-pcre16 --enable-pcre32 --enable-pcregrep-libz --enable-pcregrep-libbz2  
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	ln -s $PREFIX/$target/bin/pcre-config $PREFIX/bin/
+        ln -s $PREFIX/$target/bin/pcre-config $PREFIX/bin/
         mingw-w64-makeself pcre 8.42 $DESTDIR/$PREFIX/$target delete
 
 Pixman 0.34.0
@@ -2221,21 +2169,16 @@ Pixman 0.34.0
 
 ::
 
-	_initdir
+        _initdir
 
-	wget https://www.cairographics.org/releases/pixman-0.34.0.tar.gz -O - | tar xvzf - && cd pixman-0.34.0
-	./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes
-	make -j$(nproc)
+        wget https://www.cairographics.org/releases/pixman-0.34.0.tar.gz -O - | tar xvzf - && cd pixman-0.34.0
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself pixman 0.34.0 $DESTDIR/$PREFIX/$target delete		
-	
+        mingw-w64-makeself pixman 0.34.0 $DESTDIR/$PREFIX/$target delete    
+
 Cairo-minimal 1.15.12
 ---------------------------
 * Optional for Tesseract
