@@ -2185,18 +2185,13 @@ Cairo-minimal 1.15.12
 
 ::
 
-	_initdir
+        _initdir
 
-	wget "http://cairographics.org/snapshots/cairo-1.15.12.tar.xz" -O - | tar xvJf - && cd cairo-1.15.12
-	./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes
-	make -j$(nproc)
-	
-	make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        wget "http://cairographics.org/snapshots/cairo-1.15.12.tar.xz" -O - | tar xvJf - && cd cairo-1.15.12
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes
+        make -j$(nproc)
+        
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself cairo-minimal 1.15.12 $DESTDIR/$PREFIX/$target delete
 
@@ -2206,21 +2201,16 @@ Libffi 3.2.1
 
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://aur.archlinux.org/mingw-w64-libffi.git
-	wget "https://github.com/libffi/libffi/archive/v3.2.1.tar.gz" -O - | tar xvzf - && cd libffi-3.2.1/
-	patch -p2 -i ../mingw-w64-libffi/fix_return_size.patch
-	sh autogen.sh;
-	./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static HOST=$target --enable-pax_emutramp
-	make -j$(nproc)
+        git clone https://aur.archlinux.org/mingw-w64-libffi.git
+        wget "https://github.com/libffi/libffi/archive/v3.2.1.tar.gz" -O - | tar xvzf - && cd libffi-3.2.1/
+        patch -p2 -i ../mingw-w64-libffi/fix_return_size.patch
+        sh autogen.sh;
+        ./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static HOST=$target --enable-pax_emutramp
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libffi 3.2.1 $DESTDIR/$PREFIX/$target delete
 
@@ -2231,28 +2221,23 @@ Gettext 0.19.8.1
 
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://aur.archlinux.org/mingw-w64-gettext.git
-	wget https://ftp.gnu.org/gnu/gettext/gettext-0.19.8.1.tar.gz -O - | tar xvzf -&& cd gettext-0.19.8.1/
-	patch -p0 -i ../mingw-w64-gettext/05-always-use-libintl-vsnprintf.mingw.patch
-	patch -p0 -i ../mingw-w64-gettext/06-dont-include-ctype-after-gnulibs-wctype.mingw.patch
-	patch -p0 -i ../mingw-w64-gettext/07-fix-asprintf-conflict.mingw.patch
-	patch -p0 -i ../mingw-w64-gettext/08-vs-compatible.patch
-	patch -p0 -i ../mingw-w64-gettext/09-gnulib-fix-underscore-cond.patch
+        git clone https://aur.archlinux.org/mingw-w64-gettext.git
+        wget https://ftp.gnu.org/gnu/gettext/gettext-0.19.8.1.tar.gz -O - | tar xvzf -&& cd gettext-0.19.8.1/
+        patch -p0 -i ../mingw-w64-gettext/05-always-use-libintl-vsnprintf.mingw.patch
+        patch -p0 -i ../mingw-w64-gettext/06-dont-include-ctype-after-gnulibs-wctype.mingw.patch
+        patch -p0 -i ../mingw-w64-gettext/07-fix-asprintf-conflict.mingw.patch
+        patch -p0 -i ../mingw-w64-gettext/08-vs-compatible.patch
+        patch -p0 -i ../mingw-w64-gettext/09-gnulib-fix-underscore-cond.patch
 
-	#** INFO **: -DIN_LIBXML is required to avoid error "undefined reference to _imp__xmlFree"
-	CFLAGS="$CFLAGS -DIN_LIBXML" CXXFLAGS="$CXXFLAGS -DIN_LIBXML" ./configure --host=$target --prefix=$PREFIX/$target/ \
-		--enable-shared=no --enable-static=yes --disable-java --disable-native-java --disable-csharp --enable-threads=win32 	
+        #** INFO **: -DIN_LIBXML is required to avoid error "undefined reference to _imp__xmlFree"
+        CFLAGS="$CFLAGS -DIN_LIBXML" CXXFLAGS="$CXXFLAGS -DIN_LIBXML" ./configure --host=$target --prefix=$PREFIX/$target/ \
+                --enable-shared=no --enable-static=yes --disable-java --disable-native-java --disable-csharp --enable-threads=win32     
 
-	make -j$(nproc)
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself gettext 0.19.8.1 $DESTDIR/$PREFIX/$target delete
 
@@ -2263,58 +2248,47 @@ Glib 2.54.3
 
 ::
 
-	_initdir
+        _initdir
 
-	wget http://ftp.gnome.org/pub/gnome/sources/glib/2.54/glib-2.54.3.tar.xz -O - | tar xvJf - && cd glib-2.54.3
-	patch -p1 -i  /opt/Sources/MINGW-packages/mingw-w64-glib2/0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always.patch
-	patch -p1 -i  /opt/Sources/MINGW-packages/mingw-w64-glib2/0004-glib-prefer-constructors-over-DllMain.patch
-	patch -p1 -i  /opt/Sources/MINGW-packages/mingw-w64-glib2/0017-glib-use-gnu-print-scanf.patch
-	patch -p1 -i  /opt/Sources/MINGW-packages/mingw-w64-glib2/0023-print-in-binary-more-for-testing.all.patch
-	patch -p1 -i  /opt/Sources/MINGW-packages/mingw-w64-glib2/0027-no_sys_if_nametoindex.patch
-	patch -p1 -i  /opt/Sources/MINGW-packages/mingw-w64-glib2/0028-inode_directory.patch
-	NOCONFIGURE=1 ./autogen.sh
-	mkdir build_static && cd build_static
-	../configure --host=$target --prefix=$PREFIX/$target  --enable-static --disable-shared --disable-libelf  -with-threads=posix HOST=$target
-	make -j$(nproc)
+        wget http://ftp.gnome.org/pub/gnome/sources/glib/2.54/glib-2.54.3.tar.xz -O - | tar xvJf - && cd glib-2.54.3
+        patch -p1 -i  /opt/Sources/MINGW-packages/mingw-w64-glib2/0001-Use-CreateFile-on-Win32-to-make-sure-g_unlink-always.patch
+        patch -p1 -i  /opt/Sources/MINGW-packages/mingw-w64-glib2/0004-glib-prefer-constructors-over-DllMain.patch
+        patch -p1 -i  /opt/Sources/MINGW-packages/mingw-w64-glib2/0017-glib-use-gnu-print-scanf.patch
+        patch -p1 -i  /opt/Sources/MINGW-packages/mingw-w64-glib2/0023-print-in-binary-more-for-testing.all.patch
+        patch -p1 -i  /opt/Sources/MINGW-packages/mingw-w64-glib2/0027-no_sys_if_nametoindex.patch
+        patch -p1 -i  /opt/Sources/MINGW-packages/mingw-w64-glib2/0028-inode_directory.patch
+        NOCONFIGURE=1 ./autogen.sh
+        mkdir build_static && cd build_static
+        ../configure --host=$target --prefix=$PREFIX/$target  --enable-static --disable-shared --disable-libelf  -with-threads=posix HOST=$target
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself glib 2.54.3 $DESTDIR/$PREFIX/$target delete		
+        mingw-w64-makeself glib 2.54.3 $DESTDIR/$PREFIX/$target delete          
 
 
 Graphite2 1.3.12
 -------------------
 ::
 
-	_initdir
+        _initdir
 
-	wget "https://github.com/silnrsi/graphite/releases/download/1.3.12/graphite2-1.3.12.tgz" -O - | tar xvzf - && cd graphite2-1.3.12
-	wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-graphite2/001-graphite2-1.3.12-win64.patch" -O - | patch -p1
-	wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-graphite2//002-graphite2-1.2.1-pkgconfig.patch" -O - | patch -p1
-	wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-graphite2/003-graphite2-1.3.12-staticbuild.patch" -O - | patch -p1
-	wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-graphite2//004-graphite2-1.3.12-dllimport-fix.patch" -O - | patch -p1
+        wget "https://github.com/silnrsi/graphite/releases/download/1.3.12/graphite2-1.3.12.tgz" -O - | tar xvzf - && cd graphite2-1.3.12
+        wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-graphite2/001-graphite2-1.3.12-win64.patch" -O - | patch -p1
+        wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-graphite2//002-graphite2-1.2.1-pkgconfig.patch" -O - | patch -p1
+        wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-graphite2/003-graphite2-1.3.12-staticbuild.patch" -O - | patch -p1
+        wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-graphite2//004-graphite2-1.3.12-dllimport-fix.patch" -O - | patch -p1
 
-	sed -i "s:\/usr\/bin\/python:\/usr\/bin\/python2:" tests/{corrupt.py,defuzz,fnttxtrender,fuzzbidi,fuzztest,hbspeeds,jsoncmp}
-	mkdir build-$target && cd build-$target
-	#** INFO**: Well only one thing to say: It's weird!!! It's ugly But it works :)
-	CXXFLAGS="$CXXFLAGS -DGRAPHITE2_STATIC" CPPFLAGS="$CPPFLAGS -DGRAPHITE2_STATIC" LDFLAGS="-static $LDFLAGS -DGRAPHITE2_STATIC" CFLAGS="$CFLAGS -DGRAPHITE2_STATIC" mingw-w64-cmake .. -DCMAKE_BUILD_TYPE=Release -DGRAPHITE2_COMPARE_RENDERER=OFF -DBUILD_SHARED_LIBS=OFF
-	for file in $(grep -lr libgraphite2.dll .);do sed -i "s:libgraphite2.dll:libgraphite2.a:g" $file;done
-	make -j$(nproc)  CXXFLAGS="$CXXFLAGS -DGRAPHITE2_STATIC" CPPFLAGS="$CPPFLAGS -DGRAPHITE2_STATIC" LDFLAGS="-static $LDFLAGS -DGRAPHITE2_STATIC" CFLAGS="$CFLAGS -DGRAPHITE2_STATIC" 
+        sed -i "s:\/usr\/bin\/python:\/usr\/bin\/python2:" tests/{corrupt.py,defuzz,fnttxtrender,fuzzbidi,fuzztest,hbspeeds,jsoncmp}
+        mkdir build-$target && cd build-$target
+        #** INFO**: Well only one thing to say: It's weird!!! It's ugly But it works :)
+        CXXFLAGS="$CXXFLAGS -DGRAPHITE2_STATIC" CPPFLAGS="$CPPFLAGS -DGRAPHITE2_STATIC" LDFLAGS="-static $LDFLAGS -DGRAPHITE2_STATIC" CFLAGS="$CFLAGS -DGRAPHITE2_STATIC" mingw-w64-cmake .. -DCMAKE_BUILD_TYPE=Release -DGRAPHITE2_COMPARE_RENDERER=OFF -DBUILD_SHARED_LIBS=OFF
+        for file in $(grep -lr libgraphite2.dll .);do sed -i "s:libgraphite2.dll:libgraphite2.a:g" $file;done
+        make -j$(nproc)  CXXFLAGS="$CXXFLAGS -DGRAPHITE2_STATIC" CPPFLAGS="$CPPFLAGS -DGRAPHITE2_STATIC" LDFLAGS="-static $LDFLAGS -DGRAPHITE2_STATIC" CFLAGS="$CFLAGS -DGRAPHITE2_STATIC" 
 
-	make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself graphite2 1.3.12 $DESTDIR/$PREFIX/$target delete 
-	
 
 Icu 57.1
 -----------------
@@ -2323,9 +2297,10 @@ Icu 57.1
 
 ::
 
-	_initdir       
+        _initdir       
  
-        git clone https://aur.archlinux.org/mingw-w64-icu.git
+        git clone https://aur.archlinux.org/mingw-w64-icu.git && cd mingw-w64-icu && git checkout f831631e9739a3ecf0a6cdd099636f78476b0625
+        _initdir
         wget http://download.icu-project.org/files/icu4c/57.1/icu4c-57_1-src.tgz -O - |  tar xvzf - &&  cd icu/
         patch -p1 -i $SRCDIR/mingw-w64-icu/0004-move-to-bin.mingw.patch
         patch -p1 -i $SRCDIR/mingw-w64-icu/0007-actually-move-to-bin.mingw.patch
@@ -2362,19 +2337,19 @@ Icu 57.1
 
         make install DESTDIR=$DESTDIR
         mv -vf $DESTDIR/$PREFIX/$target/lib/*dll $DESTDIR/$PREFIX/$target/bin/
-	rm -vf $DESTDIR/$PREFIX/$target/lib/libsicudt.a
-        cp -vf lib/ssicudt.a $DESTDIR/$PREFIX/$target/lib/libssicudt.a
-	cd $DESTDIR/$PREFIX/$target/lib/
-	ln -s libssicudt.a libsicudt.a	
-	_initdir
-	[ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-	find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
+        rm -vf $DESTDIR/$PREFIX/$target/lib/libsicudt.a
+        cp -vf lib/libssicudt.a $DESTDIR/$PREFIX/$target/lib/libssicudt.a
+        cd $DESTDIR/$PREFIX/$target/lib/
+        ln -s libssicudt.a libsicudt.a  
+        _initdir
+        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
+        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
+        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
+        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         ln -s $PREFIX/$target/bin/icu-config $PREFIX/bin/
-        mingw-w64-makeself icu 57.1 $DESTDIR/$PREFIX/$target delete     
+        mingw-w64-makeself icu 57.1 $DESTDIR/$PREFIX/$target delete   
 
 Harfbuzz 1.9.0
 ------------------------
@@ -2383,21 +2358,19 @@ Harfbuzz 1.9.0
 
 ::
 
-	_initdir	
+        _initdir        
 
-	wget "https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.9.0.tar.bz2" -O - | tar xvjf - && cd harfbuzz-1.9.0
-	sed -i '/SUBDIRS/s/test//' Makefile.am
-	NOCONFIGURE=1 ./autogen.sh	
-	mkdir build-$target-static && cd build-$target-static
-	CFLAGS=-DGRAPHITE2_STATIC CXXFLAGS=-DGRAPHITE2_STATIC ../configure --host=$target --prefix=$PREFIX/$target --with-glib --with-freetype --with-cairo --with-icu --with-gobject --with-graphite2 --enable-static=yes --enable-shared=no
-	make -j$(nproc)
+        wget "https://www.freedesktop.org/software/harfbuzz/release/harfbuzz-1.9.0.tar.bz2" -O - | tar xvjf - && cd harfbuzz-1.9.0
+        sed -i '/SUBDIRS/s/test//' Makefile.am
+        NOCONFIGURE=1 ./autogen.sh      
+        mkdir build-$target-static && cd build-$target-static
+        # ln -s $PREFIX/$target/include/dwrite_1.h $PREFIX/$target/include/DWrite_1.h # To do only with MinGW-w64 6.0.0
+	# we can add --with-directwrite=yes only for MinGW-w64 6.0.0
+        CFLAGS=-DGRAPHITE2_STATIC CXXFLAGS=-DGRAPHITE2_STATIC ../configure --host=$target --prefix=$PREFIX/$target --with-glib --with-freetype --with-cairo \
+                --with-icu --with-gobject --with-graphite2 --enable-static=yes --enable-shared=no --with-directwrite=no --with-uniscribe=yes
+        make -j$(nproc)
 
-	make install DESTDIR=$DESTDIR
-	[ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package        
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself harfbuzz 1.9.0 $DESTDIR/$PREFIX/$target delete
 
@@ -2407,22 +2380,17 @@ Pango 1.42.4
 
 ::
 
-	_initdir
+        _initdir
 
-	wget "http://ftp.gnome.org/pub/GNOME/sources/pango/1.42/pango-1.42.4.tar.xz" -O - | tar xvJf - && cd pango-1.42.4
-	sed -i "s/^if help2man.found()/if help2man.found() and not meson.is_cross_build()/g" utils/meson.build
-	LIBS="-lstdc++" ./configure --host=$target --prefix=$PREFIX/$target  --enable-shared=no --enable-static=yes
-	make -j$(nproc)
+        wget "http://ftp.gnome.org/pub/GNOME/sources/pango/1.42/pango-1.42.4.tar.xz" -O - | tar xvJf - && cd pango-1.42.4
+        sed -i "s/^if help2man.found()/if help2man.found() and not meson.is_cross_build()/g" utils/meson.build
+        LIBS="-lstdc++" ./configure --host=$target --prefix=$PREFIX/$target  --enable-shared=no --enable-static=yes
+        make -j$(nproc)
 
-	make install DESTDIR=$DESTDIR
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself pango 1.42.4 $DESTDIR/$PREFIX/$target delete
-	
+
 Tesseract 3.05.02
 ---------------------
 * URL https://github.com/Alexpux/MINGW-packages/tree/master/mingw-w64-tesseract-ocr
@@ -2438,9 +2406,9 @@ Tesseract 3.05.02
         ./autogen.sh 
         mkdir build-$target && cd build-$target
 
-	# I had to add these flags to fix issues for OpenJPEG and Leptonica
-	CFLAGS="$CFLAGS -DOPJ_STATIC" CXXFLAGS="$CXXFLAGS -DOPJ_STATIC" \
-	LIBS="-llzma -lm -lz -ljpeg -lopenjp2 -lpng -ljbig" \
+        # I had to add these flags to fix issues for OpenJPEG and Leptonica
+        CFLAGS="$CFLAGS -DOPJ_STATIC" CXXFLAGS="$CXXFLAGS -DOPJ_STATIC" \
+        LIBS="-llzma -lm -lz -ljpeg -lopenjp2 -lpng -ljbig" \
         ../configure --host=$target --prefix=$PREFIX/$target --enable-shared=no --enable-static=yes LIBLEPT_HEADERSDIR=${PREFIX}/${target}/include
         make -j$(nproc) && make -j$(nproc) training
         
@@ -2455,6 +2423,28 @@ Tesseract 3.05.02
 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself tesseract 3.05.02 $DESTDIR/$PREFIX/$target delete
+
+Libass-git 0.14.0.r4.g98727c3
+-------------------------------
+::
+
+        _initdir
+
+        git clone https://github.com/libass/libass.git &&  cd libass
+        _pkgver
+        # version = 0.14.0.r4.g98727c3
+        # commit = 98727c3b78f44cb3bbc955fcf5d977ebd911d5ca
+
+        ./autogen.sh 
+        ./configure --host=${target} --prefix=${PREFIX}/${target} --enable-shared=no --enable-static=yes --enable-directwrite --enable-harfbuzz --enable-fontconfig --enable-require-system-font-provider --enable-asm --enable-large-tiles
+        # --disable-directwrite : not sure if I should disable this option? for win32
+        # After doing some test than it removed the main menu  from mpv. So I will not use it
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libass-git 0.14.0.r4.g98727c3  $DESTDIR/$PREFIX/$target delete
+	
 	
 VapourSynth R44.
 -------------------
