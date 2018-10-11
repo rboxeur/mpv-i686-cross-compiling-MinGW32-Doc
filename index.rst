@@ -984,32 +984,6 @@ Expat 2.2.6
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself expat 2.2.6 $DESTDIR/$PREFIX/$target delete
 
-Libuuid-git r2.a29bf0f
---------------------------------------------
-::
-
-	_initdir
-
-	git clone git://github.com/cloudbase/libuuid.git && cd libuuid
-	
-	_pkgver
-	# version = r2.a29bf0f
-	# commit = a29bf0fe780306ae67802a22502b1e5447a71e73
-	
-	autoreconf -fvi
-	chmod +x configure
-	./configure -prefix=$PREFIX/$target --host=$target --enable-shared=no --enable-static=yes --with-sysroot=$PREFIX
-	make -j$(nproc)
-
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
-        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libuuid-git r2.a29bf0f $DESTDIR/$PREFIX/$target delete
-
 Jsonc-c-git r747.994e6c1
 --------------------------------------------
 ::
