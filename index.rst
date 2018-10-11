@@ -1150,129 +1150,104 @@ Libbdplus-git 0.1.2.r31.gc7f1e8b
 --------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://git.videolan.org/libbdplus.git  && cd libbdplus
+        git clone git://git.videolan.org/libbdplus.git  && cd libbdplus
 
-	_pkgver
-	# version = 0.1.2.r31.gc7f1e8b
-	# commit = c7f1e8bbb22853ffef1feadb100845ae3ad4d562
+        _pkgver
+        # version = 0.1.2.r31.gc7f1e8b
+        # commit = c7f1e8bbb22853ffef1feadb100845ae3ad4d562
 
-	./bootstrap
-	LDFLAGS="-Wl,--allow-multiple-definition" ./configure  --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --with-libaacs	
-	make -j$(nproc)
+        ./bootstrap
+        LDFLAGS="-Wl,--allow-multiple-definition" ./configure  --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --with-libaacs 
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libbdplus-git 0.1.2.r31.gc7f1e8b $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself libbdplus-git 0.1.2.r31.gc7f1e8b $DESTDIR/$PREFIX/$target delete     
 
 Libudfread-git 1.0.0.r31.g1316299
 ------------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://git.videolan.org/libudfread.git && cd libudfread
-	
-	_pkgver
-	# version = 1.0.0.r31.g1316299
-	# commit = 131629921cc756c38eaf3e2d6b69ba2db690b199
+        git clone git://git.videolan.org/libudfread.git && cd libudfread
+        
+        _pkgver
+        # version = 1.0.0.r31.g1316299
+        # commit = 131629921cc756c38eaf3e2d6b69ba2db690b199
 
-	sed -i '40,42s/^/\/\//' src/udfread.c && ./bootstrap
-	./configure  --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static		
-	make -j$(nproc)	
+        sed -i '40,42s/^/\/\//' src/udfread.c && ./bootstrap
+        ./configure  --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static          
+        make -j$(nproc) 
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-	[ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-	find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libudfread-git 1.0.0.r31.g1316299  $DESTDIR/$PREFIX/$target delete
 
-	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself libudfread-git 1.0.0.r31.g1316299  $DESTDIR/$PREFIX/$target delete
-
-Libxml2-git 2.9.8.r30.gda35eea
+Libxml2-git 2.9.8.r31.g39fbfb4
 --------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://github.com/GNOME/libxml2.git && cd libxml2
+        git clone https://github.com/GNOME/libxml2.git && cd libxml2
 
-	_pkgver
-	# version = 2.9.8.r30.gda35eea
-	# commit = da35eeae5b92b88d8ebdb64b4b327ac1c2cf1bce
+        _pkgver
+        # version = 2.9.8.r31.g39fbfb4
+        # commit = 39fbfb4fd08eae88d4b0c15f3a8ac33babc740e6
 
-	autoreconf -fiv	
-	./autogen.sh   --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --without-python
-	make -j$(nproc)
+        autoreconf -fiv 
+        ./autogen.sh   --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --without-python
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	ln -s $PREFIX/$target/bin/xml2-config $PREFIX/bin/ # That should help libxlst to find libxml2 and libbluray later
-        mingw-w64-makeself libxml2-git 2.9.8.r30.gda35eea $DESTDIR/$PREFIX/$target delete
+        ln -s $PREFIX/$target/bin/xml2-config $PREFIX/bin/ # That should help libxlst to find libxml2 and libbluray later
+        mingw-w64-makeself libxml2-git 2.9.8.r31.g39fbfb4 $DESTDIR/$PREFIX/$target delete
 
-Libxslt-git 1.1.33.rc1.r4.gdfa1bdc
+Libxslt-git 1.1.33.rc1.r5.g5e16672
 ---------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://github.com/GNOME/libxslt.git && cd libxslt
+        git clone https://github.com/GNOME/libxslt.git && cd libxslt
 
-	_pkgver
-	# version = 1.1.33.rc1.r4.gdfa1bdc
-	# commit = dfa1bdceaef73a404d1c6efe58c3618493b36afb
+        _pkgver
+        # version = 1.1.33.rc1.r5.g5e16672
+        # commit = 5e16672db1188accbde737f0add01213ffed107e
 
-	autoreconf -fiv
-	./autogen.sh   --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --without-python
-	make -j$(nproc)
+        autoreconf -fiv
+        ./autogen.sh   --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --without-python
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         ln -s $PREFIX/$target/bin/xslt-config $PREFIX/bin/ # That should help libbluray to find libxslt
-        mingw-w64-makeself libxslt-git 1.1.33.rc1.r4.gdfa1bdc $DESTDIR/$PREFIX/$target delete	
-	
+        mingw-w64-makeself libxslt-git 1.1.33.rc1.r5.g5e16672 $DESTDIR/$PREFIX/$target delete   
+        
 Libbluray-git 1.0.2.r40.g2d18c70
 ---------------------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://git.videolan.org/libbluray.git && cd libbluray
+        git clone git://git.videolan.org/libbluray.git && cd libbluray
 
-	_pkgver
-	# version = 1.0.2.r40.g2d18c70
-	# commit = 2d18c7099fec196a1009ddd54029baff31c9282a
+        _pkgver
+        # version = 1.0.2.r40.g2d18c70
+        # commit = 2d18c7099fec196a1009ddd54029baff31c9282a
 
-	git submodule init && git submodule update	
-	sed -i '40,42s/^/\/\//' contrib/libudfread/src/udfread.c
-	./bootstrap
-	./configure  --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --disable-examples --disable-bdjava-jar \
-		--disable-shared --disable-doxygen-doc  --disable-doxygen-dot	
-	make -j$(nproc)
+        git submodule init && git submodule update      
+        sed -i '40,42s/^/\/\//' contrib/libudfread/src/udfread.c
+        ./bootstrap
+        ./configure  --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --disable-examples --disable-bdjava-jar \
+                --disable-shared --disable-doxygen-doc  --disable-doxygen-dot   
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libbluray-git 1.0.2.r40.g2d18c70 $DESTDIR/$PREFIX/$target delete
 
@@ -1280,108 +1255,86 @@ Xvidcore-svn r2163
 -------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	wget "http://techer.pascal.free.fr/xvidcore-r2163.tar.bz2" -O - | tar xvjf - 
-	cd xvidcore/build/generic &&     sed -i -e '73 s/ $(SHARED_LIB)//' -e '143 s/ $(BUILD_DIR)\/$(SHARED_LIB)//'     -e '152,166 s/^/#/' -e '221 s/^/#/' Makefile
-	sed -i -e '32i our_cflags_defaults="$our_cflags_defaults $CPPFLAGS"' configure.in && ./bootstrap.sh
-	./configure  --host=$target --prefix=$PREFIX/$target/ 
-	make
+        wget "http://techer.pascal.free.fr/xvidcore-r2163.tar.bz2" -O - | tar xvjf - 
+        cd xvidcore/build/generic &&     sed -i -e '73 s/ $(SHARED_LIB)//' -e '143 s/ $(BUILD_DIR)\/$(SHARED_LIB)//'     -e '152,166 s/^/#/' -e '221 s/^/#/' Makefile
+        sed -i -e '32i our_cflags_defaults="$our_cflags_defaults $CPPFLAGS"' configure.in && ./bootstrap.sh
+        ./configure  --host=$target --prefix=$PREFIX/$target/ 
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself xvidcore-svn r2163 $DESTDIR/$PREFIX/$target delete
-	
-.. note::
 
-	INFO From here we generate a tarball ``MinGW32-Distro-Linux-20180917_002356_MinGW-w64-5.0.4_Gcc_7.2.0.xz.run``
-
-X264-Snapshot 20180924
+X264-Snapshot 20181006
 -------------------------
 ::
 
-	_initdir
+        _initdir
 
-	#wget https://download.videolan.org/x264/snapshots/x264-snapshot-20180916-2245.tar.bz2 -O - | tar xvjf - && cd x264-snapshot-20180916-2245
-	wget https://download.videolan.org/x264/snapshots/x264-snapshot-20180924-2245.tar.bz2 -O - | tar xvjf - && cd x264-snapshot-20180924-2245
-	wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-x264-git/0001-beautify-pc.all.patch" -O - | patch -p1
-	unset AS
-	export RC=${PREFIX}/bin/${target}-ar
-	mkdir build-$target && cd build-$target
-	../configure --host=$target --prefix=$PREFIX/$target --cross-prefix=$target- --enable-static --disable-shared --enable-strip --enable-pic --disable-win32thread
-	make -j$(nproc)
+        #wget https://download.videolan.org/x264/snapshots/x264-snapshot-20180916-2245.tar.bz2 -O - | tar xvjf - && cd x264-snapshot-20180916-2245
+        #wget https://download.videolan.org/x264/snapshots/x264-snapshot-20180924-2245.tar.bz2 -O - | tar xvjf - && cd x264-snapshot-20180924-2245
+        wget https://download.videolan.org/x264/snapshots/x264-snapshot-20181006-2245.tar.bz2 -O - | tar xvjf - && cd x264-snapshot-20181006-2245
+        wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-x264-git/0001-beautify-pc.all.patch" -O - | patch -p1
+        unset AS
+        #export RC=${PREFIX}/bin/${target}-ar
+        mkdir build-$target && cd build-$target
+        ../configure --host=$target --prefix=$PREFIX/$target --cross-prefix=$target- --enable-static --enable-strip --enable-pic --disable-win32thread
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself x264-snapshot 20180924 $DESTDIR/$PREFIX/$target delete	
-	
-X265 2.8 
+        mingw-w64-makeself x264-snapshot 20181006 $DESTDIR/$PREFIX/$target delete
+        
+X265 2.9
 ---------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://aur.archlinux.org/mingw-w64-x265.git
-	wget "https://bitbucket.org/multicoreware/x265/downloads/x265_2.8.tar.gz" -O - | tar xvzf - && cd x265_2.8
-	patch -Np1 -i ../mingw-w64-x265/mingw.patch
-	mkdir build-$target && cd build-$target
-	mingw-w64-cmake -DLIB_INSTALL_DIR="lib" -DENABLE_SHARED::BOOL='FALSE' -DENABLE_CLI='FALSE' -DWINXP_SUPPORT:BOOL='TRUE' ../source
-	make -j$(nproc)
-	
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        git clone https://aur.archlinux.org/mingw-w64-x265.git
+        wget "https://bitbucket.org/multicoreware/x265/downloads/x265_2.9.tar.gz" -O - | tar xvzf - && cd x265_2.9
+        patch -Np1 -i ../mingw-w64-x265/mingw.patch
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake -DLIB_INSTALL_DIR="lib" -DENABLE_SHARED::BOOL='FALSE' -DENABLE_CLI='FALSE' ../source
+        make -j$(nproc)
+        
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself x265 2.8 $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself x265 2.9 $DESTDIR/$PREFIX/$target delete
 
-Libao 1.2.0
---------------------------
+Libao-git 1.2.2.r4.gd522165
+------------------------------
 ::
 
-	_initdir
-	
-	wget http://downloads.xiph.org/releases/ao/libao-1.2.0.tar.gz -O - | tar xvzf -  && cd libao-1.2.0
-	 ./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static
-	make -j$(nproc)
+        _initdir
+        
+        git clone https://git.xiph.org/libao.git && cd libao/
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
+        _pkgver
+        # version = 1.2.2.r4.gd522165
+        # commit = d5221655dfd1a2156aa6be83b5aadea7c1e0f5bd
 
+        ./autogen.sh 
+        LIBS+=" -lksuser -lwinmm" ./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static --enable-wmm
+        make -j$(nproc)
+
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libao 1.2.0 $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself libao-git 1.2.2.r4.gd522165 $DESTDIR/$PREFIX/$target delete
 
 Libogg 1.3.3
 --------------------------
 ::
 
-	_initdir
-	
-	wget https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-1.3.3.tar.gz -O - | tar xvzf - && cd libogg-1.3.3
-	./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static
-	make -j$(nproc)
+        _initdir
+        
+        wget https://ftp.osuosl.org/pub/xiph/releases/ogg/libogg-1.3.3.tar.gz -O - | tar xvzf - && cd libogg-1.3.3
+        ./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libogg 1.3.3 $DESTDIR/$PREFIX/$target delete
 
@@ -1389,18 +1342,13 @@ Libvorbis 1.3.5
 --------------------------
 ::
 
-	_initdir
+        _initdir
 
-	wget https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-1.3.5.tar.xz -O - | tar xvJf - && cd libvorbis-1.3.5
-	./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static
-	make -j$(nproc)
+        wget https://ftp.osuosl.org/pub/xiph/releases/vorbis/libvorbis-1.3.5.tar.xz -O - | tar xvJf - && cd libvorbis-1.3.5
+        ./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libvorbis 1.3.5 $DESTDIR/$PREFIX/$target delete
 
@@ -1408,39 +1356,30 @@ Flac 1.3.2
 --------------------
 ::
 
-	_initdir
+        _initdir
 
-	wget https://ftp.osuosl.org/pub/xiph/releases/flac/flac-1.3.2.tar.xz -O - | tar xvJf - && cd flac-1.3.2
-	./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static  --disable-xmms-plugin --disable-doxygen-docs
-	make -j$(nproc)
+        wget https://ftp.osuosl.org/pub/xiph/releases/flac/flac-1.3.2.tar.xz -O - | tar xvJf - && cd flac-1.3.2
+        ./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static  --disable-xmms-plugin --disable-doxygen-docs
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself flac 1.3.2 $DESTDIR/$PREFIX/$target delete			
+        mingw-w64-makeself flac 1.3.2 $DESTDIR/$PREFIX/$target delete                   
 
 Libsndfile 1.0.28
 ----------------------------
 ::
 
-	_initdir
+        _initdir
 
-	wget http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz -O - | tar -xzvf - && cd libsndfile-1.0.28
-	./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static  --disable-alsa  --disable-sqlite
-	make -j$(nproc)
+        wget http://www.mega-nerd.com/libsndfile/files/libsndfile-1.0.28.tar.gz -O - | tar -xzvf - && cd libsndfile-1.0.28
+        ./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static  --disable-alsa  --disable-sqlite
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libsndfile 1.0.28 $DESTDIR/$PREFIX/$target delete 
+
 
 Libbs2b 3.1.0
 ---------------------
