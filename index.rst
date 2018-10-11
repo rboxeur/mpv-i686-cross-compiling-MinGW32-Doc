@@ -522,20 +522,15 @@ Dlfcn (Win32) 1.1.2
 
 ::
 
-	_initdir 
+        _initdir 
 
         wget https://github.com/dlfcn-win32/dlfcn-win32/archive/v1.1.2.tar.gz -O - | tar xvzf - && cd dlfcn-win32-1.1.2/
         ./configure --prefix=$PREFIX/$target/ --libdir=$PREFIX/$target/lib --incdir=$PREFIX/$target/include --disable-shared --enable-static --cross-prefix=$target-
         make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install
-	[ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-	find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
-	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself dlfcn 1.1.2 $DESTDIR/$PREFIX/$target delete
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself dlfcn 1.1.2 $DESTDIR/$PREFIX/$target delete
 
 Zlib 1.2.11
 -----------
@@ -544,22 +539,17 @@ Zlib 1.2.11
 
 ::
 
-	_initdir
+        _initdir
 
-	wget http://zlib.net/zlib-1.2.11.tar.gz -O - | tar xvzf - && cd zlib-1.2.11
-	wget "https://raw.githubusercontent.com/lachs0r/mingw-w64-cmake/master/packages/zlib-1-win32-static.patch" -O - |patch -p1
-	CFLAGS="$CFLAGS" CC=$CC AR=$AR RANLIB=$RANLIB ./configure --prefix=$PREFIX/$target --static
-	make -j$(nproc)
+        wget http://zlib.net/zlib-1.2.11.tar.gz -O - | tar xvzf - && cd zlib-1.2.11
+        wget "https://raw.githubusercontent.com/lachs0r/mingw-w64-cmake/master/packages/zlib-1-win32-static.patch" -O - |patch -p1
+        CFLAGS="$CFLAGS" CC=$CC AR=$AR RANLIB=$RANLIB ./configure --prefix=$PREFIX/$target --static
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec ${target}-strip {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
-	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target
-	mingw-w64-makeself zlib 1.2.11 $DESTDIR/$PREFIX/$target delete
-	
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target
+        mingw-w64-makeself zlib 1.2.11 $DESTDIR/$PREFIX/$target delete
+        
 Bzip2 1.0.6
 ------------------
 
@@ -567,26 +557,21 @@ Bzip2 1.0.6
 
 ::
 
-	_initdir
+        _initdir
 
-	wget https://src.fedoraproject.org/lookaside/pkgs/bzip2/bzip2-1.0.6.tar.gz/00b516f4704d4a7cb50a1d97e6e8e15b/bzip2-1.0.6.tar.gz -O - |tar xvzf - && cd bzip2-1.0.6/
-	git clone https://aur.archlinux.org/mingw-w64-bzip2.git
-	patch -p1 -i mingw-w64-bzip2/bzip2-1.0.5-autoconfiscated.patch 
-	patch -p1 -i mingw-w64-bzip2/bzip2-use-cdecl-calling-convention.patch
-	patch -p1 -i mingw-w64-bzip2/mingw32-bzip2-1.0.5-slash.patch 
-	sh autogen.sh 
-	./configure --host=$target --prefix=$PREFIX/$target --enable-static --disable-shared --with-sysroot=$PREFIX
-	make -j4
+        wget https://src.fedoraproject.org/lookaside/pkgs/bzip2/bzip2-1.0.6.tar.gz/00b516f4704d4a7cb50a1d97e6e8e15b/bzip2-1.0.6.tar.gz -O - |tar xvzf - && cd bzip2-1.0.6/
+        git clone https://aur.archlinux.org/mingw-w64-bzip2.git
+        patch -p1 -i mingw-w64-bzip2/bzip2-1.0.5-autoconfiscated.patch 
+        patch -p1 -i mingw-w64-bzip2/bzip2-use-cdecl-calling-convention.patch
+        patch -p1 -i mingw-w64-bzip2/mingw32-bzip2-1.0.5-slash.patch 
+        sh autogen.sh 
+        ./configure --host=$target --prefix=$PREFIX/$target --enable-static --disable-shared --with-sysroot=$PREFIX
+        make -j4
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
-	cp -avf $DESTDIR//$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself bzip2 1.0.6 $DESTDIR/$PREFIX/$target delete
-
+        _prepare_package
+        rm -rf $DESTDIR/$PREFIX/$target/bin/*
+        cp -avf $DESTDIR//$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself bzip2 1.0.6 $DESTDIR/$PREFIX/$target delete
 
 Xz 5.2.4
 ----------
@@ -594,20 +579,15 @@ Xz 5.2.4
 
 :: 
 
-	_initdir
+        _initdir
 
-	wget --no-check-certificate http://tukaani.org/xz/xz-5.2.4.tar.gz -O - | tar xvzf - && cd xz-5.2.4/
-	./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --disable-nls --enable-silent-rules
-	make -j$(nproc) 
+        wget --no-check-certificate http://tukaani.org/xz/xz-5.2.4.tar.gz -O - | tar xvzf - && cd xz-5.2.4/
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --disable-nls --enable-silent-rules
+        make -j$(nproc) 
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
-	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself xz 5.2.4 $DESTDIR/$PREFIX/$target delete
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself xz 5.2.4 $DESTDIR/$PREFIX/$target delete
 
 Lzo 2.10
 ----------
@@ -616,119 +596,94 @@ Lzo 2.10
 
 ::
 
-	_initdir
+        _initdir
 
-	wget http://www.oberhumer.com/opensource/lzo/download/lzo-2.10.tar.gz -O - | tar xvzf - && cd lzo-2.10/
-	make distclean # to clean up sources
-	mkdir build && cd build
-	../configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static
-	make -j$(nproc) 
+        wget http://www.oberhumer.com/opensource/lzo/download/lzo-2.10.tar.gz -O - | tar xvzf - && cd lzo-2.10/
+        make distclean # to clean up sources
+        mkdir build && cd build
+        ../configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static
+        make -j$(nproc) 
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-	[ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-	find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-	find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;	
-
-	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself lzo 2.10 $DESTDIR/$PREFIX/$target delete
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself lzo 2.10 $DESTDIR/$PREFIX/$target delete
 
 Snappy-git 1.1.7.r15.gea660b5
 -----------------------------------
 
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/google/snappy.git &&	cd snappy
+        git clone git://github.com/google/snappy.git && cd snappy
 
-	_pkgver
-	# version = 1.1.7.r15.gea660b5
-	# commit = ea660b57d65d68d521287c903459b6dd3b2804d0
-	
-	mkdir build-$target && cd build-$target
-	mingw-w64-cmake .. -DBUILD_SHARED_LIBS=OFF -DSNAPPY_BUILD_TESTS:bool=OFF  -DCMAKE_SYSROOT=$PREFIX
-	make -j$(nproc)
+        _pkgver
+        # version = 1.1.7.r15.gea660b5
+        # commit = ea660b57d65d68d521287c903459b6dd3b2804d0
+        
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake .. -DBUILD_SHARED_LIBS=OFF -DSNAPPY_BUILD_TESTS:bool=OFF  -DCMAKE_SYSROOT=$PREFIX
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself snappy-git 1.1.7.r15.gea660b5 $DESTDIR/$PREFIX/$target delete
-
 Lcms2-basic-git 2.9.r24.g32f0c45 (aka LCMS2-Basic)
 -----------------------------------------------------
 
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/mm2/Little-CMS.git && cd Little-CMS
+        git clone git://github.com/mm2/Little-CMS.git && cd Little-CMS
 
-	_pkgver
-	# version = lcms2.9.r24.g32f0c45
-	# commit = 32f0c458c910a033375c57b46d7a3c1c606e6cbc
-	
-	./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static  --without-jpeg --without-tiff --enable-silent-rules
-	make -j$(nproc)
+        _pkgver
+        # version = lcms2.9.r24.g32f0c45
+        # commit = 32f0c458c910a033375c57b46d7a3c1c606e6cbc
+        
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static  --without-jpeg --without-tiff --enable-silent-rules
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself lcms2-basic-git 2.9.r24.g32f0c45 $DESTDIR/$PREFIX/$target delete
-	
+
 Giflib 5.1.4
 -----------------------------------------
 
 ::
 
-	_initdir
+        _initdir
 
-	wget http://downloads.sourceforge.net/project/giflib/giflib-5.1.4.tar.bz2 -O - | tar -xjvf - &&	cd giflib-5.1.4
-	./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --with-sysroot=$PREFIX	
-	make -j$(nproc)
+        wget http://downloads.sourceforge.net/project/giflib/giflib-5.1.4.tar.bz2 -O - | tar -xjvf - && cd giflib-5.1.4
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --with-sysroot=$PREFIX  
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself giflib 5.1.4 $DESTDIR/$PREFIX/$target delete
 
-Libjpeg-turbo-git 2.0.0.r7.gf2729c9
+Libjpeg-turbo-git 2.0.0.r10.gd00d7d8
 -----------------------------------------------------------
 
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/libjpeg-turbo/libjpeg-turbo && cd libjpeg-turbo
+        git clone git://github.com/libjpeg-turbo/libjpeg-turbo && cd libjpeg-turbo
 
-	_pkgver
-	# version = 2.0.0.r7.gf2729c9
-	# commit = f2729c983afbc093a5afea7dde9b469cf08aaa61
+        _pkgver
+        # version = 2.0.0.r10.gd00d7d8
+        # commit = d00d7d8c194e587ed10a395e0f307ce9dddf5687
 
-	mkdir build-$target && cd build-$target 
-	mingw-w64-cmake  .. -DENABLE_SHARED:bool=off -DWITH_12BIT:bool=on -DCMAKE_SYSTEM_PROCESSOR="i686"
-	make -j$(nproc)
+        mkdir build-$target && cd build-$target 
+        mingw-w64-cmake  .. -DENABLE_SHARED:bool=off -DWITH_12BIT:bool=on -DCMAKE_SYSTEM_PROCESSOR="i686"
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libjpeg-turbo-git 2.0.0.r7.gf2729c9 $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself libjpeg-turbo-git 2.0.0.r10.gd00d7d8 $DESTDIR/$PREFIX/$target delete
+
 
 Libpng-git 1.6.29-r5.g7292c86
 -------------------------------------------------------
