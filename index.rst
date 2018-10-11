@@ -1385,66 +1385,51 @@ Libbs2b 3.1.0
 ---------------------
 ::
 
-	_initdir
+        _initdir
 
-	wget "http://downloads.sourceforge.net/project/bs2b/libbs2b/3.1.0/libbs2b-3.1.0.tar.lzma" -O - | tar -xJvf - && cd libbs2b-3.1.0 
-	./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static 
-	make -j$(nproc)
+        wget "http://downloads.sourceforge.net/project/bs2b/libbs2b/3.1.0/libbs2b-3.1.0.tar.lzma" -O - | tar -xJvf - && cd libbs2b-3.1.0 
+        ./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static 
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libbs2b 3.1.0 $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself libbs2b 3.1.0 $DESTDIR/$PREFIX/$target delete        
 
 TwoLame-git 0.3.13.r131.g44ea171
 -------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/njh/twolame.git && cd twolame/
+        git clone git://github.com/njh/twolame.git && cd twolame/
 
-	_pkgver
-	# version = 0.3.13.r131.g44ea171
-	# commit = 44ea171ccac71b659b55d3513a27f08f6021dbca
+        _pkgver
+        # version = 0.3.13.r131.g44ea171
+        # commit = 44ea171ccac71b659b55d3513a27f08f6021dbca
 
-	mkdir build-scripts && autoreconf -fiv 
-	touch doc/twolame.1
-	./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static
-	make -j$(nproc)
+        mkdir build-scripts && autoreconf -fiv 
+        touch doc/twolame.1
+        ./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself twolame-git 0.3.13.r131.g44ea171 $DESTDIR/$PREFIX/$target delete 	
+        mingw-w64-makeself twolame-git 0.3.13.r131.g44ea171 $DESTDIR/$PREFIX/$target delete     
 
 Lame 3.100
 -----------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://aur.archlinux.org/mingw-w64-lame.git
-	wget http://downloads.sourceforge.net/lame/lame-3.100.tar.gz -O - | tar xvzf - && cd lame-3.100
-	patch -Np1 -i ../mingw-w64-lame/mingw.patch
-	patch -p1 -i /opt/Sources/MINGW-packages/mingw-w64-lame/0007-revert-posix-code.patch
-	CFLAGS="$CFLAGS -msse" CPPFLAGS="$CPPFLAGS -msse" ./configure --host=$target  --prefix=$PREFIX/$target/ --disable-shared --enable-static --enable-nasm -enable-expopt=full --with-fileio=lame  --enable-silent-rule
-	make -j$(nproc)	
+        git clone https://aur.archlinux.org/mingw-w64-lame.git
+        wget http://downloads.sourceforge.net/lame/lame-3.100.tar.gz -O - | tar xvzf - && cd lame-3.100
+        patch -Np1 -i ../mingw-w64-lame/mingw.patch
+        patch -p1 -i /opt/Sources/MINGW-packages/mingw-w64-lame/0007-revert-posix-code.patch
+        CFLAGS="$CFLAGS -msse" CPPFLAGS="$CPPFLAGS -msse" ./configure --host=$target  --prefix=$PREFIX/$target/ --disable-shared --enable-static --enable-nasm -enable-expopt=full --with-fileio=lame  --enable-silent-rule
+        make -j$(nproc) 
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself lame 3.100 $DESTDIR/$PREFIX/$target delete
 
@@ -1452,23 +1437,18 @@ Theora-git 1.2.0alpha1.r134.ge5d205b
 -----------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://git.xiph.org/theora.git && cd theora && autoreconf -fiv
+        git clone https://git.xiph.org/theora.git && cd theora && autoreconf -fiv
 
-	_pkgver
-	# version = 1.2.0alpha1.r134.ge5d205b
-	# commit = e5d205bfe849f1b41f45b91a0b71a3bdc6cd458f
+        _pkgver
+        # version = 1.2.0alpha1.r134.ge5d205b
+        # commit = e5d205bfe849f1b41f45b91a0b71a3bdc6cd458f
 
-	./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static  --disable-oggtest --disable-vorbistest --disable-doc --disable-spec  --disable-examples
-	make -j$(nproc)	
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static  --disable-oggtest --disable-vorbistest --disable-doc --disable-spec  --disable-examples
+        make -j$(nproc) 
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself theora-git 1.2.0alpha1.r134.ge5d205b $DESTDIR/$PREFIX/$target delete
 
@@ -1476,134 +1456,121 @@ Opus-git 1.3.rc2.r0.g4a643d9
 -------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://git.opus-codec.org/opus.git && cd opus && autoreconf -fvi && ./autogen.sh
+        git clone git://git.opus-codec.org/opus.git && cd opus && autoreconf -fvi && ./autogen.sh
 
-	_pkgver
-	# version = 1.3.rc2.r0.g4a643d9
-	# commit = 4a643d98c388727e73aebbe626a7379c6fddbbbe
+        _pkgver
+        # version = 1.3.rc2.r0.g4a643d9
+        # commit = 4a643d98c388727e73aebbe626a7379c6fddbbbe
 
-	./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --disable-doc --disable-shared --enable-custom-modes --enable-asm --enable-check-asm
-	make -j$(nproc)
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --disable-doc --disable-shared --enable-custom-modes --enable-asm --enable-check-asm
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself opus-git 1.3.rc2.r0.g4a643d9  $DESTDIR/$PREFIX/$target delete
 
-Libvpx-git 1.7.0.r1115.g2beb5c9
+Libvpx-git 1.7.0.r1137.g4a47ef8
 -------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/webmproject/libvpx.git && cd libvpx
+        git clone git://github.com/webmproject/libvpx.git && cd libvpx
 
-	_pkgver
-	# version = 1.7.0.r1115.g2beb5c9
-	# commit = 2beb5c9f91e7166c2c9d01c94bf84767815121e4
+        _pkgver
+        # version = 1.7.0.r1137.g4a47ef8
+        # commit = 4a47ef814b57d16787e6331e4ac1bd9dc093459e
 
-	mkdir build-$target && cd build-$target
-	export _arch=$target
-	unset target # I need to unset it temporary else we can not build the package
-	AS=$(which nasm) CROSS=${_arch}- ../configure --target=x86-win32-gcc --prefix=$PREFIX/$_arch/ --disable-shared --enable-static --disable-examples \
-		--disable-unit-tests --disable-docs --enable-vp8 --enable-vp9 --enable-postproc --enable-vp9-postproc --enable-vp9-temporal-denoising \
-		--enable-vp9-highbitdepth --enable-webm-io --enable-libyuv --enable-runtime-cpu-detect --enable-multi-res-encoding \
-		--extra-cflags="-mstackrealign"  --extra-cxxflags="-mstackrealign"
-	make -j$(nproc)
+        mkdir build-$target && cd build-$target
+        export _arch=$target
+        unset target # I need to unset it temporary else we can not build the package
+        AS=$(which nasm) CROSS=${_arch}- ../configure --target=x86-win32-gcc --prefix=$PREFIX/$_arch/ --disable-shared --enable-static --disable-examples \
+                --disable-unit-tests --disable-docs --enable-vp8 --enable-vp9 --enable-postproc --enable-vp9-postproc --enable-vp9-temporal-denoising \
+                --enable-vp9-highbitdepth --enable-webm-io --enable-libyuv --enable-runtime-cpu-detect --enable-multi-res-encoding \
+                --extra-cflags="-mstackrealign"  --extra-cxxflags="-mstackrealign"
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-	export target=$_arch
+        # _prepare_package can not be used here. Let's install it old way !!!
+        make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
+        export target=$_arch
         [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
         find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
         find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
         find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libvpx-git 1.7.0.r1115.g2beb5c9  $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself libvpx-git 1.7.0.r1137.g4a47ef8  $DESTDIR/$PREFIX/$target delete
 
-AOM-git 1.0.0.r706.gffffc56  (aka AOMedia AV1) 
+AOM-git 1.0.0.r735.g9b21428  (aka AOMedia AV1) 
 -----------------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://aomedia.googlesource.com/aom && cd aom
-	
-	_pkgver
-	# version = 1.0.0.r706.gffffc56
-	# commit = ffffc5655474a797c348ed8f66d0fab013d5df8e
+        git clone https://aomedia.googlesource.com/aom && cd aom
+        
+        _pkgver
+        # version = 1.0.0.r735.g9b21428
+        # commit = 9b21428c86af1c081ae87cc546a360eaefa8ba8a
 
-	mkdir build-$target && cd build-$target
-	mingw-w64-cmake .. -DBUILD_SHARED_LIBS=OFF -DCMAKE_SYSTEM_PROCESSOR="x86" -DENABLE_DOCS:bool=off -DENABLE_NASM:bool=on -DENABLE_TESTS:bool=off -DCONFIG_UNIT_TESTS=0
-	make -j$(nproc)
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake .. -DBUILD_SHARED_LIBS=OFF -DCMAKE_SYSTEM_PROCESSOR="x86" -DENABLE_DOCS:bool=off -DENABLE_NASM:bool=on -DENABLE_TESTS:bool=off -DCONFIG_UNIT_TESTS=0
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself aom-git 1.0.0.r706.gffffc56 $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself aom-git 1.0.0.r735.g9b21428 $DESTDIR/$PREFIX/$target delete  
 
 Libiblc-git 2.0.2.r10.g4d0c2ed
 ---------------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/TimothyGu/libilbc.git && cd libilbc && autoreconf -fiv
+        git clone git://github.com/TimothyGu/libilbc.git && cd libilbc && autoreconf -fiv
 
-	_pkgver
-	# version = 2.0.2.r10.g4d0c2ed
-	# commit = 4d0c2edf1f9477f80e361e17de638806b1399a51
+        _pkgver
+        # version = 2.0.2.r10.g4d0c2ed
+        # commit = 4d0c2edf1f9477f80e361e17de638806b1399a51
 
-	./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static
-	make -j$(nproc)
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libilbc-git 2.0.2.r10.g4d0c2ed $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself libilbc-git 2.0.2.r10.g4d0c2ed $DESTDIR/$PREFIX/$target delete       
 
 Libgsm 1.0.18
 ----------------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://aur.archlinux.org/mingw-w64-gsm.git
-	wget http://www.quut.com/gsm/gsm-1.0.18.tar.gz -O - | tar xvzf - && cd gsm-1.0-pl18
-	patch -Np1 -i ../mingw-w64-gsm/makefile.patch
-	patch -Np1 -i ../mingw-w64-gsm/win32.patch
-	make -f Makefile.mingw64 CC=$target-gcc AR=$target-ar RANLIB=$target-ranlib
+        git clone https://aur.archlinux.org/mingw-w64-gsm.git
+        wget http://www.quut.com/gsm/gsm-1.0.18.tar.gz -O - | tar xvzf - && cd gsm-1.0-pl18
+        patch -Np1 -i ../mingw-w64-gsm/makefile.patch
+        patch -Np1 -i ../mingw-w64-gsm/win32.patch
+        make -f Makefile.mingw64 CC=$target-gcc AR=$target-ar RANLIB=$target-ranlib
 
-	install -m755 -d  $DESTDIR/$PREFIX/$target/{bin,lib,include/gsm,share/{licenses/gsm,man/man{1,3}}}
+        install -m755 -d  $DESTDIR/$PREFIX/$target/{bin,lib,include/gsm,share/{licenses/gsm,man/man{1,3}}}
 
-	make -f Makefile.mingw64 CC=$target-gcc AR=$target-ar RANLIB=$target-ranlib \
-	        INSTALL_ROOT=$DESTDIR/$PREFIX/$target/ \
-	        GSM_INSTALL_INC=$DESTDIR/$PREFIX/$target/include/gsm \
-	        GSM_INSTALL_MAN=$DESTDIR/$PREFIX/$target/share/man/man3 \
-	        TOAST_INSTALL_MAN=$DESTDIR/$PREFIX/$target//share/man/man1 install
+        make -f Makefile.mingw64 CC=$target-gcc AR=$target-ar RANLIB=$target-ranlib \
+                INSTALL_ROOT=$DESTDIR/$PREFIX/$target/ \
+                GSM_INSTALL_INC=$DESTDIR/$PREFIX/$target/include/gsm \
+                GSM_INSTALL_MAN=$DESTDIR/$PREFIX/$target/share/man/man3 \
+                TOAST_INSTALL_MAN=$DESTDIR/$PREFIX/$target//share/man/man1 install
 
-	[ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
+        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
         find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
         find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
         find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libgsm 1.0.18 $DESTDIR/$PREFIX/$target delete 
-	
+
+
 Shine-git 3.1.1.r6.g904e7ef 
 ----------------------------------
 ::
