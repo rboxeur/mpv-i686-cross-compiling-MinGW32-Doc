@@ -1570,28 +1570,22 @@ Libgsm 1.0.18
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libgsm 1.0.18 $DESTDIR/$PREFIX/$target delete 
 
-
 Shine-git 3.1.1.r6.g904e7ef 
 ----------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/toots/shine.git && cd shine && autoreconf -fiv
-	
-	_pkgver
-	# version = 3.1.1.r6.g904e7ef
-	# commit = 904e7efffab50935283465afad489956ae47186d
+        git clone git://github.com/toots/shine.git && cd shine && autoreconf -fiv
+        
+        _pkgver
+        # version = 3.1.1.r6.g904e7ef
+        # commit = 904e7efffab50935283465afad489956ae47186d
 
-	./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static
-	make -j$(nproc)
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself shine-git 3.1.1.r6.g904e7ef $DESTDIR/$PREFIX/$target delete
 
@@ -1601,18 +1595,13 @@ Adding this package to make speex-git package happy
 
 ::
 
-	_initdir
+        _initdir
 
-	wget http://downloads.xiph.org/releases/speex/speexdsp-1.2rc3.tar.gz -O - | tar xvzf - && cd speexdsp-1.2rc3/
-	./configure --host=$target --prefix=$PREFIX/$target/  --enable-static --disable-shared
-	make -j$(nproc)
+        wget http://downloads.xiph.org/releases/speex/speexdsp-1.2rc3.tar.gz -O - | tar xvzf - && cd speexdsp-1.2rc3/
+        ./configure --host=$target --prefix=$PREFIX/$target/  --enable-static --disable-shared
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself speexdsp 1.2rc3 $DESTDIR/$PREFIX/$target delete
 
@@ -1620,23 +1609,18 @@ Speex-git 1.2.0.r7.gbdc3922
 -----------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://git.xiph.org/speex.git && cd speex && autoreconf -fiv 
+        git clone https://git.xiph.org/speex.git && cd speex && autoreconf -fiv 
 
-	_pkgver
-	# version = Speex.1.2.0.r7.gbdc3922
-	# commit = bdc392257c330e49872a5217dfb56becd1ee8f45
+        _pkgver
+        # version = Speex.1.2.0.r7.gbdc3922
+        # commit = bdc392257c330e49872a5217dfb56becd1ee8f45
 
-	LIBS+="-lwinmm" ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --enable-sse  --enable-vorbis-psy
-	make -j$(nproc)
+        LIBS+="-lwinmm" ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --enable-sse  --enable-vorbis-psy
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself speex-git 1.2.0.r7.gbdc3922 $DESTDIR/$PREFIX/$target delete
 
@@ -1644,23 +1628,18 @@ Opencore-amr-git 0.1.5.r2.g07a5be4
 --------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://git.code.sf.net/p/opencore-amr/code opencore-amr && cd opencore-amr && autoreconf -fiv 
+        git clone git://git.code.sf.net/p/opencore-amr/code opencore-amr && cd opencore-amr && autoreconf -fiv 
 
-	_pkgver
-	# version = 0.1.5.r2.g07a5be4
-	# commit = 07a5be4fd8a04abb03c1b60a10b1d84bca8b415f
+        _pkgver
+        # version = 0.1.5.r2.g07a5be4
+        # commit = 07a5be4fd8a04abb03c1b60a10b1d84bca8b415f
 
-	./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static 
-	make -j$(nproc)
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static 
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself opencore-amr-git 0.1.5.r2.g07a5be4 $DESTDIR/$PREFIX/$target delete
 
@@ -1668,23 +1647,18 @@ Vo-amrwbenc-git 0.1.3.r5.g3b3fcd0
 ------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/mstorsjo/vo-amrwbenc.git && cd vo-amrwbenc && autoreconf -fiv
+        git clone git://github.com/mstorsjo/vo-amrwbenc.git && cd vo-amrwbenc && autoreconf -fiv
 
-	_pkgver
-	# version = 0.1.3.r5.g3b3fcd0
-	# commit = 3b3fcd0d250948e74cd67e7ea81af431ab3928f9
-	
-	./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static 
-	make -j$(nproc)
+        _pkgver
+        # version = 0.1.3.r5.g3b3fcd0
+        # commit = 3b3fcd0d250948e74cd67e7ea81af431ab3928f9
+        
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static 
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself vo-amrwbenc-git 0.1.3.r5.g3b3fcd0 $DESTDIR/$PREFIX/$target delete
 
@@ -1692,19 +1666,14 @@ Xavs-svn r55
 ----------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	svn checkout svn://svn.code.sf.net/p/xavs/code/trunk xavs # That was revision 55 when I did it
-	cd xavs
-	./configure --host=$target --prefix=$PREFIX/$target/ --enable-pic  --cross-prefix=$target-
-	make -j$(nproc)
+        svn checkout svn://svn.code.sf.net/p/xavs/code/trunk xavs # That was revision 55 when I did it
+        cd xavs
+        ./configure --host=$target --prefix=$PREFIX/$target/ --enable-pic  --cross-prefix=$target-
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself xavs-svn r55 $DESTDIR/$PREFIX/$target delete
 
@@ -1712,76 +1681,61 @@ WavPack-git 5.1.0.r43.g90fb5f1
 ---------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/dbry/WavPack.git && cd WavPack && autoreconf -fiv
+        git clone git://github.com/dbry/WavPack.git && cd WavPack && autoreconf -fiv
 
-	_pkgver
-	# version = 5.1.0.r43.g90fb5f1
-	# commit = 90fb5f1af8ce449448b53244b0e64a066e15d959
-	
-	# I don't really know if on Linux32 this RC is really required. I can build the package without him.
-	# But for the peace of mind, I will use it
-	RC="${WINDRES} -F pe-i386" ./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --enable-silent-rules
-	make -j$(nproc)
+        _pkgver
+        # version = 5.1.0.r43.g90fb5f1
+        # commit = 90fb5f1af8ce449448b53244b0e64a066e15d959
+        
+        # I don't really know if on Linux32 this RC is really required. I can build the package without him.
+        # But for the peace of mind, I will use it
+        RC="${WINDRES} -F pe-i386" ./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --enable-silent-rules
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself wavpack-git 5.1.0.r43.g90fb5f1 $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself wavpack-git 5.1.0.r43.g90fb5f1 $DESTDIR/$PREFIX/$target delete       
 
 Game-Music-Emu-git 0.6.2.r93.ga7ede6f
 -------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://bitbucket.org/mpyne/game-music-emu.git && cd game-music-emu
+        git clone https://bitbucket.org/mpyne/game-music-emu.git && cd game-music-emu
 
-	_pkgver
-	# version = 0.6.2.r93.ga7ede6f
-	# commit = a7ede6f376c2fe00df200334fe0daed685ed64b1
+        _pkgver
+        # version = 0.6.2.r93.ga7ede6f
+        # commit = a7ede6f376c2fe00df200334fe0daed685ed64b1
 
-	mkdir build-$target && cd build-$target 
-	mingw-w64-cmake .. -DBUILD_SHARED_LIBS:bool=off -DENABLE_UBSAN:bool=off -DZLIB_LIBRARY_RELEASE="${PREFIX}/${target}/lib/libz.a"	
-	make -j$(nproc)
-	
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        mkdir build-$target && cd build-$target 
+        mingw-w64-cmake .. -DBUILD_SHARED_LIBS:bool=off -DENABLE_UBSAN:bool=off -DZLIB_LIBRARY_RELEASE="${PREFIX}/${target}/lib/libz.a" 
+        make -j$(nproc)
+        
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself game-music-emu-git 0.6.2.r93.ga7ede6f $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself game-music-emu-git 0.6.2.r93.ga7ede6f $DESTDIR/$PREFIX/$target delete        
 
 
 Libmodplug-git r274.af00e21
 --------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/Konstanty/libmodplug && cd libmodplug
+        git clone git://github.com/Konstanty/libmodplug && cd libmodplug
 
-	_pkgver
-	# version = r274.af00e21
-	# commit = af00e21737839465d0dc253cf356d2b9c7554eed
+        _pkgver
+        # version = r274.af00e21
+        # commit = af00e21737839465d0dc253cf356d2b9c7554eed
 
-	sed -i '134,145s/WIN32/WIN32 OR (MINGW OR MSYS)/' CMakeLists.txt 
-	mingw-w64-cmake . -DBUILD_SHARED_LIBS=OFF
-	make -j$(nproc)
+        sed -i '134,145s/WIN32/WIN32 OR (MINGW OR MSYS)/' CMakeLists.txt 
+        mingw-w64-cmake . -DBUILD_SHARED_LIBS=OFF
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libmodplug-git r274.af00e21 $DESTDIR/$PREFIX/$target delete
 
@@ -1789,50 +1743,40 @@ Libcdio-Pass-1-git 2.0.0.r28.g75c358a
 ----------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://git.savannah.gnu.org/libcdio.git && cd libcdio
-	
-	_pkgver
-	# version = release.2.0.0.r28.g75c358a
-	# commit = 75c358a5a35b08de21ccce794598d821fd77ba18
+        git clone git://git.savannah.gnu.org/libcdio.git && cd libcdio
+        
+        _pkgver
+        # version = release.2.0.0.r28.g75c358a
+        # commit = 75c358a5a35b08de21ccce794598d821fd77ba18
 
-	touch ../config.rpath # Required else autoreconf will fail
-	touch doc/version.texi src/cd-drive.1 src/cd-info.1 src/cd-read.1 src/iso-info.1 src/iso-read.1
-	autoreconf -fiv
-	./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --enable-silent-rules
-	make -j$(nproc)
+        touch ../config.rpath # Required else autoreconf will fail
+        touch doc/version.texi src/cd-drive.1 src/cd-info.1 src/cd-read.1 src/iso-info.1 src/iso-read.1
+        autoreconf -fiv
+        ./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --enable-silent-rules --build=i686-pc-linux-gnu
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libcdio-pass-1-git 2.0.0.r28.g75c358a  $DESTDIR/$PREFIX/$target delete
-	
+        
 Libcdio-paranoia-git 10.2+0.94+2.r9.gf282b9c
 --------------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/rocky/libcdio-paranoia.git && cd libcdio-paranoia && autoreconf -fiv
+        git clone git://github.com/rocky/libcdio-paranoia.git && cd libcdio-paranoia && autoreconf -fiv
 
-	_pkgver
-	# version = release.10.2+0.94+2.r9.gf282b9c
-	# commit = f282b9c296c6c3142d94241af91154f057fddef5
+        _pkgver
+        # version = release.10.2+0.94+2.r9.gf282b9c
+        # commit = f282b9c296c6c3142d94241af91154f057fddef5
 
-	./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --enable-silent-rules
-	make -j$(nproc)
+        ./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --enable-silent-rules --build=i686-pc-linux-gnu
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libcdio-paranoia-git "10.2+0.94+2.r9.gf282b9c" $DESTDIR/$PREFIX/$target delete
 
@@ -1842,17 +1786,12 @@ Libcdio-Pass-2-git 2.0.0.r28.g75c358a
 
         _initdir
 
-	cd $SRCDIR/libcdio
-	make clean distclean
-	./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --enable-silent-rules
+        cd $SRCDIR/libcdio
+        make clean distclean
+        ./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --enable-silent-rules --build=i686-pc-linux-gnu
         make -j$(nproc)
 
-        make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libcdio-pass-2-git 2.0.0.r28.g75c358a  $DESTDIR/$PREFIX/$target delete
 
