@@ -1799,47 +1799,39 @@ Gmp 6.1.2
 --------------
 ::
 
-	_initdir
+        _initdir
 
-	wget https://gmplib.org/download/gmp/gmp-6.1.2.tar.xz -O - | tar -xJvf - && cd gmp-6.1.2
-	./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --datarootdir=$PREFIX/$target/share/gmp --enable-cxx
-	make -j$(nproc)
+        git clone https://aur.archlinux.org/mingw-w64-gmp.git
+        wget https://gmplib.org/download/gmp/gmp-6.1.2.tar.xz -O - | tar -xJvf - && cd gmp-6.1.2
+        patch -Np1 -i  ../mingw-w64-gmp/exeext.patch && autoreconf -fiv
+        ./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --datarootdir=$PREFIX/$target/share/gmp --enable-cxx
+        make -j$(nproc)
 
-        make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself gmp 6.1.2 $DESTDIR/$PREFIX/$target delete	
-		
+        mingw-w64-makeself gmp 6.1.2 $DESTDIR/$PREFIX/$target delete    
+                
 
 Libcaca-git 0.99.beta19.r52.gf1267fb
 --------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone git://github.com/cacalabs/libcaca.git && cd libcaca
+        git clone git://github.com/cacalabs/libcaca.git && cd libcaca
 
-	_pkgver
-	# version = 0.99.beta19.r52.gf1267fb
-	# commit = f1267fbd3cd3635a628c30e523fe1217f0f8a3b3
+        _pkgver
+        # version = 0.99.beta19.r52.gf1267fb
+        # commit = f1267fbd3cd3635a628c30e523fe1217f0f8a3b3
 
-	sed -i -e '617,631d' -e '352,356d' -e '358d' -e '39,47d' caca/string.c && sed -i -e '643,662d' caca/figfont.c && sed -i -e 's/src //g' -e 's/examples //g' Makefile.am
-	autoreconf -fiv
-	CPPFLAGS="${CPPFLAGS} -DCACA_STATIC"  ./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --disable-doc
-	make -j$(nproc)
+        sed -i -e '617,631d' -e '352,356d' -e '358d' -e '39,47d' caca/string.c && sed -i -e '643,662d' caca/figfont.c && sed -i -e 's/src //g' -e 's/examples //g' Makefile.am
+        autoreconf -fiv
+        CPPFLAGS="${CPPFLAGS} -DCACA_STATIC"  ./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --disable-doc
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	ln -s $PREFIX/$target/bin/caca-config $PREFIX/bin/
+        ln -s $PREFIX/$target/bin/caca-config $PREFIX/bin/
         mingw-w64-makeself libcaca-git 0.99.beta19.r52.gf1267fb $DESTDIR/$PREFIX/$target delete
 
 Libsamplerate 0.1.9
@@ -1856,15 +1848,9 @@ Libsamplerate 0.1.9
         ./configure --host=$target --prefix=$PREFIX/$target/ --enable-shared=no --enable-static=yes --enable-sndfile
         make -j$(nproc)
 
-        make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libsamplerate 0.1.9 $DESTDIR/$PREFIX/$target delete
-
 
 SDL2 2.0.8
 ---------------
@@ -1881,15 +1867,11 @@ SDL2 2.0.8
         ./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes  --with-sysroot=$PREFIX
         make -j$(nproc)
 
-        make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;     
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         ln -s $PREFIX/$target/bin/sdl2-config $PREFIX/bin
         mingw-w64-makeself SDL2 2.0.8 $DESTDIR/$PREFIX/$target delete
+
 
 Openal-soft 1.19.0
 ----------------------------------------------	
