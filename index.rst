@@ -7,8 +7,7 @@
 
 :Info:		My Web Site: http://www.davidgis.fr ,
 :Author:	David TECHER, <davidtecher@yahoo.fr>
-:Date:		|R_Date|
-:Revision: 	|R_Revision|
+:Copyright:     This document has been placed in the public domain.
 
 .. note::
 
