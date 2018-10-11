@@ -2935,25 +2935,6 @@ Git repository: Tips to know
                 git config --global user.email "davidtecher@yahoo.fr"
                 git config --global user.name "David Techer"
 
-* I met an issue while trying ``configure ...--enable-vapoursynth``. Then I had to generate a false ``python-3.4.pc`` file
-
-        ::
-
-                cat << _EOF_ > $PREFIX/$target/lib/pkgconfig/python-3.4.pc
-                prefix=$PREFIX/$target
-                exec_prefix=${prefix}
-                libdir=${exec_prefix}/lib
-                includedir=${prefix}/include
-
-                Name: Python
-                Description: Python library
-                Requires: 
-                Version: 3.7
-                Libs.private: -lpthread -ldl  -lutil
-                Libs: -L${libdir} -lpython3.7m
-                Cflags: -I${includedir}/python3.7m -I${includedir}/python3.7m
-                _EOF_
-
 * FFmpeg supports now LibreSSL with ``enable-libtls``
 
 
@@ -2980,18 +2961,6 @@ Download sources
 	_pkgver
 	# version = n4.1.dev.r1439.ga382c2c
 	# commit = a382c2cef8947296eed729c9c0aa58fe60bd30d9
-
-Fix issue for libavdevice.a
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-We might meet this issue ``undefined referenced to GUID_NUll`` while building FFmpeg. To fix this issue
-
-* Edit the file ``libavdevice/dshow_enummediatypes.c``
-* Add the following code just before ``#include "dshow_capture.h"``
-
-	::
-
-		#include <initguid.h>
-		DEFINE_GUID(GUID_NULL, 0x00000000, 0x0000,0x0000,0x00,0x00,0x00,0x00,0x00,0x00,0x00,0x00);
 
 Build
 ~~~~~~~~
