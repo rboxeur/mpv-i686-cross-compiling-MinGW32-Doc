@@ -1872,101 +1872,99 @@ SDL2 2.0.8
         ln -s $PREFIX/$target/bin/sdl2-config $PREFIX/bin
         mingw-w64-makeself SDL2 2.0.8 $DESTDIR/$PREFIX/$target delete
 
-
 Openal-soft 1.19.0
-----------------------------------------------	
+----------------------------------------------  
 I got an issue while trying building OpenAL-Soft 1.19.0. You need first to modify one of its configuration file else while building OpenAL an error about ``rdynamic`` will occur.
 
 * Become root user
-* Back up file ``/opt/cmake/3.10.2/share/cmake-3.10/Modules/Platform/Linux-GNU.cmake``
+* Back up file ``$PREFIX/share/cmake-3.12/Modules/Platform/Linux-GNU.cmake``
 
-	::
+        ::
 
-		cp /opt/cmake/3.10.2/share/cmake-3.10/Modules/Platform/Linux-GNU.cmake 	/opt/cmake/3.10.2/share/cmake-3.10/Modules/Platform/Linux-GNU.cmake_orig
+                cp $PREFIX/share/cmake-3.12/Modules/Platform/Linux-GNU.cmake $PREFIX/share/cmake-3.12/Modules/Platform/Linux-GNU.cmake_backup 
 
 * Its current content is shown below
 
-	::
+        ::
 
-		# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
-		# file Copyright.txt or https://cmake.org/licensing for details.
-		
-		
-		# This module is shared by multiple languages; use include blocker.
-		if(__LINUX_COMPILER_GNU)
-		  return()
-		endif()
-		set(__LINUX_COMPILER_GNU 1)
-			
-		macro(__linux_compiler_gnu lang)
-		  # We pass this for historical reasons.  Projects may have
-		  # executables that use dlopen but do not set ENABLE_EXPORTS.
-		  set(CMAKE_SHARED_LIBRARY_LINK_${lang}_FLAGS "-rdynamic")
-		  set(CMAKE_${lang}_COMPILER_PREDEFINES_COMMAND "${CMAKE_${lang}_COMPILER}" "-dM" "-E" "-c" "${CMAKE_ROOT}/Modules/CMakeCXXCompilerABI.cpp")
-		endmacro()
+                # Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+                # file Copyright.txt or https://cmake.org/licensing for details.
+                
+                
+                # This module is shared by multiple languages; use include blocker.
+                if(__LINUX_COMPILER_GNU)
+                  return()
+                endif()
+                set(__LINUX_COMPILER_GNU 1)
+                        
+                macro(__linux_compiler_gnu lang)
+                  # We pass this for historical reasons.  Projects may have
+                  # executables that use dlopen but do not set ENABLE_EXPORTS.
+                  set(CMAKE_SHARED_LIBRARY_LINK_${lang}_FLAGS "-rdynamic")
+                  set(CMAKE_${lang}_COMPILER_PREDEFINES_COMMAND "${CMAKE_${lang}_COMPILER}" "-dM" "-E" "-c" "${CMAKE_ROOT}/Modules/CMakeCXXCompilerABI.cpp")
+                endmacro()
 
 *  Replace it by this new content
 
-	::
+        ::
 
-		# Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
-		# file Copyright.txt or https://cmake.org/licensing for details.
-		
-		
-		# This module is shared by multiple languages; use include blocker.
-		if(__LINUX_COMPILER_GNU)
-		  return()
-		endif()
-		set(__LINUX_COMPILER_GNU 1)
-		
-		macro(__linux_compiler_gnu lang)
-		  # We pass this for historical reasons.  Projects may have
-		  # executables that use dlopen but do not set ENABLE_EXPORTS.
-		  #set(CMAKE_SHARED_LIBRARY_LINK_${lang}_FLAGS "-rdynamic")
-		  if(MINGW)
-		    set(CMAKE_SHARED_LIBRARY_LINK_${lang}_FLAGS "")
-		  else()
-		    set(CMAKE_SHARED_LIBRARY_LINK_${lang}_FLAGS "-rdynamic")
-		  endif()
-		  set(CMAKE_${lang}_COMPILER_PREDEFINES_COMMAND "${CMAKE_${lang}_COMPILER}" "-dM" "-E" "-c" "${CMAKE_ROOT}/Modules/CMakeCXXCompilerABI.cpp")
-		endmacro()
-
+                # Distributed under the OSI-approved BSD 3-Clause License.  See accompanying
+                # file Copyright.txt or https://cmake.org/licensing for details.
+                
+                
+                # This module is shared by multiple languages; use include blocker.
+                if(__LINUX_COMPILER_GNU)
+                  return()
+                endif()
+                set(__LINUX_COMPILER_GNU 1)
+                
+                macro(__linux_compiler_gnu lang)
+                  # We pass this for historical reasons.  Projects may have
+                  # executables that use dlopen but do not set ENABLE_EXPORTS.
+                  #set(CMAKE_SHARED_LIBRARY_LINK_${lang}_FLAGS "-rdynamic")
+                  if(MINGW)
+                    set(CMAKE_SHARED_LIBRARY_LINK_${lang}_FLAGS "")
+                  else()
+                    set(CMAKE_SHARED_LIBRARY_LINK_${lang}_FLAGS "-rdynamic")
+                  endif()
+                  set(CMAKE_${lang}_COMPILER_PREDEFINES_COMMAND "${CMAKE_${lang}_COMPILER}" "-dM" "-E" "-c" "${CMAKE_ROOT}/Modules/CMakeCXXCompilerABI.cpp")
+                endmacro()
 
 Now we can build it	 
 
 ::
 
-	_initdir
+        _initdir
 
-	wget http://kcat.strangesoft.net/openal-releases/openal-soft-1.19.0.tar.bz2 -O - | tar xvjf - && cd openal-soft-1.19.0/
+        wget http://mirror.sobukus.de/files/grimoire/audio-libs/openal-soft-1.19.0.tar.bz2 -O - | tar xvjf - && cd openal-soft-1.19.0/
 
-	# Apply some patches
-	wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-openal/0001-versioned-w32-dll.mingw.patch" -O - | patch -p1
-	wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-openal/0002-w32ize-portaudio-loading.mingw.patch" -O - | patch -p1
-	wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-openal/0003-openal-not-32.mingw.patch" -O - | patch -p1
-	wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-openal/0004-disable-OSS-windows.patch" -O - | patch -p1
+        # Apply some patches
+        wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-openal/0001-versioned-w32-dll.mingw.patch" -O - | patch -p1
+        wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-openal/0002-w32ize-portaudio-loading.mingw.patch" -O - | patch -p1
+        wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-openal/0003-openal-not-32.mingw.patch" -O - | patch -p1
+        wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-openal/0004-disable-OSS-windows.patch" -O - | patch -p1
 
-	mkdir build-${target}-{shared,static}
+        mkdir build-${target}-{shared,static}
 
-	cd $SRCDIR/openal-soft-1.19.0/build-${target}-shared
-	DXSDK_DIR=$PREFIX/$target mingw-w64-cmake .. -DALSOFT_EXAMPLES=OFF -DALSOFT_UTILS=OFF -DALSOFT_NO_CONFIG_UTIL=ON -DLIBTYPE=SHARED -DDSOUND_INCLUDE_DIR=$PREFIX/$target/include -DDSOUND_LIBRARY=$PREFIX/$target/lib/libsound.a -DBUILD_SHARED_LIBS=ON
-	#* INFO*: We have to go this way else wine will not be able to execute some exe files
-	make -j$(nproc) || { cp native-tools/bin2h native-tools/bin2h.exe;cp native-tools/bsincgen native-tools/bsincgen.exe;make -j$(nproc); }
+        cd $SRCDIR/openal-soft-1.19.0/build-${target}-shared
+        DXSDK_DIR=$PREFIX/$target mingw-w64-cmake .. -DALSOFT_EXAMPLES=OFF -DALSOFT_UTILS=OFF -DALSOFT_NO_CONFIG_UTIL=ON -DLIBTYPE=SHARED -DDSOUND_INCLUDE_DIR=$PREFIX/$target/include -DDSOUND_LIBRARY=$PREFIX/$target/lib/libsound.a -DBUILD_SHARED_LIBS=ON
+        #* INFO*: We have to go this way else wine will not be able to execute some exe files
+        make -j1 || { cp native-tools/bin2h.exe native-tools/bin2h;cp native-tools/bsincgen.exe native-tools/bsincgen;make -j1; }
 
-	cd $SRCDIR/openal-soft-1.19.0/build-${target}-static
-	DXSDK_DIR=$PREFIX/$target mingw-w64-cmake .. -DALSOFT_EXAMPLES=OFF -DALSOFT_UTILS=OFF -DALSOFT_NO_CONFIG_UTIL=ON -DLIBTYPE=STATIC -DDSOUND_INCLUDE_DIR=$PREFIX/$target/include -DDSOUND_LIBRARY=$PREFIX/$target/lib/libsound.a -DBUILD_SHARED_LIBS=OFF
-	#* INFO*: We have to go this way else wine will not be able to execute some exe files
-	make -j$(nproc) || { cp native-tools/bin2h native-tools/bin2h.exe;cp native-tools/bsincgen native-tools/bsincgen.exe;make -j$(nproc); }
-	
-	cd $SRCDIR/openal-soft-1.19.0/build-$target-shared && make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
-	cd $SRCDIR/openal-soft-1.19.0/build-$target-static && make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
+        cd $SRCDIR/openal-soft-1.19.0/build-${target}-static
+        DXSDK_DIR=$PREFIX/$target mingw-w64-cmake .. -DALSOFT_EXAMPLES=OFF -DALSOFT_UTILS=OFF -DALSOFT_NO_CONFIG_UTIL=ON -DLIBTYPE=STATIC -DDSOUND_INCLUDE_DIR=$PREFIX/$target/include -DDSOUND_LIBRARY=$PREFIX/$target/lib/libsound.a -DBUILD_SHARED_LIBS=OFF
+        #* INFO*: We have to go this way else wine will not be able to execute some exe files
+        make -j1 || { cp native-tools/bin2h.exe native-tools/bin2h;cp native-tools/bsincgen.exe native-tools/bsincgen;make -j1; }
+        
+        cd $SRCDIR/openal-soft-1.19.0/build-$target-shared && make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
+        cd $SRCDIR/openal-soft-1.19.0/build-$target-static && make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
         [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
         find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
         find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
         find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
 
-	cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-	mingw-w64-makeself openal-soft 1.19.0 $DESTDIR/$PREFIX/$target delete
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself openal-soft 1.19.0 $DESTDIR/$PREFIX/$target delete
 
 Vid.stab-git 1.1.0.r16.g38ecbaf
 ------------------------------------------
