@@ -480,6 +480,21 @@ Source your MinGW32 environment
                  [ -f "${my_path}/${file}" ] && echo "${my_path}/${file}" || echo "# not found: ${file}";
          done
  }
+
+ _prepare_package()
+ {
+         make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
+ 
+         for dir in man doc info gtk-doc;do [ -d "$DESTDIR/$PREFIX/$target/share/${dir}" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/${dir}"; };done
+ 
+         find $DESTDIR/$PREFIX/$target/ -name '*.png'  -exec rm -vf  {} \;
+         find $DESTDIR/$PREFIX/$target/ -name '*.gif'  -exec rm -vf  {} \;
+         find $DESTDIR/$PREFIX/$target/ -name '*.html' -exec rm -vf  {} \;
+         find $DESTDIR/$PREFIX/$target/ -name '*.exe'  -exec rm -vf  {} \;
+ 
+         find $DESTDIR/$PREFIX/$target/ -name '*.dll'  -exec ${PREFIX}/bin/${target}-strip --strip-unneeded {} \;
+         find $DESTDIR/$PREFIX/$target/ -name '*.a'    -exec ${PREFIX}/bin/${target}-strip -g {} \;
+ }
  
  # Add MinGW to to beginning of the PATH
  export PATH=${PREFIX}/bin:${PATH}
