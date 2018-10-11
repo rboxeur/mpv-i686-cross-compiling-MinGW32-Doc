@@ -2898,23 +2898,18 @@ Libfdk-aac-git 0.1.6.r203.ge6bb256
 ---------------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://github.com/mstorsjo/fdk-aac.git && cd fdk-aac
+        git clone https://github.com/mstorsjo/fdk-aac.git && cd fdk-aac
 
-	_pkgver
-	# version = 0.1.6.r203.ge6bb256
-	# commit = e6bb25613016ecd64ccbcb354768b4794ffd6351
+        _pkgver
+        # version = 0.1.6.r203.ge6bb256
+        # commit = e6bb25613016ecd64ccbcb354768b4794ffd6351
 
-	./autogen.sh && ./configure --host=$target --prefix=$PREFIX/$target --enable-shared=no --enable-static=yes --enable-silent-rules
-	make -j$(nproc)
+        ./autogen.sh && ./configure --host=$target --prefix=$PREFIX/$target --enable-shared=no --enable-static=yes --enable-silent-rules
+        make -j$(nproc)
 
-	make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libfdk-aac-git 0.1.6.r203.ge6bb256 $DESTDIR/$PREFIX/$target delete
 
@@ -2957,29 +2952,21 @@ Libmysofa-git 0.6.r56.g5e1fc5b
 ----------------------------------------
 ::
 
-	_initdir
+        _initdir
 
-	git clone https://github.com/hoene/libmysofa.git
-	cd libmysofa/
+        git clone https://github.com/hoene/libmysofa.git
+        cd libmysofa/
 
-	_pkgver 
-	# version = 0.6.r56.g5e1fc5b
-	# commit = 5e1fc5b62d6d43cbac123e18dfee61408705c4a1
-	
-	mkdir build-$target && cd build-$target
-	mingw-w64-cmake -DBUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF  ..
+        _pkgver 
+        # version = 0.6.r56.g5e1fc5b
+        # commit = 5e1fc5b62d6d43cbac123e18dfee61408705c4a1
+        
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake -DBUILD_TESTS=OFF -DBUILD_SHARED_LIBS=OFF  ..
 
-	make DESTDIR=$DESTDIR install
-        [ -d "$DESTDIR/$PREFIX/$target/share/man" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/man"; }
-        find $DESTDIR/$PREFIX/$target/ -name '*.exe' -exec rm -vf  {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.dll' -exec ${target}-strip --strip-unneeded {} \;
-        find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
-
+        _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libmysofa-git 0.6.r56.g5e1fc5b $DESTDIR/$PREFIX/$target delete	
-	
-
-
+        mingw-w64-makeself libmysofa-git 0.6.r56.g5e1fc5b $DESTDIR/$PREFIX/$target delete 
 
 FFmpeg and MPV
 ====================
