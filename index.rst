@@ -419,42 +419,44 @@ Source your MinGW32 environment
 ---------------------------------
 ::
 
- #
- # MinGW - Environment variables
- #______________________________
- export PREFIX="/opt/MinGW32"
- export target="i686-w64-mingw32"
+ _initdir(){ # Reset all MinGW environment variables and get back into ${SRCDIR}
+	 #
+	 # MinGW - Environment variables
+         #______________________________
+         export PREFIX="/opt/MinGW32"
+         export target="i686-w64-mingw32"
 
- # Compilers and linkers
- export CC=${PREFIX}/bin/${target}-gcc
- export CXX=${PREFIX}/bin/${target}-g++ 
- export CPPFLAGS="-I${PREFIX}/${target}/include"
- export LDFLAGS="-L${PREFIX}/${target}/lib"
- export mingw_c_flags="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions --param=ssp-buffer-size=4"
- export CFLAGS="$mingw_c_flags $CFLAGS"
- export CXXFLAGS="$mingw_c_flags $CXXFLAGS"
- export EXEEXT=".exe"
-
- # Tools
- export STRIP=${PREFIX}/bin/${target}-strip
- export AR=${PREFIX}/bin/${target}-ar
- export RANLIB=${PREFIX}/bin/${target}-ranlib
- export AS=${PREFIX}/bin/${target}-as
- export DLLTOOL=${PREFIX}/bin/dlltool
- export DLLWRAP=${PREFIX}/bin/${target}-dllwrap
- export WINDRES=${PREFIX}/bin/${target}-windres
-
- # Pkg-config
- export PKG_CONFIG="${PREFIX}/bin/${target}-pkg-config"
- export PKG_CONFIG_LIBDIR="${PREFIX}/${target}/lib/pkgconfig"
- export PKG_CONFIG_PATH="${PREFIX}/${target}/lib/pkgconfig/"
-
- # Folders to download sources, to build/prepare packages
- export SRCDIR="/TMP_MinGW32/sources" # This can be changed; It depends on your own needs
- export DESTDIR="/TMP_MinGW32/build"  #   This can be changed. It depends on your own needs
+         export CPPFLAGS="-I${PREFIX}/${target}/include"
+         export LDFLAGS="-L${PREFIX}/${target}/lib"
+         export mingw_c_flags="-O2 -g -pipe -Wall -Wp,-D_FORTIFY_SOURCE=2 -fexceptions --param=ssp-buffer-size=4" 
+         export CFLAGS="$mingw_c_flags $CFLAGS"
+         export CXXFLAGS="$mingw_c_flags $CXXFLAGS"
+	 
+	# Pkg-config and co
+         export PKG_CONFIG_LIBDIR="${PREFIX}/${target}/lib/pkgconfig"
+         export PKG_CONFIG="${PREFIX}/bin/${target}-pkg-config"
+         export PKG_CONFIG_PATH="${PREFIX}/${target}/lib/pkgconfig/"
  
- # Usefull functions
- _initdir(){
+         export SRCDIR="/TMP_MinGW32/sources" # where to download the sources and to build them
+         export DESTDIR="/TMP_MinGW32/build"  # where to temporary copy files before building packages
+         export EXEEXT=".exe" # Required for some packages like MuJS
+	 
+         export CC=${PREFIX}/bin/${target}-gcc
+         export CXX=${PREFIX}/bin/${target}-g++
+         export CPP=${PREFIX}/bin/${target}-cpp
+         export LD=${PREFIX}/bin/${target}-ld
+         export NM=${PREFIX}/bin/${target}-nm
+         export STRIP=${PREFIX}/bin/${target}-strip
+         export AR=${PREFIX}/bin/${target}-ar
+         export RANLIB=${PREFIX}/bin/${target}-ranlib
+         export AS=${PREFIX}/bin/${target}-as
+         export DLLTOOL=${PREFIX}/bin/dlltool
+         export OBJDUMP=${PREFIX}/bin/${target}-objdump
+         export RESCOMP=${PREFIX}/bin/${target}-windres
+         export DLLWRAP=${PREFIX}/bin/${target}-dllwrap
+         export WINDRES=${PREFIX}/bin/${target}-windres
+         export RC=${PREFIX}/bin/${target}-windres
+ 
          [ ! -d "${SRCDIR}" ] && { mkdir -p "${SRCDIR}"; } || { cd "${SRCDIR}"; } && { cd "${SRCDIR}"; }
  }
 
@@ -483,6 +485,12 @@ Source your MinGW32 environment
 
  _prepare_package()
  {
+	 # Re-added some environment variables so they stay as-they-are
+	 export PREFIX="/opt/MinGW32"
+	 export target="i686-w64-mingw32"
+	 export SRCDIR="/TMP_MinGW32/sources"
+	 export DESTDIR="/TMP_MinGW32/build"
+
          make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
  
          for dir in man doc info gtk-doc;do [ -d "$DESTDIR/$PREFIX/$target/share/${dir}" ] && { rm -rf "$DESTDIR/$PREFIX/$target/share/${dir}"; };done
@@ -628,6 +636,7 @@ Snappy-git 1.1.7.r15.gea660b5
         _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself snappy-git 1.1.7.r15.gea660b5 $DESTDIR/$PREFIX/$target delete
+
 Lcms2-basic-git 2.9.r24.g32f0c45 (aka LCMS2-Basic)
 -----------------------------------------------------
 
