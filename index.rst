@@ -742,7 +742,7 @@ Libtiff-git 4.0.9.r106.gd438fab
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libtiff-git 4.0.9.r106.gd438fab $DESTDIR/$PREFIX/$target delete
 
-Libwebp-git 1.0.0.r71.g5c395f1
+Libwebp-git 1.0.0.r76.gef1094b
 ---------------------------------
 
 ::
@@ -752,8 +752,8 @@ Libwebp-git 1.0.0.r71.g5c395f1
         git clone https://chromium.googlesource.com/webm/libwebp && cd libwebp
 
         _pkgver
-        # version = 1.0.0.r71.g5c395f1
-        # commit = 5c395f1d71f8e753a23f1e256544bf96cb349e3e
+	# version = 1.0.0.r76.gef1094b
+	# commit = ef1094b0fef9fd8492e19e00979e560105f7d20e
 
         autoreconf -fiv
         ac_cv_path_LIBPNG_CONFIG="${PREFIX}/bin/libpng16-config --static" LIBS="-llzma -ljbig -ljpeg" ./configure --host=$target  --prefix=$PREFIX/$target/  \
@@ -762,7 +762,7 @@ Libwebp-git 1.0.0.r71.g5c395f1
 
         _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libwebp-git 1.0.0.r71.g5c395f1 $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself libwebp-git 1.0.0.r76.gef1094b $DESTDIR/$PREFIX/$target delete
 
 Lcms2-full-git 2.9.r24.g32f0c45
 ------------------------------------
@@ -1219,20 +1219,18 @@ Xvidcore-svn r2163
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself xvidcore-svn r2163 $DESTDIR/$PREFIX/$target delete
 
-X264-Snapshot 20181006
+X264-Snapshot 20181008
 -------------------------
 ::
 
         _initdir
 
-        #wget https://download.videolan.org/x264/snapshots/x264-snapshot-20180916-2245.tar.bz2 -O - | tar xvjf - && cd x264-snapshot-20180916-2245
-        #wget https://download.videolan.org/x264/snapshots/x264-snapshot-20180924-2245.tar.bz2 -O - | tar xvjf - && cd x264-snapshot-20180924-2245
-        wget https://download.videolan.org/x264/snapshots/x264-snapshot-20181006-2245.tar.bz2 -O - | tar xvjf - && cd x264-snapshot-20181006-2245
+	wget https://download.videolan.org/x264/snapshots/x264-snapshot-20181008-2245.tar.bz2 -O - | tar xvjf - && cd x264-snapshot-20181008-2245
         wget "https://raw.githubusercontent.com/Alexpux/MINGW-packages/master/mingw-w64-x264-git/0001-beautify-pc.all.patch" -O - | patch -p1
         unset AS
         #export RC=${PREFIX}/bin/${target}-ar
         mkdir build-$target && cd build-$target
-        ../configure --host=$target --prefix=$PREFIX/$target --cross-prefix=$target- --enable-static --enable-strip --enable-pic --disable-win32thread
+        ../configure --host=$target --prefix=$PREFIX/$target --cross-prefix=$target- --enable-static --enable-strip --enable-pic --disable-win32thread --disable-cli
         make -j$(nproc)
 
         _prepare_package
@@ -1404,7 +1402,7 @@ Theora-git 1.2.0alpha1.r134.ge5d205b
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself theora-git 1.2.0alpha1.r134.ge5d205b $DESTDIR/$PREFIX/$target delete
 
-Opus-git 1.3.rc2.r0.g4a643d9
+Opus-git 1.3.rc2.r2.ga8e2a2b
 -------------------------------------------
 ::
 
@@ -1413,17 +1411,17 @@ Opus-git 1.3.rc2.r0.g4a643d9
         git clone git://git.opus-codec.org/opus.git && cd opus && autoreconf -fvi && ./autogen.sh
 
         _pkgver
-        # version = 1.3.rc2.r0.g4a643d9
-        # commit = 4a643d98c388727e73aebbe626a7379c6fddbbbe
+	# version = 1.3.rc2.r2.ga8e2a2b
+	# commit = a8e2a2b1a8ab2cb9d9e7d4fe21128ac9e769fe4e
 
         ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --disable-doc --disable-shared --enable-custom-modes --enable-asm --enable-check-asm
         make -j$(nproc)
 
         _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself opus-git 1.3.rc2.r0.g4a643d9  $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself opus-git 1.3.rc2.r2.ga8e2a2b  $DESTDIR/$PREFIX/$target delete
 
-Libvpx-git 1.7.0.r1137.g4a47ef8
+Libvpx-git 1.7.0.r1152.gaf1fb84
 -------------------------------------
 ::
 
@@ -1432,8 +1430,8 @@ Libvpx-git 1.7.0.r1137.g4a47ef8
         git clone git://github.com/webmproject/libvpx.git && cd libvpx
 
         _pkgver
-        # version = 1.7.0.r1137.g4a47ef8
-        # commit = 4a47ef814b57d16787e6331e4ac1bd9dc093459e
+	# version = 1.7.0.r1152.gaf1fb84
+	# commit = af1fb84dd3de27685ec1b35f8d5d5d61227cc7a5
 
         mkdir build-$target && cd build-$target
         export _arch=$target
@@ -1453,9 +1451,9 @@ Libvpx-git 1.7.0.r1137.g4a47ef8
         find $DESTDIR/$PREFIX/$target/ -name '*.a'   -exec ${target}-strip -g {} \;
 
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself libvpx-git 1.7.0.r1137.g4a47ef8  $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself libvpx-git 1.7.0.r1152.gaf1fb84  $DESTDIR/$PREFIX/$target delete
 
-AOM-git 1.0.0.r735.g9b21428  (aka AOMedia AV1) 
+AOM-git 1.0.0.r742.g5aa64a7  (aka AOMedia AV1) 
 -----------------------------------------------------
 ::
 
@@ -1464,8 +1462,8 @@ AOM-git 1.0.0.r735.g9b21428  (aka AOMedia AV1)
         git clone https://aomedia.googlesource.com/aom && cd aom
         
         _pkgver
-        # version = 1.0.0.r735.g9b21428
-        # commit = 9b21428c86af1c081ae87cc546a360eaefa8ba8a
+	# version = 1.0.0.r742.g5aa64a7
+	# commit = 5aa64a71c64921d21fecc10973b6dbb7e794547d
 
         mkdir build-$target && cd build-$target
         mingw-w64-cmake .. -DBUILD_SHARED_LIBS=OFF -DCMAKE_SYSTEM_PROCESSOR="x86" -DENABLE_DOCS:bool=off -DENABLE_NASM:bool=on -DENABLE_TESTS:bool=off -DCONFIG_UNIT_TESTS=0
@@ -1473,7 +1471,7 @@ AOM-git 1.0.0.r735.g9b21428  (aka AOMedia AV1)
 
         _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself aom-git 1.0.0.r735.g9b21428 $DESTDIR/$PREFIX/$target delete  
+        mingw-w64-makeself aom-git 1.0.0.r742.g5aa64a7 $DESTDIR/$PREFIX/$target delete  
 
 Libiblc-git 2.0.2.r10.g4d0c2ed
 ---------------------------------------------------
@@ -2534,7 +2532,7 @@ Boost 1.68.0
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself boost 1.68.0 $DESTDIR/$PREFIX/$target delete
 
-Shaderc-git 2018.0.r3.g196d38f (with SPIRV-Tools, SPIRV-Headers, Glslang)
+Shaderc-git 2018.0.r6.ga4116bc (with SPIRV-Tools, SPIRV-Headers, Glslang)
 ------------------------------------------------------------------------------------
 * URL https://github.com/google/shaderc
 
@@ -2546,13 +2544,13 @@ Shaderc-git 2018.0.r3.g196d38f (with SPIRV-Tools, SPIRV-Headers, Glslang)
 
         cd ${SRCDIR}/shaderc-git
         _pkgver
-        # version = 2018.0.r3.g196d38f
-        # commit = 196d38f64e4d919ddb26557f176ca134e2d88ddc
+	# version = 2018.0.r6.ga4116bc
+	# commit = a4116bc49e731a90c6aa7d0e69a8fc62efc41d87
 
         cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/google/googletest.git && cd googletest
         _pkgver
-        # version = release.1.8.1.r130.g40f82ce
-        # commit = 40f82ce56a4b416aa4631e48d1d07377793b18ee
+	# version = release.1.8.1.r143.g78761b5
+	# commit = 78761b58fc9ae65acaebb6a9e34087e593c89c93
 
         cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/google/glslang.git && cd glslang
         _pkgver
@@ -2561,9 +2559,9 @@ Shaderc-git 2018.0.r3.g196d38f (with SPIRV-Tools, SPIRV-Headers, Glslang)
 
         cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/KhronosGroup/SPIRV-Tools.git spirv-tools && cd spirv-tools
         _pkgver
-        # version = 2018.5.r52.g03cbf33
-        # commit = 03cbf33a695ec84d41a68333920864876fca18d9
-        
+	# version = 2018.5.r55.g4e266f7
+	# commit = 4e266f775a758d6062aa41ebed5f8a0703695b52
+ 
         cd ${SRCDIR}/shaderc-git/third_party/ && git clone https://github.com/KhronosGroup/SPIRV-Headers.git spirv-headers && cd spirv-headers
         _pkgver
         # version = r113.d5b2e12
@@ -2575,7 +2573,7 @@ Shaderc-git 2018.0.r3.g196d38f (with SPIRV-Tools, SPIRV-Headers, Glslang)
 
         _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself shaderc-git 2018.0.r3.g196d38f $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself shaderc-git 2018.0.r6.ga4116bc $DESTDIR/$PREFIX/$target delete
 
 Crossc-git  1.5.0.r0.g3b24d5f
 ---------------------------------
@@ -2796,7 +2794,7 @@ Angleproject-git 2.1.r8420
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself angle-project-git 2.1.r8420 $DESTDIR/$PREFIX/$target delete
 
-Vulkan-SDK-git 1.0.30.0.r811.g1056a1a  (Headers + Loaders )
+Vulkan-SDK-git 1.0.30.0.r813.g6468701  (Headers + Loaders )
 -----------------------------------------------------------
 * URL https://github.com/shinchiro/mpv-winbuild-cmake/blob/master/packages/vulkan.cmake
 
@@ -2824,9 +2822,9 @@ Vulkan-SDK-git 1.0.30.0.r811.g1056a1a  (Headers + Loaders )
 
         git clone https://github.com/KhronosGroup/Vulkan-Loader.git && cd Vulkan-Loader
         _pkgver
-        # version = sdk.1.0.30.0.r811.g1056a1a
-        # commit = 1056a1a3533a419136b7ab55102a5f3fdd5ca09e
-        
+       	# version = sdk.1.0.30.0.r813.g6468701
+	# commit = 6468701e8d208a757e7edb47baacdf6f87456f2d
+ 
         wget https://raw.githubusercontent.com/shinchiro/mpv-winbuild-cmake/master/packages/vulkan-0001-cross-compile-static-linking-hacks.patch
         git am vulkan-0001-cross-compile-static-linking-hacks.patch
 
@@ -2844,7 +2842,7 @@ Vulkan-SDK-git 1.0.30.0.r811.g1056a1a  (Headers + Loaders )
 
         _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself vulkan-sdk-git 1.0.30.0.r811.g1056a1a $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself vulkan-sdk-git 1.0.30.0.r813.g6468701 $DESTDIR/$PREFIX/$target delete
 
 Libfdk-aac-git 0.1.6.r203.ge6bb256
 ---------------------------------------------
