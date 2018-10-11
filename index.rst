@@ -465,7 +465,7 @@ Source your MinGW32 environment
          [ ! -d "${SRCDIR}" ] && { mkdir -p "${SRCDIR}"; } || { cd "${SRCDIR}"; } && { cd "${SRCDIR}"; }
  }
 
- _pkgver() {
+ _pkgver() { # Git repository: Prints the current version and latest commit. Pretty useful to maintain packages
          ( git describe --long --tags > /dev/null 2>&1 ) && \
          { _version=$( git describe --long --tags | sed 's/\([^-]*-g\)/r\1/;s/-/./g;s/^v//' );  } || \
          { _version=$(printf "r%s.%s" "$(git rev-list --count HEAD)" "$(git rev-parse --short HEAD)"); }
