@@ -3055,15 +3055,31 @@ Add extra libraries and Strip everything
  # Move PDF file to the right place
  mv $DESTDIR/$PREFIX/$target/portable_config/mpv.pdf $DESTDIR/$PREFIX/$target/doc
 
+ # Move original mvp.conf as a simple template
+ mv $DESTDIR/$PREFIX/$target/portable_config/mpv.conf $DESTDIR/$PREFIX/$target/portable_config/mpv-sample.conf
+
  # Prepare configuration files
  mkdir -p $DESTDIR/$PREFIX/$target/portable_config/script-opts/
 
  # Add 'screenshots' and 'logs' subfolders and update mpv.conf file
  mkdir -pv $DESTDIR/$PREFIX/$target/portable_config/{screenshots,logs}
- cat << _EOF_ >> $DESTDIR/$PREFIX/$target/portable_config/mpv.conf
+
+ # Write/fill my own 'mpv.conf' file
+ cat << _EOF_ > $DESTDIR/$PREFIX/$target/portable_config/mpv.conf
+ #
+ # This is my personal version of this file
+ # If you want more options then please refer to 'mpv-sample.conf'
+ #
+ #####################
+ # Hardware encoding #
+ #####################
+ hwdec=auto
+ vo=gpu
+ 
  ###############
  # Screenshots #
  ###############
+ # Images will be stored in subfolder 'screenshots'
  screenshot-format=png
  screenshot-png-compression=9
  screenshot-template='~~/screenshots/%F (%P) %n'
@@ -3071,6 +3087,8 @@ Add extra libraries and Strip everything
  #######
  # Logs#
  ######
+ # Log will be written in subfolder 'logs'
+ # It contents will change while playing a new video
  log-file='~~/logs/mpv-messages.log'
  _EOF_
 
@@ -3160,7 +3178,7 @@ Create a 7z file
  wget "https://sourceforge.net/projects/p7zip/files/p7zip/16.02/p7zip_16.02_x86_linux_bin.tar.bz2" -O - | tar xvjf -
 
  # Create the .7z file to distribute
- ./p7zip_16.02/bin/7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on mpv-build-git_${mpv_version}_win32_${mpv_build_date}.7z README.TXT mpv.{exe,com} lib*.dll doc/ share/ portable_config/
+ ./p7zip_16.02/bin/7z a -t7z -m0=lzma -mx=9 -mfb=64 -md=32m -ms=on mpv-win32-git_${mpv_version}_${mpv_build_date}.7z README.TXT mpv.{exe,com} lib*.dll doc/ share/ portable_config/
 
  # Delete p7zip folder
  rm -rf p7zip_16.02
