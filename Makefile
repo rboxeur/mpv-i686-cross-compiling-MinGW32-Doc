@@ -9,7 +9,6 @@ OBJDIR = html
 all: objdir html
 
 $(htmlfiles): %.html: %.rst
-#	sed -i "s:^\:Date\:.*:\:Date\:\t\t$(shell date -I):g" $<
 	rst2html --stylesheet-path=$(CSSFILE) $< > $@
 
 html: $(htmlfiles)
