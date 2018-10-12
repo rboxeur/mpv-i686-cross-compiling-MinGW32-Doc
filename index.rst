@@ -2922,7 +2922,7 @@ Libmysofa-git 0.6.r56.g5e1fc5b
 FFmpeg and MPV
 ====================
 
-FFmpeg-git 4.1.dev.r1439.ga382c2c
+FFmpeg-git 4.1.dev.r1444.ga025ff5
 -----------------------------------
 * URL https://github.com/qyot27/mpv/blob/extra-new/DOCS/crosscompile-mingw-tedious.txt
 
@@ -2960,8 +2960,8 @@ Download sources
 	# Press Ctrl+X to commit using nano
 
 	_pkgver
-	# version = n4.1.dev.r1439.ga382c2c
-	# commit = a382c2cef8947296eed729c9c0aa58fe60bd30d9
+	# version = n4.1.dev.r1444.ga025ff5
+	# commit = a025ff5658e19337e472a9e2c08af8dc812782f5
 
 Build
 ~~~~~~~~
@@ -2969,7 +2969,7 @@ Build
 
 ::
 
-	export extra_version="Win32_CrossBuild_On_Linux32Bit"
+	export extra_version="MinGW32_Linux_Distro_David_TECHER"
         #export extralibs="-static-libgcc -static-libstdc++ -lpthread -lz -logg -lvorbis -lvorbisfile -lsamplerate -lsoxr-lsr -lfftw3" # That should fix issue for rubberband
 	export extralibs="-static-libgcc -static-libstdc++ -lpthread -lz -logg -lvorbis -lvorbisfile -lsamplerate -lsoxr-lsr -lfftw3 -lstdc++ -lws2_32 -llzma -lm -lz -ljpeg -lopenjp2 -lpng -ljbig -lpthread -ltesseract" # That should fix issue for rubberband and tesseract
         export target_os="mingw32"
@@ -2998,7 +2998,7 @@ Build
 		
 	_prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself ffmpeg 4.1.dev.r1439.ga382c2c $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself ffmpeg 4.1.dev.r1444.ga025ff5 $DESTDIR/$PREFIX/$target delete	
 
 
 Mpv-git 0.29.0.r61.g2b0b9bb
