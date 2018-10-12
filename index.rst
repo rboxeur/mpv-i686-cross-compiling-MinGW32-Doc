@@ -2138,13 +2138,13 @@ Cairo-minimal 1.15.12
 
         _initdir
 
-        wget "http://cairographics.org/snapshots/cairo-1.15.12.tar.xz" -O - | tar xvJf - && cd cairo-1.15.12
+        wget "http://cairographics.org/snapshots/cairo-1.15.14.tar.xz" -O - | tar xvJf - && cd cairo-1.15.14
         ./configure --host=$target  --prefix=$PREFIX/$target/  --enable-shared=no --enable-static=yes
         make -j$(nproc)
         
         _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself cairo-minimal 1.15.12 $DESTDIR/$PREFIX/$target delete
+        mingw-w64-makeself cairo-minimal 1.15.14 $DESTDIR/$PREFIX/$target delete
 
 Libffi 3.2.1
 -----------------------
