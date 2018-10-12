@@ -178,8 +178,8 @@ MinGW-w64-runtime (Runtime: ALL)
 
 ::
 
-	mkdir mingw-w64-crt32 && cd mingw-w64-crt32
-	 /build/mingw-w64/mingw-w64-crt/configure --host=${_target} --prefix=${MINGW_PREFIX}/${_target}/ --with-sysroot=${MINGW_PREFIX} --enable-wildcard --enable-experimental=registeredprintf
+	mkdir /build/mingw-w64-crt32 && cd /build/mingw-w64-crt32
+	 /build/mingw-w64/mingw-w64-crt/configure --host=${_target} --prefix=${MINGW_PREFIX}/${_target}/ --with-sysroot=${MINGW_PREFIX} --enable-wildcard --enable-experimental=registeredprintf --enable-delay-import-libs --enable-private-exports
 	make -j$(nproc)  && make install-strip
 
 
