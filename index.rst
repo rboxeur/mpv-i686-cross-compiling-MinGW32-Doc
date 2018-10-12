@@ -146,13 +146,13 @@ MinGW-w64-Headers (ALL + somes patches to build MPV)
 
 	# Patches for MPV
 	cd /build/mingw-w64/mingw-w64-headers/direct-x/
-	wget "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/mingw-w64-headers-d3d11_1.h.patch" -O - | patch -p0
-	wget "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/mingw-w64-headers-dxgi1_2.h.patch" -O - |patch -p0
-	wget "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/mingw-w64-headers-processor_format.patch" -O - |patch -p3
+	wget -q "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/mingw-w64-headers-d3d11_1.h.patch" -O - | patch -p0
+	wget -q "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/mingw-w64-headers-dxgi1_2.h.patch" -O - |patch -p0
+	wget -q "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/mingw-w64-headers-processor_format.patch" -O - |patch -p3
 	cd /build/mingw-w64/mingw-w64-headers
-	wget "http://techer.pascal.free.fr/mingw-w64-headers-D3D11_UAV_FLAG.patch" -O - | patch -p0
+	wget -q "http://techer.pascal.free.fr/mingw-w64-headers-D3D11_UAV_FLAG.patch" -O - | patch -p0
 	cd /build/mingw-w64/mingw-w64-headers/crt
-	wget "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/mingw-w64-headers-math.h.patch" -O - |patch -p1
+	wget -q "https://raw.githubusercontent.com/Warblefly/MultimediaTools-mingw-w64/master/mingw-w64-headers-math.h.patch" -O - |patch -p1
 	
 	
 	cd /build/mingw-w64/mingw-w64-headers
@@ -244,7 +244,7 @@ I took decision to give a try to ``pkgconf`` instead of using the well-known ``p
 
 ::
 
-
+	cd /build
         wget https://distfiles.dereferenced.org/pkgconf/pkgconf-1.5.3.tar.xz
         tar xvJf pkgconf-1.5.3.tar.xz 
         cd pkgconf-1.5.3
@@ -1900,12 +1900,12 @@ Now we can build it
         cd $SRCDIR/openal-soft-1.19.0/build-${target}-shared
         DXSDK_DIR=$PREFIX/$target mingw-w64-cmake .. -DALSOFT_EXAMPLES=OFF -DALSOFT_UTILS=OFF -DALSOFT_NO_CONFIG_UTIL=ON -DLIBTYPE=SHARED -DDSOUND_INCLUDE_DIR=$PREFIX/$target/include -DDSOUND_LIBRARY=$PREFIX/$target/lib/libsound.a -DBUILD_SHARED_LIBS=ON
         #* INFO*: We have to go this way else wine will not be able to execute some exe files
-        make -j1 || { cp native-tools/bin2h.exe native-tools/bin2h;cp native-tools/bsincgen.exe native-tools/bsincgen;make -j1; }
+        make -j1 || { cp native-tools/bin2h native-tools/bin2h.exe;cp native-tools/bsincgen native-tools/bsincgen.exe;make -j1; }
 
         cd $SRCDIR/openal-soft-1.19.0/build-${target}-static
         DXSDK_DIR=$PREFIX/$target mingw-w64-cmake .. -DALSOFT_EXAMPLES=OFF -DALSOFT_UTILS=OFF -DALSOFT_NO_CONFIG_UTIL=ON -DLIBTYPE=STATIC -DDSOUND_INCLUDE_DIR=$PREFIX/$target/include -DDSOUND_LIBRARY=$PREFIX/$target/lib/libsound.a -DBUILD_SHARED_LIBS=OFF
         #* INFO*: We have to go this way else wine will not be able to execute some exe files
-        make -j1 || { cp native-tools/bin2h.exe native-tools/bin2h;cp native-tools/bsincgen.exe native-tools/bsincgen;make -j1; }
+        make -j1 || { cp native-tools/bin2h native-tools/bin2h.exe;cp native-tools/bsincgen native-tools/bsincgen.exe;make -j1; }
         
         cd $SRCDIR/openal-soft-1.19.0/build-$target-shared && make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
         cd $SRCDIR/openal-soft-1.19.0/build-$target-static && make DESTDIR=$DESTDIR install-strip || make DESTDIR=$DESTDIR install
