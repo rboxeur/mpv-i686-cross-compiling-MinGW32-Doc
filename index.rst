@@ -2,10 +2,10 @@
  |mpv| MPV Player: Cross-Compil MPV (static) on Linux 32-Bits targetting Windows 32-Bits 
 =============================================================================================================================================
 -------------------------------------------------------------------------------------------------------------------------------------------------
-|MinGW32_Linux_Distro_Logo| GCC 7.2.0 - MinGW-w64 5.0.4  A  MinGW-w64 Prebuilt Toolchain for Linux-32Bits Targetting Win32 (Posix Thread)
+|MinGW32_Linux_Distro_Logo| GCC 7.2.0 - MinGW-w64 5.0.4  A  MinGW-w64 Prebuilt Toolchain for Linux-32Bits Targetting Win32 (Posix Thread) 
 -------------------------------------------------------------------------------------------------------------------------------------------------
 
-:Info:		My Web Site: http://www.davidgis.fr ,
+:Info:		My Web Site: http://www.davidgis.fr
 :Author:	David TECHER, <davidtecher@yahoo.fr>
 :Date:		2018-10-12
 :Revision:	20181012_194300
@@ -1456,25 +1456,29 @@ Libvpx-git 1.7.0.r1167.g9c1299e
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
         mingw-w64-makeself libvpx-git 1.7.0.r1167.g9c1299e $DESTDIR/$PREFIX/$target delete
 
-AOM-git 1.0.0.r759.g90a15f4  (aka AOMedia AV1) 
+AOM-git 1.0.0.r764.g05a43ff  (aka AOMedia AV1) 
 -----------------------------------------------------
 ::
 
         _initdir
 
-        git clone https://aomedia.googlesource.com/aom && cd aom
-        
-        _pkgver
-	# version = 1.0.0.r759.g90a15f4
-	# commit = 90a15f4f28c35cc4e92d25ffc6f72ef99ae5258b
+	git clone https://aomedia.googlesource.com/aom && cd aom
+	git checkout 05a43ffcebf633c38634d52cdc72f7b08b8d5e34
 
-        mkdir build-$target && cd build-$target
-        mingw-w64-cmake .. -DBUILD_SHARED_LIBS=OFF -DCMAKE_SYSTEM_PROCESSOR="x86" -DENABLE_DOCS:bool=off -DENABLE_NASM:bool=on -DENABLE_TESTS:bool=off -DCONFIG_UNIT_TESTS=0
+	# * INFO *: As of 2018-10-13, Apply patch to fix issue regarding issue provided at https://github.com/mpv-player/mpv/issues/6001
+	wget "http://techer.pascal.free.fr/MinGW32/2018/patches/libaom-git-20181013-051200.patch" -O - | patch -p1
+	
+	_pkgver
+	# version = 1.0.0.r764.g05a43ff
+	# commit = 05a43ffcebf633c38634d52cdc72f7b08b8d5e34
+
+	mkdir build-$target && cd build-$target
+	mingw-w64-cmake .. -DBUILD_SHARED_LIBS=OFF -DCMAKE_SYSTEM_PROCESSOR="x86" -DENABLE_DOCS:bool=off -DENABLE_NASM:bool=on -DENABLE_TESTS:bool=off -DCONFIG_UNIT_TESTS=0 -DCONFIG_LOWBITDEPTH=1 -DAOM_TARGET_CPU=x86
         make -j$(nproc)
 
         _prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself 1.0.0.r759.g90a15f4 $DESTDIR/$PREFIX/$target delete  
+        mingw-w64-makeself 1.0.0.r764.g05a43ff $DESTDIR/$PREFIX/$target delete  
 
 Libiblc-git 2.0.2.r10.g4d0c2ed
 ---------------------------------------------------
@@ -2924,7 +2928,7 @@ Libmysofa-git 0.6.r56.g5e1fc5b
 FFmpeg and MPV
 ====================
 
-FFmpeg-git 4.1.dev.r1444.ga025ff5
+FFmpeg-git 4.1.dev.r1451.g60dcc6e
 -----------------------------------
 * URL https://github.com/qyot27/mpv/blob/extra-new/DOCS/crosscompile-mingw-tedious.txt
 
@@ -2962,8 +2966,8 @@ Download sources
 	# Press Ctrl+X to commit using nano
 
 	_pkgver
-	# version = n4.1.dev.r1444.ga025ff5
-	# commit = a025ff5658e19337e472a9e2c08af8dc812782f5
+	# version = n4.1.dev.r1451.g60dcc6e
+	# commit = 60dcc6efafeeff533b73d950827c61bf16f2dcaa
 
 Build
 ~~~~~~~~
@@ -3000,7 +3004,7 @@ Build
 		
 	_prepare_package
         cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
-        mingw-w64-makeself ffmpeg 4.1.dev.r1444.ga025ff5 $DESTDIR/$PREFIX/$target delete	
+        mingw-w64-makeself ffmpeg 4.1.dev.r1451.g60dcc6e $DESTDIR/$PREFIX/$target delete	
 
 
 Mpv-git 0.29.0.r61.g2b0b9bb
