@@ -1505,10 +1505,10 @@ Libgsm 1.0.18
 
         _initdir
 
-        git clone https://aur.archlinux.org/mingw-w64-gsm.git
+        git clone https://aur.archlinux.org/mingw-w64-gsm.git && cd mingw-w64-gsm && git checkout 4c932e1eabaeba79a11d7f8de92ad327d1eb76ca && cd ${SRCDIR}
         wget http://www.quut.com/gsm/gsm-1.0.18.tar.gz -O - | tar xvzf - && cd gsm-1.0-pl18
-        patch -Np1 -i ../mingw-w64-gsm/makefile.patch
-        patch -Np1 -i ../mingw-w64-gsm/win32.patch
+        patch -Np1 -i ${SRCDIR}/mingw-w64-gsm/makefile.patch
+        patch -Np1 -i ${SRCDIR}/mingw-w64-gsm/win32.patch
         make -f Makefile.mingw64 CC=$target-gcc AR=$target-ar RANLIB=$target-ranlib
 
         install -m755 -d  $DESTDIR/$PREFIX/$target/{bin,lib,include/gsm,share/{licenses/gsm,man/man{1,3}}}
