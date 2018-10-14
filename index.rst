@@ -1758,9 +1758,9 @@ Gmp 6.1.2
 
         _initdir
 
-        git clone https://aur.archlinux.org/mingw-w64-gmp.git
+        git clone https://aur.archlinux.org/mingw-w64-gmp.git && cd  mingw-w64-gmp && git checkout b4f756351922d942b6ab86aa2b89f9f0c57b1941 && cd ${SRCDIR}
         wget https://gmplib.org/download/gmp/gmp-6.1.2.tar.xz -O - | tar -xJvf - && cd gmp-6.1.2
-        patch -Np1 -i  ../mingw-w64-gmp/exeext.patch && autoreconf -fiv
+        patch -Np1 -i  ${SRCDIR}/mingw-w64-gmp/exeext.patch && autoreconf -fiv
         ./configure --host=$target --prefix=$PREFIX/$target/ --enable-static --disable-shared --datarootdir=$PREFIX/$target/share/gmp --enable-cxx
         make -j$(nproc)
 
