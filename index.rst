@@ -1375,9 +1375,9 @@ Lame 3.100
 
         _initdir
 
-        git clone https://aur.archlinux.org/mingw-w64-lame.git
+        git clone https://aur.archlinux.org/mingw-w64-lame.git && cd mingw-w64-lame && git checkout 776f99821a08610e0d621f12973ea8e81c71a870 && cd ${SRCDIR}
         wget http://downloads.sourceforge.net/lame/lame-3.100.tar.gz -O - | tar xvzf - && cd lame-3.100
-        patch -Np1 -i ../mingw-w64-lame/mingw.patch
+        patch -Np1 -i ${SRCDIR}/mingw-w64-lame/mingw.patch
         patch -p1 -i /opt/Sources/MINGW-packages/mingw-w64-lame/0007-revert-posix-code.patch
         CFLAGS="$CFLAGS -msse" CPPFLAGS="$CPPFLAGS -msse" ./configure --host=$target  --prefix=$PREFIX/$target/ --disable-shared --enable-static --enable-nasm -enable-expopt=full --with-fileio=lame  --enable-silent-rule
         make -j$(nproc) 
