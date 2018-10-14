@@ -1246,9 +1246,9 @@ X265 2.9
 
         _initdir
 
-        git clone https://aur.archlinux.org/mingw-w64-x265.git
+        git clone https://aur.archlinux.org/mingw-w64-x265.git && cd mingw-w64-x265 && git checkout f609ef4b6c1684e433fe11f21cb6f9c1af20e5f0 && cd ${SRCDIR}
         wget "https://bitbucket.org/multicoreware/x265/downloads/x265_2.9.tar.gz" -O - | tar xvzf - && cd x265_2.9
-        patch -Np1 -i ../mingw-w64-x265/mingw.patch
+        patch -Np1 -i ${SRCDIR}/mingw-w64-x265/mingw.patch
         mkdir build-$target && cd build-$target
         mingw-w64-cmake -DLIB_INSTALL_DIR="lib" -DENABLE_SHARED::BOOL='FALSE' -DENABLE_CLI='FALSE' ../source
         make -j$(nproc)
