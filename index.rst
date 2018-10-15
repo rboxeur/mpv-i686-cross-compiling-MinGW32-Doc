@@ -2622,9 +2622,9 @@ PDcurses 4.0.2 - Win32a
 
 	_initdir
         
-        git clone https://aur.archlinux.org/mingw-w64-pdcurses-win32a.git
+        git clone https://aur.archlinux.org/mingw-w64-pdcurses-win32a.git && cd mingw-w64-pdcurses-win32a && git checkout 67fa1f7a3ea06dfaa40dd1bdd260c6d21ff7929a && cd ${SRCDIR}
         wget https://github.com/Bill-Gray/PDCurses/archive/v4.0.2.tar.gz -O - | tar xvzf -  && cd PDCurses-4.0.2/
-        patch -Np1 -i ../mingw-w64-pdcurses-win32a/pdcurses.diff
+        patch -Np1 -i ${SRCDIR}/mingw-w64-pdcurses-win32a/pdcurses.diff
         cp -a win32a build_shared
         cd build_shared/
         make -f mingwin32.mak PREFIX=$target- WIDE=Y UTF8=Y DLL=Y
