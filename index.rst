@@ -2160,9 +2160,9 @@ Libffi 3.2.1
 
         _initdir
 
-        git clone https://aur.archlinux.org/mingw-w64-libffi.git
+        git clone https://aur.archlinux.org/mingw-w64-libffi.git && cd  mingw-w64-libffi && git checkout 20b13b8b4b5d1f630c6391de72d7be2464fc478d && cd ${SRCDIR}
         wget "https://github.com/libffi/libffi/archive/v3.2.1.tar.gz" -O - | tar xvzf - && cd libffi-3.2.1/
-        patch -p2 -i ../mingw-w64-libffi/fix_return_size.patch
+        patch -p2 -i ${SRCDIR}/mingw-w64-libffi/fix_return_size.patch
         sh autogen.sh;
         ./configure --host=$target --prefix=$PREFIX/$target --disable-shared --enable-static HOST=$target --enable-pax_emutramp
         make -j$(nproc)
@@ -2180,7 +2180,7 @@ Gettext 0.19.8.1
 
         _initdir
 
-        git clone https://aur.archlinux.org/mingw-w64-gettext.git
+        git clone https://aur.archlinux.org/mingw-w64-gettext.git && cd mingw-w64-gettext && git checkout d0657d040e33e17ff3f89c3cd7f441acc0763ef4 && cd ${SRCDIR}
         wget https://ftp.gnu.org/gnu/gettext/gettext-0.19.8.1.tar.gz -O - | tar xvzf -&& cd gettext-0.19.8.1/
         patch -p0 -i ../mingw-w64-gettext/05-always-use-libintl-vsnprintf.mingw.patch
         patch -p0 -i ../mingw-w64-gettext/06-dont-include-ctype-after-gnulibs-wctype.mingw.patch
