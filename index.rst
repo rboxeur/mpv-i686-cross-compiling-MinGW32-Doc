@@ -2655,7 +2655,7 @@ Readline 7.0
 
 	_initdir
 
-        git clone https://aur.archlinux.org/mingw-w64-readline.git
+        git clone https://aur.archlinux.org/mingw-w64-readline.git && cd mingw-w64-readline && git checkout d19dbc646785a984ada6f48c1d4a42b705fd627c && cd ${SRCDIR}
         wget https://ftp.gnu.org/gnu/readline/readline-7.0.tar.gz -O - | tar xvzf - && cd readline-7.0/
         for((i=1;i<=3;i++));do wget https://ftp.gnu.org/gnu/readline/readline-7.0-patches/readline70-00$i -O - | patch -Np0 ;done
         patch -Np1 -i ../mingw-w64-readline/readline-1.patch
