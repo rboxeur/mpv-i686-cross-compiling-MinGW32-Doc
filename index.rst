@@ -1,5 +1,5 @@
 =============================================================================================================================================
- |mpv| MPV Player: Cross-Compil MPV (static) on Linux 32-Bits targetting Windows 32-Bits 
+ |mpv| MPV Player: Cross-Compil MPV (static) on Linux 32-Bits targetting Windows 32-Bits
 =============================================================================================================================================
 -------------------------------------------------------------------------------------------------------------------------------------------------
 |MinGW32_Linux_Distro_Logo| GCC 7.2.0 - MinGW-w64 5.0.4  A  MinGW-w64 Prebuilt Toolchain for Linux-32Bits Targetting Win32 (Posix Thread) 
@@ -495,178 +495,651 @@ Dlfcn (Win32) 1.1.2
 ----------------------
 * URL https://aur.archlinux.org/packages/mingw-w64-dlfcn
 
-.. include :: core-packages/dlfcn.rst
+::
+
+        _initdir 
+
+        wget https://github.com/dlfcn-win32/dlfcn-win32/archive/v1.1.2.tar.gz -O - | tar xvzf - && cd dlfcn-win32-1.1.2/
+        ./configure --prefix=$PREFIX/$target/ --libdir=$PREFIX/$target/lib --incdir=$PREFIX/$target/include --disable-shared --enable-static --cross-prefix=$target-
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself dlfcn 1.1.2 $DESTDIR/$PREFIX/$target delete
 
 Zlib 1.2.11
 -----------
 
 * URL https://aur.archlinux.org/packages/mingw-w64-zlib/
 
-.. include :: core-packages/zlib.rst
+::
+
+        _initdir
+
+        wget http://zlib.net/zlib-1.2.11.tar.gz -O - | tar xvzf - && cd zlib-1.2.11
+        wget "https://raw.githubusercontent.com/lachs0r/mingw-w64-cmake/master/packages/zlib-1-win32-static.patch" -O - |patch -p1
+        CFLAGS="$CFLAGS" CC=$CC AR=$AR RANLIB=$RANLIB ./configure --prefix=$PREFIX/$target --static
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target
+        mingw-w64-makeself zlib 1.2.11 $DESTDIR/$PREFIX/$target delete
         
 Bzip2 1.0.6
 ------------------
 
 * URL https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=mingw-w64-bzip2
 
-.. include :: core-packages/bzip2.rst
+::
+
+        _initdir
+
+        wget https://src.fedoraproject.org/lookaside/pkgs/bzip2/bzip2-1.0.6.tar.gz/00b516f4704d4a7cb50a1d97e6e8e15b/bzip2-1.0.6.tar.gz -O - | tar xvzf - && cd bzip2-1.0.6/
+        git clone https://aur.archlinux.org/mingw-w64-bzip2.git && cd mingw-w64-bzip2 && git checkout 85d025dd80aef7dd360ef7cd02ef8222aaf773ab && cd $SRCDIR/bzip2-1.0.6/
+        patch -p1 -i ${SRCDIR}/mingw-w64-bzip2/bzip2-1.0.5-autoconfiscated.patch 
+        patch -p1 -i ${SRCDIR}/mingw-w64-bzip2/bzip2-use-cdecl-calling-convention.patch
+        patch -p1 -i ${SRCDIR}/mingw-w64-bzip2/mingw32-bzip2-1.0.5-slash.patch 
+        sh autogen.sh 
+        ./configure --host=$target --prefix=$PREFIX/$target --enable-static --disable-shared --with-sysroot=$PREFIX
+        make -j4
+
+        _prepare_package
+        rm -rf $DESTDIR/$PREFIX/$target/bin/*
+        cp -avf $DESTDIR//$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself bzip2 1.0.6 $DESTDIR/$PREFIX/$target delete
 
 Xz 5.2.4
 ----------
 * URL https://aur.archlinux.org/packages/mingw-w64-xz/
 
-.. include :: core-packages/xz.rst
+:: 
+
+        _initdir
+
+        wget --no-check-certificate http://tukaani.org/xz/xz-5.2.4.tar.gz -O - | tar xvzf - && cd xz-5.2.4/
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --disable-nls --enable-silent-rules
+        make -j$(nproc) 
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself xz 5.2.4 $DESTDIR/$PREFIX/$target delete
 
 Lzo 2.10
 ----------
 
 * URL https://aur.archlinux.org/packages/mingw-w64-lzo
 
-.. include :: core-packages/lzo.rst
+::
+
+        _initdir
+
+        wget http://www.oberhumer.com/opensource/lzo/download/lzo-2.10.tar.gz -O - | tar xvzf - && cd lzo-2.10/
+        make distclean # to clean up sources
+        mkdir build && cd build
+        ../configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static
+        make -j$(nproc) 
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself lzo 2.10 $DESTDIR/$PREFIX/$target delete
 
 Snappy-git 1.1.7.r15.gea660b5
 -----------------------------------
 
-.. include :: core-packages/snappy-git.rst
+::
+
+        _initdir
+
+        git clone git://github.com/google/snappy.git && cd snappy
+
+        _pkgver
+        # version = 1.1.7.r15.gea660b5
+        # commit = ea660b57d65d68d521287c903459b6dd3b2804d0
+        
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake .. -DBUILD_SHARED_LIBS=OFF -DSNAPPY_BUILD_TESTS:bool=OFF  -DCMAKE_SYSROOT=$PREFIX
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself snappy-git 1.1.7.r15.gea660b5 $DESTDIR/$PREFIX/$target delete
 
 Lcms2-basic-git 2.9.r24.g32f0c45 (aka LCMS2-Basic)
 -----------------------------------------------------
 
-.. include :: core-packages/lcms2-basic-git.rst
+::
+
+        _initdir
+
+        git clone git://github.com/mm2/Little-CMS.git && cd Little-CMS
+
+        _pkgver
+        # version = lcms2.9.r24.g32f0c45
+        # commit = 32f0c458c910a033375c57b46d7a3c1c606e6cbc
+        
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static  --without-jpeg --without-tiff --enable-silent-rules
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself lcms2-basic-git 2.9.r24.g32f0c45 $DESTDIR/$PREFIX/$target delete
 
 Giflib 5.1.4
 -----------------------------------------
 
-.. include :: core-packages/giflib.rst
+::
+
+        _initdir
+
+        wget http://downloads.sourceforge.net/project/giflib/giflib-5.1.4.tar.bz2 -O - | tar -xjvf - && cd giflib-5.1.4
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --with-sysroot=$PREFIX  
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself giflib 5.1.4 $DESTDIR/$PREFIX/$target delete
 
 Libjpeg-turbo-git 2.0.0.r11.g504a295
 -----------------------------------------------------------
 
-.. include :: core-packages/libjpeg-turbo-git.rst
+::
+
+        _initdir
+
+        git clone git://github.com/libjpeg-turbo/libjpeg-turbo && cd libjpeg-turbo
+
+        _pkgver
+	# version = 2.0.0.r11.g504a295
+	# commit = 504a295cde32ac42625f47d0804e0ca9e55677ce
+
+        mkdir build-$target && cd build-$target 
+        mingw-w64-cmake  .. -DENABLE_SHARED:bool=off -DWITH_12BIT:bool=on -DCMAKE_SYSTEM_PROCESSOR="i686"
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libjpeg-turbo-git 2.0.0.r11.g504a295 $DESTDIR/$PREFIX/$target delete
 
 Libpng-git 1.6.29-r5.g7292c86
 -------------------------------------------------------
 
-.. include :: core-packages/libpng-git.rst
+::
 
+        _initdir
+        
+        git clone git://git.code.sf.net/p/libpng/code libpng && cd libpng
+        
+        _pkgver
+        # version = libpng.1.6.29.master.signed.r5.g7292c86
+        # commit = 7292c861b165ae4279267083e273aa31b7e42004
+
+        sed -i 's/ASM C/C ASM/' CMakeLists.txt 
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake .. -DPNG_SHARED:bool=off -DPNG_TESTS:bool=off
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        ln -s $PREFIX/$target/bin/libpng-config $PREFIX/bin/ # Adding a symbolic link to the main MinGW prefix
+        ln -s $PREFIX/$target/bin/libpng16-config $PREFIX/bin/ # Adding a symbolic link to the main MinGW prefi
+        mingw-w64-makeself libpng-git 1.6.29-r5.g7292c86 $DESTDIR/$PREFIX/$target delete
 
 Jbigkit-git 2.1.r16.g2281149
 -------------------------------------------------
 
-.. include :: core-packages/jbigkit-git.rst
+::
 
+        _initdir
+
+        git clone git://github.com/qyot27/jbigkit.git && cd jbigkit
+
+        _pkgver
+        # version = 2.1.r16.g2281149
+        # commit = 2281149c0b8f156c5dcdfa76d9077d4362ccb9a8
+
+        git checkout mingw-w64
+        autoreconf -fiv
+
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --with-sysroot=$PREFIX --enable-silent-rules
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself jbigkit-git 2.1.r16.g2281149 $DESTDIR/$PREFIX/$target delete
 
 Openjpeg 2.3.0
 -------------------------------------
 
-.. include :: core-packages/openjpeg.rst
+::
 
+        _initdir
+
+        wget https://github.com/uclouvain/openjpeg/archive/v2.3.0.tar.gz -O - | tar -xzvf - && cd openjpeg-2.3.0/
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake .. -DBUILD_SHARED_LIBS:bool=off -DBUILD_MJ2:bool=on -DBUILD_JPWL:bool=on  -DBUILD_THIRDPARTY:bool=on -DBUILD_PKGCONFIG_FILES:bool=on
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself openjpeg 2.3.0 $DESTDIR/$PREFIX/$target delete
 
 Libtiff-git 4.0.9.r106.gd438fab
 -----------------------------------------
+::
 
-.. include :: core-packages/libtiff-git.rst
+        _initdir
 
+        git clone https://gitlab.com/libtiff/libtiff.git && cd libtiff
+
+        _pkgver
+        # version = Release.v4.0.9.r106.gd438fab
+        # commit = d438fab328c0e6180f27610df532340a73694023
+
+        autoreconf -fvi
+        #mkdir build-$target && cd build-$target
+        #mingw-w64-cmake .. -DBUILD_SHARED_LIBS:bool=off
+        ./configure  --host=$target  --prefix=$PREFIX/$target/ --enable-cxx --enable-static --disable-shared
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libtiff-git 4.0.9.r106.gd438fab $DESTDIR/$PREFIX/$target delete
 
 Libwebp-git 1.0.0.r76.gef1094b
 ---------------------------------
 
-.. include :: core-packages/libwebp-git.rst
+::
+
+        _initdir
+
+        git clone https://chromium.googlesource.com/webm/libwebp && cd libwebp
+
+        _pkgver
+	# version = 1.0.0.r76.gef1094b
+	# commit = ef1094b0fef9fd8492e19e00979e560105f7d20e
+
+        autoreconf -fiv
+        ac_cv_path_LIBPNG_CONFIG="${PREFIX}/bin/libpng16-config --static" LIBS="-llzma -ljbig -ljpeg" ./configure --host=$target  --prefix=$PREFIX/$target/  \
+        --disable-shared --enable-static --with-sysroot=$PREFIX --enable-silent-rules --enable-swap-16bit-csp --enable-tiff --enable-libwebpmux --enable-libwebpdemux --enable-libwebpdecoder
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libwebp-git 1.0.0.r76.gef1094b $DESTDIR/$PREFIX/$target delete
 
 Lcms2-full-git 2.9.r24.g32f0c45
 ------------------------------------
 
-.. include :: core-packages/lcms2-full-git.rst
+::
+
+        _initdir
+
+        cd Little-CMS # Make sure to use the same version while building the minimalist package
+        git clean -xdf
+        mkdir build-$target && cd build-$target
+        LIBS="-llzma -ljbig -ljpeg" ../configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --enable-silent-rules --with-sysroot=$PREFIX
+        make -j$(nproc) 
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself lcms2-full-git 2.9.r24.g32f0c45 $DESTDIR/$PREFIX/$target delete
 
 Libiconv 1.15
 ------------------------------
+::
 
-.. include :: core-packages/libiconv.rst
+        _initdir
+
+        wget http://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.15.tar.gz -O - | tar -xzvf - && cd libiconv-1.15
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --enable-silent-rules --with-sysroot=$PREFIX
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libiconv 1.15 $DESTDIR/$PREFIX/$target delete        
 
 Enca-git 1.19.r10.gebcbd60
 ---------------------------
+::
 
-.. include :: core-packages/enca-git.rst
+        _initdir
+        
+        git clone git://github.com/nijel/enca.git && cd enca
+
+        _pkgver
+        # version = 1.19.r10.gebcbd60
+        # commit = ebcbd6001a332f7294346de99afe69529839dc6e
+
+        sed -i -e 's/encodings.dat make_hash/encodings.dat make_hash$(EXEEXT)/' -e 's/\.\/make_hash/\.\/make_hash$(EXEEXT)/' tools/Makefile.in
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --enable-silent-rules --with-sysroot=$PREFIX
+        make -j$(nproc) && rm -vf enca.spec
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself enca-git 1.19.r10.gebcbd60  $DESTDIR/$PREFIX/$target delete
 
 Freetype 2.9.1
 ----------------
+::
 
-.. include :: core-packages/freetype.rst
+        _initdir
+
+        git clone https://aur.archlinux.org/mingw-w64-freetype2-bootstrap.git && cd mingw-w64-freetype2-bootstrap && git checkout e4d84453385594c1c0e5cde5286fa4edecf57e69 && cd ${SRCDIR}
+        wget http://download.savannah.gnu.org/releases/freetype/freetype-2.9.1.tar.gz -O - | tar -xzvf - && cd freetype-2.9.1
+        patch -p1 -i $SRCDIR/mingw-w64-freetype2-bootstrap/0001-Enable-table-validation-modules.patch
+        patch -p1 -i $SRCDIR/mingw-w64-freetype2-bootstrap/0002-Enable-infinality-subpixel-hinting.patch
+        patch -p1 -i $SRCDIR/mingw-w64-freetype2-bootstrap/0003-Enable-long-PCF-family-names.patch
+        
+        ./configure --host=$target  --prefix=$PREFIX/$target/  --disable-shared --enable-static --with-sysroot=$PREFIX
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself freetype 2.9.1 $DESTDIR/$PREFIX/$target delete
 
 C2man-git (native Linux package)
 ------------------------------------
+::
 
-.. include :: core-packages/c2man-git.rst
+	_initdir
 
+
+	git clone git://github.com/fribidi/c2man.git && cd c2man
+	./Configure -d
+	make -j$(nproc)
+	sudo make install
+	
 Fribidi 1.0.5
 ------------------------------
+::
 
-.. include :: core-packages/fribidi.rst
+        _initdir
+
+        wget https://github.com/fribidi/fribidi/releases/download/v1.0.5/fribidi-1.0.5.tar.bz2 -O - | tar xvjf - && cd fribidi-1.0.5
+        ./autogen.sh --prefix=$PREFIX/$target --host=$target --enable-shared=no --enable-static=yes --with-sysroot=$PREFIX --disable-deprecated --disable-debug 
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself fribidi 1.0.5 $DESTDIR/$PREFIX/$target delete
 
 Expat 2.2.6
 --------------------------
+::
 
-.. include :: core-packages/expat.rst
+        _initdir
 
-Json-c-git r747.994e6c1
+        wget https://github.com/libexpat/libexpat/releases/download/R_2_2_6/expat-2.2.6.tar.bz2 -O - |tar xvjf - && cd expat-2.2.6/
+        mingw-w64-cmake . -DBUILD_tests:bool=off -DBUILD_examples:bool=off -DBUILD_tools:bool=off -DBUILD_shared:bool=off
+        make -j$(nproc) 
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself expat 2.2.6 $DESTDIR/$PREFIX/$target delete
+
+Jsonc-c-git r747.994e6c1
 --------------------------------------------
+::
 
-.. include :: core-packages/json-c-git.rst
+        _initdir
+
+        git clone git://github.com/json-c/json-c.git && cd json-c       
+        
+        _pkgver
+        # version = r747.994e6c1
+        # commit = 994e6c1f6030a052429c50a917a3991c5e2e7646
+
+        ./autogen.sh --prefix=$PREFIX/$target --host=$target --enable-shared=no --enable-static=yes --with-sysroot=$PREFIX 
+        make -j$(nproc)
+        
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself json-c-git r747.994e6c1 $DESTDIR/$PREFIX/$target delete
 
 Fontconfig-git 2.12.6.r5.g665584a
 ------------------------------------
+::
 
-.. include :: core-packages/fontconfig-git.rst
+        _initdir
+
+        git clone git://anongit.freedesktop.org/fontconfig && cd fontconfig
+        git checkout fc-2-12 
+
+        _pkgver
+        # version = 2.12.6.r5.g665584a
+        # commit = 665584a19b0ec227c93643ffb0540d11ac8ecf7f
+        
+        autoreconf -fiv
+        sed -i 's/cross_compiling=no/cross_compiling=yes/g' configure
+        PKG_CONFIG="${PREFIX}/bin/${target}-pkg-config --static"   ./configure --prefix=$PREFIX/$target --host=$target --enable-shared=no --enable-static=yes 
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself fontconfig-git 2.12.6.r5.g665584a $DESTDIR/$PREFIX/$target delete    
 
 Uchardet-git  0.0.6.r58.gbdfd611
 ------------------------------------
+::
 
-.. include :: core-packages/uchardet-git.rst
+        _initdir
+
+        git clone git://anongit.freedesktop.org/uchardet/uchardet.git && cd uchardet
+
+        _pkgver
+        # version = 0.0.6.r58.gbdfd611
+        # commit = bdfd6116a965fd210ef563613763e724424728b7
+
+        sed -i '74s/^/#/' CMakeLists.txt
+        mkdir build-$target && cd build-$target
+        mingw-w64-cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_SYSTEM_PROCESSOR="i686" -DBUILD_SHARED_LIBS=OFF
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself uchardet-git 0.0.6.r58.gbdfd611 $DESTDIR/$PREFIX/$target delete 
 
 Lua-git 5.2.4.r0.g9864851
 -------------------------------
+::
 
-.. include :: core-packages/lua-git.rst
+ _initdir
+
+ git clone git://github.com/LuaDist/lua.git && cd lua && git checkout lua-5.2
+        
+ _pkgver
+ # version = 5.2.4.r0.g9864851
+ # commit = 98648514bf7c15d12ccb56222a85e06bfcf9317f
+
+ LUAPACKVER=$(grep version dist.info | cut -f2 -d "\"")
+ mkdir build-$target && cd build-$target
+ mingw-w64-cmake .. -DCMAKE_RC_FLAGS="-F pe-i386" -DBUILD_SHARED_LIBS:bool=off
+ make -j$(nproc)
+
+ _prepare_package
+        
+ mkdir $DESTDIR/$PREFIX/$target/lib/pkgconfig/
+
+ cat << _EOF_ > $DESTDIR/$PREFIX/$target/lib/pkgconfig/lua.pc
+ prefix=${PREFIX}/${target}
+ exec_prefix=\${prefix}
+ libdir=\${exec_prefix}/lib
+ includedir=\${prefix}/include
+
+ Name: lua
+ Description: Lua scripting language
+ Version: ${LUAPACKVER}
+ Libs: -L\${libdir} -llua
+ Cflags: -I\${includedir}
+ _EOF_
+
+ cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+ mingw-w64-makeself lua-git 5.2.4.r0.g9864851 $DESTDIR/$PREFIX/$target delete 
 
 Libdvdcss-git 1.4.2.r0.g7b7c185
 ----------------------------------------
+::
 
-.. include :: core-packages/libdvdcss-git.rst
+        _initdir
+
+        git clone https://code.videolan.org/videolan/libdvdcss.git  && cd libdvdcss
+
+        _pkgver
+        # version = 1.4.2.r0.g7b7c185
+        # commit = 7b7c185704567398627ad0f9a0d948a63514394b
+
+        autoreconf -fiv 
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --disable-doc
+        make -j$(nproc)
+
+        _prepare_package        
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libdvdcss-git 1.4.2.r0.g7b7c185 $DESTDIR/$PREFIX/$target delete
 
 Libdvdread-git 6.0.0.r0.g95fdbe8
 -----------------------------------
+::
 
-.. include :: core-packages/libdvdread-git.rst
+        _initdir
+
+        git clone https://code.videolan.org/videolan/libdvdread.git && cd libdvdread
+        
+        _pkgver
+        # version = 6.0.0.r0.g95fdbe8
+        # commit = 95fdbe8337d2ff31dcfb68f35f3e4441dc27d92f
+
+        autoreconf -fiv
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --disable-apidoc --with-libdvdcss --enable-dlfcn
+        make -j$(nproc)
+
+        _prepare_package 
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libdvdread-git 6.0.0.r0.g95fdbe8 $DESTDIR/$PREFIX/$target delete
 
 Libdvdnav-git 6.0.0.r0.gdcb9109
 ---------------------------------
+::
 
-.. include :: core-packages/libdvdnav-git.rst
+        _initdir
 
-Libgpg-error 1.31
+        git clone https://code.videolan.org/videolan/libdvdnav.git && cd libdvdnav 
+        
+        _pkgver
+        # version = 6.0.0.r0.gdcb9109
+        # commit = dcb9109e45ccd304ec82a7c7bf46cca63620adf9
+
+        autoreconf -fiv
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --with-sysroot=$PREFIX    
+        make -j$(nproc)
+
+        _prepare_package 
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libdvdnav-git 6.0.0.r0.gdcb9109 $DESTDIR/$PREFIX/$target delete
+
+Libgpg-error-1.31
 -----------------------
+::
 
-.. include :: core-packages/libgpg-error.rst
+        _initdir
+
+        # I had to add '--build=i686-pc-linux-gnu' else we met an issue while building
+        wget "ftp://ftp.gnupg.org/gcrypt/libgpg-error/libgpg-error-1.31.tar.bz2" -O - | tar -xjvf - && cd libgpg-error-1.31
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --with-sysroot=$PREFIX \
+                --program-prefix=${target}- --disable-nls --disable-rpath \
+                --enable-silent-rules --disable-doc --disable-tests --build=i686-pc-linux-gnu   
+        make -j$(nproc)
+
+        _prepare_package 
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        ln -s $PREFIX/$target/bin/${target}-gpg-error-config $PREFIX/bin/gpg-error-config # Added symbolic link to MinGW main prefix
+        ln -s $PREFIX/$target/bin/${target}-gpgrt-config $PREFIX/bin/gpgrt-config # Added symbolic link to MinGW main prefix
+        mingw-w64-makeself libgpg-error 1.31 $DESTDIR/$PREFIX/$target delete
 
 Libgcrypt-git 1.8.3.r2.g20c0348
 ----------------------------------
+::
 
-.. include :: core-packages/libgcrypt-git.rst
+        _initdir
+
+        git clone -b LIBGCRYPT-1.8-BRANCH git://git.gnupg.org/libgcrypt.git && cd libgcrypt
+
+        _pkgver
+        # version = libgcrypt.1.8.3.r2.g20c0348
+        # commit = 20c034865f2dd15ce2871385b6e29c15d1570539
+
+        wget https://git.yoctoproject.org/cgit.cgi/poky/plain/meta/recipes-support/libgcrypt/files/0001-Add-and-use-pkg-config-for-libgcrypt-instead-of-conf.patch -O - | patch -p1
+        autoreconf -fiv
+        ./configure --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --with-sysroot=$PREFIX --disable-doc \
+                --datarootdir=$PREFIX/$target/share/libgcrypt --with-gpg-error-prefix=$PREFIX/ --enable-asm --build=i686-pc-linux-gnu 
+        make -j$(nproc)
+
+        _prepare_package
+        mkdir -pv $DESTDIR/$PREFIX/$target/lib/pkgconfig
+        cp -vf src/libgcrypt.pc $DESTDIR/$PREFIX/$target/lib/pkgconfig
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        ln -s $PREFIX/$target/bin/libgcrypt-config $PREFIX/bin/libgcrypt-config
+        mingw-w64-makeself libgcrypt-git 1.8.3.r2.g20c0348 $DESTDIR/$PREFIX/$target delete
 
 Libaacs-git 0.9.0.r19.gf263376
 -----------------------------------
+::
 
-.. include :: core-packages/libaacs-git.rst
+        _initdir
+
+        git clone git://git.videolan.org/libaacs.git && cd libaacs
+
+        _pkgver
+        # version = 0.9.0.r19.gf263376
+        # commit = f263376b1e6570556031f420b9df08373e346d76
+
+        autoreconf -fiv
+        ./configure  --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libaacs-git 0.9.0.r19.gf263376 $DESTDIR/$PREFIX/$target delete
+
 
 Libbdplus-git 0.1.2.r31.gc7f1e8b
 --------------------------------------
+::
 
-.. include :: core-packages/libbdplus-git.rst
+        _initdir
+
+        git clone git://git.videolan.org/libbdplus.git  && cd libbdplus
+
+        _pkgver
+        # version = 0.1.2.r31.gc7f1e8b
+        # commit = c7f1e8bbb22853ffef1feadb100845ae3ad4d562
+
+        ./bootstrap
+        LDFLAGS="-Wl,--allow-multiple-definition" ./configure  --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static --with-libaacs 
+        make -j$(nproc)
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libbdplus-git 0.1.2.r31.gc7f1e8b $DESTDIR/$PREFIX/$target delete     
 
 Libudfread-git 1.0.0.r31.g1316299
 ------------------------------------------------
+::
 
-.. include :: core-packages/libudfread-git.rst
+        _initdir
+
+        git clone git://git.videolan.org/libudfread.git && cd libudfread
+        
+        _pkgver
+        # version = 1.0.0.r31.g1316299
+        # commit = 131629921cc756c38eaf3e2d6b69ba2db690b199
+
+        sed -i '40,42s/^/\/\//' src/udfread.c && ./bootstrap
+        ./configure  --host=$target --prefix=$PREFIX/$target/ --disable-shared --enable-static          
+        make -j$(nproc) 
+
+        _prepare_package
+        cp -avf $DESTDIR/$PREFIX/$target/* $PREFIX/$target/
+        mingw-w64-makeself libudfread-git 1.0.0.r31.g1316299  $DESTDIR/$PREFIX/$target delete
 
 Libxml2-git 2.9.8.r31.g39fbfb4
 --------------------------------------
