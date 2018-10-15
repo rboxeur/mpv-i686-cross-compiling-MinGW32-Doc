@@ -2256,8 +2256,7 @@ Icu 57.1
 
         _initdir       
  
-        git clone https://aur.archlinux.org/mingw-w64-icu.git && cd mingw-w64-icu && git checkout f831631e9739a3ecf0a6cdd099636f78476b0625
-        _initdir
+        git clone https://aur.archlinux.org/mingw-w64-icu.git && cd mingw-w64-icu && git checkout f831631e9739a3ecf0a6cdd099636f78476b0625 && cd ${SRCDIR}
         wget http://download.icu-project.org/files/icu4c/57.1/icu4c-57_1-src.tgz -O - |  tar xvzf - &&  cd icu/
         patch -p1 -i $SRCDIR/mingw-w64-icu/0004-move-to-bin.mingw.patch
         patch -p1 -i $SRCDIR/mingw-w64-icu/0007-actually-move-to-bin.mingw.patch
@@ -2510,11 +2509,11 @@ Boost 1.68.0
 
 ::
 
-        git clone https://aur.archlinux.org/mingw-w64-boost.git
+        git clone https://aur.archlinux.org/mingw-w64-boost.git && cd mingw-w64-boost && git checkout d57ac10184519056aede4fcf42c5a60b34f36994 && cd ${SRCDIR}
         wget https://dl.bintray.com/boostorg/release/1.68.0/source/boost_1_68_0.tar.bz2
         tar xvjf boost_1_68_0.tar.bz2
         cd boost_1_68_0/
-        patch -Np0 -i ../mingw-w64-boost/boost-mingw.patch
+        patch -Np0 -i ${SRCDIR}/mingw-w64-boost/boost-mingw.patch
         cd ..
         cp -r boost_1_68_0 build-i686-w64-mingw32
         cd build-i686-w64-mingw32/
